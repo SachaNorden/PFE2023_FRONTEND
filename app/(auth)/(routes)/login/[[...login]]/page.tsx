@@ -37,12 +37,12 @@ export default function LoginPage() {
                 autoComplete="off"
                 className='
                   p-8
-                     border-2 border-gray-300
-                     rounded-lg
-                     shadow-xl
-                     bg-white
-                     relative
-                     z-20'
+                  border-2 border-gray-300
+                  rounded-lg
+                  shadow-xl
+                  bg-white
+                  relative
+                  z-20'
             >
                 <div className='mb-4'>
                     <Form.Item
@@ -70,7 +70,6 @@ export default function LoginPage() {
                 </div>
             </Form>
             <Image width={200} src="/snappiesPieds.png" preview={false} className='absolute left-1/2 transform -translate-x-1/2 -z-10 -translate-y-1/3 ' />
-
         </div>
     );
 }
