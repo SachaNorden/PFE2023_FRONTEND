@@ -9,7 +9,7 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'e039fcb3-43b8-4a3d-975a-c268ae4e02b5'
+  azureSubscription: '42e4df69-cfa6-4761-be90-828a2ae55e9e'
 
   # Web app name
   webAppName: 'pfe2023Frontend-dev'
