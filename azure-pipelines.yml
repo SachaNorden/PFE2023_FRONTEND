@@ -12,10 +12,10 @@ variables:
   azureSubscription: '42e4df69-cfa6-4761-be90-828a2ae55e9e'
 
   # Web app name
-  webAppName: 'pfe2023frontend-dev'
+  webAppName: 'pfe2023Frontend-dev'
 
   # Environment name
-  environmentName: 'pfe2023frontend-dev'
+  environmentName: 'pfe2023Frontend-dev'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -68,7 +68,7 @@ stages:
         deploy:
           steps:
           - task: AzureWebApp@1
-            displayName: 'Azure Web App Deploy: pfe2023frontend-dev'
+            displayName: 'Azure Web App Deploy: pfe2023Frontend-dev'
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
