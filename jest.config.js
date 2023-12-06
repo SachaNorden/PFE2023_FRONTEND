@@ -5,7 +5,9 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   // Ignore les transformations de node_modules sauf pour les modules spécifiques qui doivent être transformés
-  transformIgnorePatterns: ['/node_modules/'],
+  transformIgnorePatterns: [
+    "/node_modules/(?!(module-to-transform|other-module)/)"
+  ],
   // Pour le support des modules ES, tu peux aussi avoir besoin de définir "moduleFileExtensions"
   moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx', 'node'],
 };
