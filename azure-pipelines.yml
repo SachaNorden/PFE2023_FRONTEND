@@ -9,13 +9,13 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: '42e4df69-cfa6-4761-be90-828a2ae55e9e'
+  azureSubscription: 'e039fcb3-43b8-4a3d-975a-c268ae4e02b5'
 
   # Web app name
-  webAppName: 'pfe2023frontend-dev'
+  webAppName: 'pfe2023Frontend-dev'
 
   # Environment name
-  environmentName: 'pfe2023frontend-dev'
+  environmentName: 'pfe2023Frontend-dev'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -68,11 +68,11 @@ stages:
         deploy:
           steps:
           - task: AzureWebApp@1
-            displayName: 'Azure Web App Deploy: pfe2023frontend-dev'
+            displayName: 'Azure Web App Deploy: pfe2023Frontend-dev'
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
               appName: $(webAppName)
-              runtimeStack: 'NODE|10.10'
+              runtimeStack: 'NODE|18.10'
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
               startUpCommand: 'npm run start'
