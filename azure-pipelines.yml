@@ -29,7 +29,7 @@ stages:
             displayName: 'Archive files'
             inputs:
               rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-              includeRootFolder: true # Changé pour inclure le répertoire racine
+              includeRootFolder: true
               archiveType: zip
               archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
               replaceExistingArchive: true
@@ -58,4 +58,18 @@ stages:
                     appName: $(webAppName)
                     runtimeStack: 'NODE|18-lts'
                     package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-                    startUpCommand: 'npm run start' # Assure-toi que c'est approprié pour ton environnement
+                - script: |
+                    echo "Checking the environment..."
+                    pwd
+                    ls -al
+                    if [ -d node_modules ]; then
+                      echo "node_modules directory found."
+                    else
+                      echo "node_modules directory NOT found. Installing dependencies..."
+                      npm install
+                    fi
+                  displayName: 'Check and install dependencies'
+                - script: |
+                    echo "Starting the application..."
+                    npm run dev
+                  displayName: 'Start Node.js app'
