@@ -28,7 +28,7 @@ stages:
           - task: ArchiveFiles@2
             displayName: 'Archive files'
             inputs:
-              rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+              rootFolderOrFile: '$(projectRoot)'
               includeRootFolder: false # Changé pour inclure le répertoire racine
               archiveType: zip
               archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
@@ -58,4 +58,4 @@ stages:
                     appName: $(webAppName)
                     runtimeStack: 'NODE|18-lts'
                     package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-                    startUpCommand: 'npm run start' # Assure-toi que c'est approprié pour ton environnement
+                    startUpCommand: 'npm run dev' # Assure-toi que c'est approprié pour ton environnement
