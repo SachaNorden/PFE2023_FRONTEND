@@ -6,6 +6,7 @@ variables:
   webAppName: 'pfe2023Frontend-dev'
   environmentName: 'pfe2023Frontend-dev'
   vmImageName: 'ubuntu-latest'
+  projectRoot: $(System.DefaultWorkingDirectory)
 
 stages:
   - stage: Build
