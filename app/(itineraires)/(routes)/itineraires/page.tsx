@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button'; // Example path, adjust accordi
 
 export default function Itineraires() {
     return (
-        <div className='min-h-screen flex flex-col bg-orange-200 '>
+        <div className='min-h-screen flex flex-col '>
             <p className="text-6xl flex flex-col justify-center items-center">itineraires</p>
             <Form
-                initialValues={{ remember: true }}
+                initialValues={{remember: true}}
                 autoComplete="off"
                 className='
                   p-8
@@ -17,7 +17,21 @@ export default function Itineraires() {
                   bg-white
                   relative
                   z-20'
-            ></Form>
+            >
+                <p>- <b>itinéraire 1</b> : livreur1.nom <p className="font-size:4px">DEPOT</p></p>
+                <p>---------------------------------</p>
+                <p>- <b>itinéraire 2</b> : livreur2.nom</p>
+                <p>---------------------------------</p>
+                <p>- <b>itinéraire 3</b> : livreur3.nom</p>
+                <p>---------------------------------</p>
+                <p>- <b>itinéraire 4</b> : livreur4.nom</p>
+                <p>---------------------------------</p>
+                <p>- <b>itinéraire 5</b> : livreur5.nom</p>
+                <p>---------------------------------</p>
+                <p>- <b>itinéraire 6</b> : livreur6.nom</p>
+                <p>---------------------------------</p>
+                <p>+</p>
+            </Form>
         </div>
     )
 }
