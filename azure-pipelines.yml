@@ -64,5 +64,5 @@ stages:
                   displayName: 'Rebuild node modules'
                 - script: |
                     echo "Starting the application..."
-                    npm run start
+                    npm run dev
                   displayName: 'Start Node.js app'
