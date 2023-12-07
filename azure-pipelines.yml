@@ -68,22 +68,25 @@ stages:
           deploy:
             steps:
               - task: AzureWebApp@1
-                displayName: 'Azure Web App Deploy: pfe2023Frontend-dev'
                 inputs:
                   azureSubscription: $(azureSubscription)
-                  appType: webAppLinux
+                  appType: 'webAppLinux'
                   appName: $(webAppName)
                   runtimeStack: 'NODE|18-lts'
                   package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+
+              # Pas besoin d'exécuter `npm install` si tous les modules nécessaires sont dans l'archive
+              # - script: |
+              #     npm install --production
+              #   displayName: 'Install npm packages'
+
               - script: |
+                  echo "Vérification de l'emplacement du package.json..."
                   pwd
-                  ls -la
-                  if [ -f package.json ]; then
-                    npm install --production
-                  else
-                    echo "package.json not found"
-                  fi
-                displayName: 'Verify environment and install npm packages'
+                  ls -alh
+                displayName: 'Vérifie l'emplacement du package.json'
+
               - script: |
-                  npm run start
+                  echo "Démarrage de l'application..."
+                  npm run dev
                 displayName: 'Start Node.js app'
