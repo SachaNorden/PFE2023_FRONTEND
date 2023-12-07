@@ -1,10 +1,23 @@
+# Node.js Express Web App to Linux on Azure
+# Build a Node.js Express app and deploy it to Azure as a Linux web app.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
 trigger:
   - main
 
 variables:
+
+  # Azure Resource Manager connection created during pipeline creation
   azureSubscription: '42e4df69-cfa6-4761-be90-828a2ae55e9e'
+
+  # Web app name
   webAppName: 'pfe2023Frontend-dev'
+
+  # Environment name
   environmentName: 'pfe2023Frontend-dev'
+
+  # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
 stages:
@@ -15,25 +28,29 @@ stages:
         displayName: Build
         pool:
           vmImage: $(vmImageName)
+
         steps:
           - task: NodeTool@0
             inputs:
               versionSpec: '18.x'
             displayName: 'Install Node.js'
+
           - script: |
               npm install
               npm run build --if-present
               npm run test --if-present
-            displayName: 'npm install, build, and test'
+            displayName: 'npm install, build and test'
+
           - task: ArchiveFiles@2
+            displayName: 'Archive files'
             inputs:
               rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
               includeRootFolder: false
-              archiveType: 'zip'
-              archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+              archiveType: zip
+              archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
               replaceExistingArchive: true
-            displayName: 'Archive files'
-          - upload: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+
+          - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
             artifact: drop
 
   - stage: Deploy
@@ -51,18 +68,11 @@ stages:
             deploy:
               steps:
                 - task: AzureWebApp@1
-                  displayName: 'Azure Web App Deploy: $(webAppName)'
+                  displayName: 'Azure Web App Deploy: pfe2023Frontend-dev'
                   inputs:
                     azureSubscription: $(azureSubscription)
-                    appType: 'webAppLinux'
+                    appType: webAppLinux
                     appName: $(webAppName)
                     runtimeStack: 'NODE|18-lts'
-                    package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-                - script: |
-                    echo "Rebuilding node modules..."
-                    npm rebuild
-                  displayName: 'Rebuild node modules'
-                - script: |
-                    echo "Starting the application..."
-                    npm run dev
-                  displayName: 'Start Node.js app'
+                    package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+                    startUpCommand: 'npm run dev'
