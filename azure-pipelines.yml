@@ -76,6 +76,14 @@ stages:
                   runtimeStack: 'NODE|18-lts'
                   package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               - script: |
-                  echo "Starting the development server..."
-                  npm run dev
+                  echo "Current working directory:"
+                  pwd
+                  echo "Listing contents of current directory:"
+                  ls -al
+                  if [ -f package.json ]; then
+                    echo "Starting the development server..."
+                    npm run dev
+                  else
+                    echo "package.json not found"
+                  fi
                 displayName: 'Start Next.js dev server'
