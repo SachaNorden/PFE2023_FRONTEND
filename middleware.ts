@@ -1,13 +1,9 @@
-import { authMiddleware } from "@clerk/nextjs";
+import NextAuth from 'next-auth';
+import { authConfig } from './auth.config';
 
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
-export default authMiddleware({
-    publicRoutes: ["/login"]
-});
+export default NextAuth(authConfig).auth;
 
 export const config = {
-    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+    // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
+    matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
 };
-
