@@ -58,4 +58,4 @@ stages:
                     appName: $(webAppName)
                     runtimeStack: 'NODE|18-lts'
                     package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-                    startUpCommand: 'npm run dev' # Assure-toi que c'est approprié pour ton environnement
+                    startUpCommand: 'npm run start' # Assure-toi que c'est approprié pour ton environnement
