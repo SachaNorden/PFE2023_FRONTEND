@@ -76,8 +76,14 @@ stages:
                   runtimeStack: 'NODE|18-lts'
                   package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
               - script: |
-                  npm install --production
-                displayName: 'Install npm packages'
+                  pwd
+                  ls -la
+                  if [ -f package.json ]; then
+                    npm install --production
+                  else
+                    echo "package.json not found"
+                  fi
+                displayName: 'Verify environment and install npm packages'
               - script: |
                   npm run start
                 displayName: 'Start Node.js app'
