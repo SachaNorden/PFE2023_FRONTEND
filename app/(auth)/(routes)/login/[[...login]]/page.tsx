@@ -19,7 +19,7 @@ export default function LoginPage() {
             });
             // Handle the response here, e.g., save the JWT token, redirect the user, etc.
             console.log(response.data);
-            // Redirect the user to the dashboard after successful login
+            // Redirect the user to the itineraires after successful login
 
         } catch (error) {
             // Handle errors here, e.g., displaying an error message to the user
@@ -30,7 +30,7 @@ export default function LoginPage() {
     return (
         <div className='min-h-screen flex flex-col justify-center items-center  '>
 
-            <Image width={200} src="/lapin.svg" preview={false} className='absolute -top-20 left-1/2 transform -translate-x-1/2 -z-10 -translate-y-5' />
+            <Image width={200} src="/lapin.svg" preview={false} className='absolute -top-20 left-1/2 transform -translate-x-1/2 -z10 -translate-y-5' />
             <Form
                 onFinish={handleSubmit}
                 initialValues={{ remember: true }}
@@ -64,12 +64,12 @@ export default function LoginPage() {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <Button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                    <Button type='submit'>
                         Se Connecter
                     </Button>
                 </div>
             </Form>
-            <Image width={200} src="/snappiesPieds.png" preview={false} className='absolute left-1/2 transform -translate-x-1/2 -z-10 -translate-y-1/3 ' />
+            <Image width={200} src="/snappiesPieds.png" preview={false} className='absolute left-1/2 transform -translate-x-1/2 -z10 -translate-y-1/3 ' />
         </div>
     );
 }
