@@ -7,7 +7,7 @@ export default authMiddleware({
 
    
 
-    publicRoutes: ["/login", "/testArticles", "/itineraires", "/itineraires/route"]
+    publicRoutes: ["/login", "/testArticles", "/itineraires", "/itineraires/route", "/itineraires/details"]
 
 });
 
