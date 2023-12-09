@@ -54,3 +54,8 @@ export async function getUserById(id: string | string[] | undefined) {
         throw new Error(`Erreur lors de la récupération de l'utilisateur avec l'identifiant ${id}.`);
     }
 }
+
+export async function updateUser(id:string, username:string, password:string) {
+    //TODO
+
+}
