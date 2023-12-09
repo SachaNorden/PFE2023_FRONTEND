@@ -1,20 +1,26 @@
-import {Form, Image, Input} from "antd";
-import {useState} from "react";
+'use client';
+import {Form, Input, message} from "antd";
 import {Button} from "@/components/ui/button";
+import {updateUser} from "@/lib/api";
 
-function MonProfil({ user }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+function MonProfil({user}) {
+    const [form] = Form.useForm();
     const handleSubmit = async () => {
-        //TODO
-
+        try {
+            const values = await form.validateFields();
+            await updateUser(user.id, values.username, values.password);
+            message.success("Profil mis à jour avec succès");
+        } catch (error) {
+            message.error("Erreur lors de la mise à jour du profil");
+        }
     };
 
     return (
         <div className='min-h-screen flex flex-col justify-center items-center  '>
             <Form
+                form={form}
                 onFinish={handleSubmit}
-                initialValues={{ remember: true }}
+                initialValues={{remember: true}}
                 autoComplete="off"
                 className='
                   p-8
@@ -30,20 +36,20 @@ function MonProfil({ user }) {
                     <Form.Item
                         label="Nom"
                         name="username"
-                        rules={[{ required: true, message: "Please input your username" }]}
+                        rules={[{required: true, message: "Please input your username"}]}
                         required
                     >
-                        <Input placeholder={`${user?.username ?? 'Non spécifié'}`} />
+                        <Input placeholder={`${user?.username ?? 'Non spécifié'}`}/>
                     </Form.Item>
                 </div>
                 <div className='mb-6'>
                     <Form.Item
                         label="Mot de passe"
                         name="password"
-                        rules={[{ required: true, message: "Please input your password" }]}
+                        rules={[{required: true, message: "Please input your password"}]}
                         required
                     >
-                        <Input placeholder={`${user?.password ?? 'Non spécifié'}`} />
+                        <Input placeholder={`${user?.password ?? 'Non spécifié'}`}/>
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
