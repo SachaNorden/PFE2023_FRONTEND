@@ -49,7 +49,7 @@ function MonProfil({user}) {
                         rules={[{required: true, message: "Please input your password"}]}
                         required
                     >
-                        <Input placeholder={`${user?.password ?? 'Non spécifié'}`}/>
+                        <Input placeholder={`*****`}/>
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
