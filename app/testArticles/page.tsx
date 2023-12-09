@@ -1,5 +1,6 @@
+'use client'
 import { useEffect, useState } from 'react';
-import { fetchArticles } from '../lib/api';
+import { fetchArticles } from '@/lib/api';
 
 function TestArticles() {
     const [articles, setArticles] = useState([]);
