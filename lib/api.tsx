@@ -39,3 +39,36 @@ export async function fetchClients() {
         throw new Error('Erreur lors de la récupération des clients');
     }
 }
+
+export async function getUserById(id: string) {
+    try {
+        const response = await fetch(`http://localhost:8000/users/${id}/`);
+        if (!response) { throw new Error(`Utilisateur avec l'identifiant ${id} non trouvé.`); }
+        if(response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Erreur lors de la récupération de l utilisateur');
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération de l'utilisateur avec l'identifiant ${id}.`);
+    }
+}
+
+export async function updateUser(id: string, username: string, password: string) {
+    try {
+        const response = await fetch(`http://localhost:8000/users/${id}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+        if (!response.ok) { throw new Error('Erreur lors de la mise à jour de l utilisateur'); }
+        const updatedUser = await response.json();
+        return updatedUser;
+    } catch (error) {
+        throw new Error(`Erreur lors de la mise à jour de l'utilisateur avec l'identifiant ${id}`);
+    }
+}
+
