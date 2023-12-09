@@ -4,8 +4,13 @@ import {Form, Input, Image, Button} from 'antd';
                 Modifier
   </Button>
  */
+<<<<<<< HEAD
 import { EditOutlined } from '@ant-design/icons'; // Importer l'icône de modification
 import FormComponent from '@/components/ui/Form.component';
+=======
+import { EditOutlined } from '@ant-design/icons';
+import FormComponent from "@/components/ui/Form.component"; // Importer l'icône de modification
+>>>>>>> itineraire_dateil_admin
 // import { Button } from '@/components/ui/button'; // Example path, adjust according to your structure
 //rajouter un [id] dans la route
 
@@ -20,7 +25,10 @@ export default function Itineraires() {
 
             <p className="text-3xl flex flex-col justify-center items-center">Détails Itineraire</p>
             <FormComponent >
+<<<<<<< HEAD
 
+=======
+>>>>>>> itineraire_dateil_admin
                 <p className="text-base"><b className="text-xl">Itinéraire 2</b> <span
                     className="text-2xl text-green-300 font-bold">EN COURS</span></p>
                 <p className="text-base">livreur2.nom</p>
@@ -81,7 +89,11 @@ export default function Itineraires() {
                 <Image width={60} src="/plus.png" preview={false}
                        className='absolute -top-21 left-1/2 transform -translate-x-1/2 -z10 -translate-y-5'/>
 
+<<<<<<< HEAD
             </FormComponent >
+=======
+            </ FormComponent >
+>>>>>>> itineraire_dateil_admin
         </div>
     )
 }
