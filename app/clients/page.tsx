@@ -1,19 +1,17 @@
 'use client'
 import {Image} from "antd";
-import ProfilUser from "@/components/users/profilUser";
-import {getUserById} from "@/lib/api";
+import {fetchClients} from "@/lib/api";
 import {useEffect, useState} from "react";
+import ListeClients from "@/components/clients/listeClients";
+import AddButton from "@/components/ui/addButton";
 
-function Profil() {
-    const [user, setUser] = useState([]);
+function Clients() {
+    const [clients, setClients] = useState([]);
     useEffect(() => {
-        const currentUrl = window.location.href;
-        const parts = currentUrl.split('/');
-        const userId = parts[parts.length - 1];
         const fetchData = async () => {
             try {
-                const data = await getUserById(userId);
-                setUser(data);
+                const data = await fetchClients();
+                setClients(data);
             } catch (error) {
                 console.error(error.message);
             }
@@ -24,9 +22,10 @@ function Profil() {
     return (
         <div className="min-h-screen flex flex-col">
             <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
-            <ProfilUser user={user}/>
+            <ListeClients clients={clients}/>
+            <AddButton link="/clients/ajouterClient" />
         </div>
     );
 }
 
-export default Profil;
+export default Clients;
