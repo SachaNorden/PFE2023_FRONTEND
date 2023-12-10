@@ -14,10 +14,10 @@ function ClientCard({ client, onDelete }) {
     };
 
     return (
-        <Card title={client.nom} style={{ width: 500, margin: '16px' }}>
+        <Card title={client.nom} style={{ width: 500, margin: '16px', textAlign: "center" }}>
             <p>Adresse : {client.adresse_complete}</p>
             <Link href={`/clients/${client.id}`}>
-                <Button style={{ marginRight: 8 }}>
+                <Button>
                     Modifier
                 </Button>
             </Link>
@@ -27,7 +27,7 @@ function ClientCard({ client, onDelete }) {
                 okText="Oui"
                 cancelText="Non"
             >
-                <Button type="danger">Supprimer</Button>
+                <Button style={{ marginLeft: 250 }}>Supprimer</Button>
             </Popconfirm>
         </Card>
     );

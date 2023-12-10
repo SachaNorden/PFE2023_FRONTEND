@@ -2,6 +2,10 @@
 import {Form, Input, message} from "antd";
 import {Button} from "@/components/ui/button";
 import {updateClient} from "@/lib/api"
+import {redirect} from "next/navigation";
+import {ArrowLeftIcon} from "@heroicons/react/20/solid";
+import Link from "next/link";
+
 function ProfilClient({client}) {
     const [form] = Form.useForm();
     const handleSubmit = async () => {
@@ -13,7 +17,6 @@ function ProfilClient({client}) {
             message.error("Erreur lors de la mise à jour du profil");
         }
     };
-
     return (
         <div className='min-h-screen flex flex-col justify-center items-center  '>
             <Form
@@ -55,6 +58,11 @@ function ProfilClient({client}) {
                     <Button type='submit'>
                         Enregistrer
                     </Button>
+                    <Link href={`/clients/`}>
+                        <Button>
+                            Retour
+                        </Button>
+                    </Link>
                 </div>
             </Form>
         </div>

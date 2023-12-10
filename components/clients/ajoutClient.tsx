@@ -2,6 +2,7 @@
 import {Form, Input, message} from "antd";
 import {Button} from "@/components/ui/button";
 import {addClient} from "@/lib/api";
+import Link from "next/link";
 
 function AjoutClient() {
     const [form] = Form.useForm();
@@ -9,9 +10,9 @@ function AjoutClient() {
         try {
             const values = await form.validateFields();
             await addClient(values.nom, values.adresse_complete);
-            message.success("Profil mis à jour avec succès");
+            message.success("Client ajouté");
         } catch (error) {
-            message.error("Erreur lors de la mise à jour du profil");
+            message.error("Erreur lors de l'ajout du client");
         }
     };
 
@@ -56,6 +57,11 @@ function AjoutClient() {
                     <Button type='submit'>
                         Enregistrer
                     </Button>
+                    <Link href={`/clients/`}>
+                        <Button>
+                            Retour
+                        </Button>
+                    </Link>
                 </div>
             </Form>
         </div>

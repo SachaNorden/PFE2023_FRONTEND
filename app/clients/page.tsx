@@ -8,8 +8,8 @@ import AddButton from "@/components/ui/addButton";
 function Clients() {
     const [clients, setClients] = useState([]);
     const handleDelete = async () => {
-        const updatedClients = await fetchClients();
-        setClients(updatedClients);
+        //const updatedClients = await fetchClients();
+        //setClients(updatedClients);
     }
     useEffect(() => {
         const fetchData = async () => {
@@ -21,7 +21,7 @@ function Clients() {
             }
         };
         fetchData();
-    }, []);
+    }, [clients]);
 
     return (
         <div className="min-h-screen flex flex-col">
