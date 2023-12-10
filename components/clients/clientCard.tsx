@@ -1,18 +1,36 @@
-import { Card } from 'antd';
+import { Card, Button, Popconfirm, message } from 'antd';
 import Link from "next/link";
-import {Button} from "@/components/ui/button";
+import { deleteClient } from '@/lib/api';
 
-function ClientCard({ client }) {
-  return (
-    <Card title={client.nom} style={{ width: 500, margin: '16px' }}>
-        <p>Adresse : {client.adresse_complete}</p>
-        <Link href={`/clients/${client.id}`}>
-            <Button type="primary">
-                Modifier
-            </Button>
-        </Link>
-    </Card>
-  );
+function ClientCard({ client, onDelete }) {
+    const handleDelete = async () => {
+        try {
+            await deleteClient(client.id);
+            message.success("Client supprimé avec succès");
+            onDelete();
+        } catch (error) {
+            message.error("Erreur lors de la suppression du client");
+        }
+    };
+
+    return (
+        <Card title={client.nom} style={{ width: 500, margin: '16px' }}>
+            <p>Adresse : {client.adresse_complete}</p>
+            <Link href={`/clients/${client.id}`}>
+                <Button style={{ marginRight: 8 }}>
+                    Modifier
+                </Button>
+            </Link>
+            <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer ce client?"
+                onConfirm={handleDelete}
+                okText="Oui"
+                cancelText="Non"
+            >
+                <Button type="danger">Supprimer</Button>
+            </Popconfirm>
+        </Card>
+    );
 }
 
 export default ClientCard;

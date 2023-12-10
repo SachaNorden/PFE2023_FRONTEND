@@ -44,7 +44,7 @@ function ProfilClient({client}) {
                 <div className='mb-6'>
                     <Form.Item
                         label="Adresse"
-                        name="adresse"
+                        name="adresse_complete"
                         rules={[{required: true, message: "Please input your address"}]}
                         required
                     >

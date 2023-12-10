@@ -7,6 +7,10 @@ import AddButton from "@/components/ui/addButton";
 
 function Clients() {
     const [clients, setClients] = useState([]);
+    const handleDelete = async () => {
+        const updatedClients = await fetchClients();
+        setClients(updatedClients);
+    }
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -22,7 +26,7 @@ function Clients() {
     return (
         <div className="min-h-screen flex flex-col">
             <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
-            <ListeClients clients={clients}/>
+            <ListeClients clients={clients} onDelete={handleDelete()}/>
             <AddButton link="/clients/ajouterClient" />
         </div>
     );
