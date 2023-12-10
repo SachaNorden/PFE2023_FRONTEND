@@ -1,6 +1,7 @@
 import { Card, Button, Popconfirm, message } from 'antd';
 import Link from "next/link";
 import { deleteClient } from '@/lib/api';
+import {redirect} from "next/navigation";
 
 function ClientCard({ client, onDelete }) {
     const handleDelete = async () => {
