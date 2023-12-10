@@ -27,7 +27,7 @@ function Clients() {
         <div className="min-h-screen flex flex-col">
             <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
             <ListeClients clients={clients} onDelete={handleDelete()}/>
-            <AddButton link="/clients/ajouterClient" />
+            <AddButton link="/clients/ajouterClient"/>
         </div>
     );
 }
