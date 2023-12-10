@@ -6,6 +6,7 @@ export default authMiddleware({
         "/clients/:id",
         "/clients/ajouterClient",
         "/itineraires",
+        "/itineraires/details",
         "/itineraires/route",
         "/login",
         "/testArticles",
