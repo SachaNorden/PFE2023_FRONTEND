@@ -13,7 +13,7 @@ export default authMiddleware({
         "/users/:id",
         "/users/ajouterUser",
         "/itineraires",
-        "/itineraires/details",
+        "/itineraires/:id",
         "/itineraires/route",
         "/login",
     ]
