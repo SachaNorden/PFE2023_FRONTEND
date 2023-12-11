@@ -2,9 +2,9 @@
 import {Image} from "antd";
 import {fetchArticles} from "@/lib/api";
 import {useEffect, useState} from "react";
-import ListeClients from "@/components/clients/listeClients";
-import AddButton from "@/components/ui/addButton";
-import ListeArticles from "@/components/articles/listeArticles";
+import ListeClients from "@/app/ui/clients/listeClients";
+import AddButton from "@/app/ui/addButton";
+import ListeArticles from "@/app/ui/articles/listeArticles";
 
 function Articles() {
     const [articles, setArticles] = useState([]);

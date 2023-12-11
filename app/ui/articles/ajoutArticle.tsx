@@ -1,18 +1,18 @@
 'use client';
 import {Form, Input, message} from "antd";
-import {Button} from "@/components/ui/button";
-import {addClient} from "@/lib/api";
+import {Button} from "@/app/ui/button";
+import {addArticle} from "@/lib/api";
 import Link from "next/link";
 
-function AjoutClient() {
+function AjoutArticle() {
     const [form] = Form.useForm();
     const handleSubmit = async () => {
         try {
             const values = await form.validateFields();
-            await addClient(values.nom, values.adresse_complete);
-            message.success("Client ajouté");
+            await addArticle(values.nom);
+            message.success("Article ajouté");
         } catch (error) {
-            message.error("Erreur lors de l'ajout du client");
+            message.error("Erreur lors de l'ajout de l'article");
         }
     };
 
@@ -32,22 +32,12 @@ function AjoutClient() {
                   relative
                   z-20'
             >
-                <p className="text-4xl flex flex-col justify-center items-center">Ajouter Client</p>
+                <p className="text-4xl flex flex-col justify-center items-center">Ajouter Article</p>
                 <div className='mb-4'>
                     <Form.Item
                         label="Nom"
                         name="nom"
-                        rules={[{required: true, message: "Please input the client name"}]}
-                        required
-                    >
-                        <Input/>
-                    </Form.Item>
-                </div>
-                <div className='mb-6'>
-                    <Form.Item
-                        label="Adresse"
-                        name="adresse_complete"
-                        rules={[{required: true, message: "Please input the address"}]}
+                        rules={[{required: true, message: "Entrez le nom de l'article"}]}
                         required
                     >
                         <Input/>
@@ -57,7 +47,7 @@ function AjoutClient() {
                     <Button type='submit'>
                         Enregistrer
                     </Button>
-                    <Link href={`/clients/`}>
+                    <Link href={`/articles/`}>
                         <Button>
                             Retour
                         </Button>
@@ -68,4 +58,4 @@ function AjoutClient() {
     );
 }
 
-export default AjoutClient;
+export default AjoutArticle;

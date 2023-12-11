@@ -1,6 +1,6 @@
 'use client'
 import {Image} from "antd";
-import AjoutArticle from "@/components/articles/ajoutArticle";
+import AjoutArticle from "@/app/ui/articles/ajoutArticle";
 
 function Articles() {
     return (
