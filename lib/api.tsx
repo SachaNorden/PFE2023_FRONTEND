@@ -1,13 +1,25 @@
 import axios from 'axios';
+import {jwtDecode} from "jwt-decode";
 
-const BASE_URL = 'http://localhost:8000'; //
+const BASE_URL = 'http://localhost:8000';
 
-export const login = async (username, password) => {
+export const login = async (username: string, password: string) => {
     try {
-        const response = await axios.post(`${BASE_URL}/login/`, { username, password });
-        return response.data.token;
+        const response = await axios.post(`${BASE_URL}/users/login/`, { username, password });
+        const token = response.data.access;
+        return token;
     } catch (error) {
         throw new Error('Erreur lors de la connexion');
+    }
+};
+
+export const decodeJWT = (token: string) => {
+    try {
+        if (token === '') throw new Error('Token invalide');
+        return jwtDecode(token);
+    } catch (error) {
+        console.error('Erreur lors du décodage du JWT', error);
+        throw new Error('Erreur lors du décodage du JWT');
     }
 };
 
@@ -288,7 +300,7 @@ export async function fetchCommandes() {
 
 export async function getItineraireById(id: string) {
     try {
-        const response = await fetch(`http://localhost:8000/livraisons/${id}/`);
+        const response = await fetch(`${BASE_URL}/itineraires/${id}/`);
         if (!response) {
             throw new Error(`Itineraire avec l'identifiant ${id} non trouvé.`);
         }
@@ -305,7 +317,7 @@ export async function getItineraireById(id: string) {
 
 export async function fetchItineraires() {
     try {
-        const response = await fetch('http://localhost:8000/livraisons/');
+        const response = await fetch(`${BASE_URL}/itineraires/`);
         if (response.ok) {
             const data = await response.json();
             return data;

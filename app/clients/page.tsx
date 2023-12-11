@@ -7,6 +7,8 @@ import AddButton from "@/app/ui/addButton";
 
 function Clients() {
     const [clients, setClients] = useState([]);
+    const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
+    const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     const handleDelete = async () => {
         //const updatedClients = await fetchClients();
         //setClients(updatedClients);
@@ -21,13 +23,22 @@ function Clients() {
             }
         };
         fetchData();
-    }, );
+    },);
 
     return (
         <div className="min-h-screen flex flex-col">
+            {isAdmin ? (
+                <div>
+                    <p>Admin</p>
+                </div>
+            ) : (
+                <div>
+                    <p>Livreur</p>
+                </div>
+            )}
             <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
             <ListeClients clients={clients} onDelete={handleDelete()}/>
-            <AddButton link="/clients/ajouterClient" />
+            <AddButton link="/clients/ajouterClient"/>
         </div>
     );
 }
