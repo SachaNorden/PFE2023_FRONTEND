@@ -9,7 +9,7 @@ function AjoutUser() {
     const handleSubmit = async () => {
         try {
             const values = await form.validateFields();
-            await addUser(values.nom);
+            await addUser(values.username, values.password);
             message.success("Livreur ajouté");
         } catch (error) {
             message.error("Erreur lors de l'ajout du livreur");
@@ -33,11 +33,20 @@ function AjoutUser() {
                   z-20'
             >
                 <p className="text-4xl flex flex-col justify-center items-center">Ajouter Livreur</p>
-                <div className='mb-4'>
+                <div className='mb-6'>
                     <Form.Item
                         label="Nom"
-                        name="nom"
+                        name="username"
                         rules={[{required: true, message: "Introduire le nom du livreur"}]}
+                        required
+                    >
+                        <Input/>
+                    </Form.Item>
+                </div>
+                <div className='mb-6'>
+                    <Form.Item
+                        label="Mot de passe"
+                        name="password"
                         required
                     >
                         <Input/>

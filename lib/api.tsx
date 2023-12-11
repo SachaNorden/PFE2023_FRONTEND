@@ -60,14 +60,14 @@ export async function updateUser(id: string, username: string, password: string)
     }
 }
 
-export async function addUser(nom: string) {
+export async function addUser(username: string, password: string) {
     try {
         const response = await fetch(`http://localhost:8000/users/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({nom}),
+            body: JSON.stringify({username, password}),
         });
         if (!response.ok) {
             throw new Error(`Erreur lors de l'ajout du livreur`);
