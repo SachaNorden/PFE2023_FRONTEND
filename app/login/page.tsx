@@ -1,26 +1,23 @@
 'use client'
 import {useState} from 'react';
 import {Button, Form, Image, Input, message} from 'antd';
-import {decodeJWT, login} from "@/lib/api";
-import {useAuth} from "@/app/contexts/AuthContext";
+import {decodeJWT, getUserById, login} from "@/lib/api";
 import {wait} from "next/dist/lib/wait";
 
 export default function LoginPage() {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
-    const {setAdmin} = useAuth();
+
     const handleSubmit = async (values) => {
         setLoading(true);
         try {
             const token = await login(values.username, values.password);
             localStorage.setItem('token', token);
             const decodedToken = decodeJWT(token);
-            console.log("decodedToken :", decodedToken);
-            const isAdmin = decodedToken.isAdmin;
-            console.log("isAdmin : ", isAdmin);
-            setAdmin(isAdmin);
+            const user = await getUserById(decodedToken.user_id);
+            localStorage.setItem('isAdmin', user.isAdmin);
             message.success('Connexion réussie');
-            await wait(10000)
+            await wait(1000)
             window.location.href = '/clients/';
         } catch (error) {
             message.error(error);
