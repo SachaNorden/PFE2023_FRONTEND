@@ -2,8 +2,8 @@
 import {Image} from "antd";
 import {fetchUsers} from "@/lib/api";
 import {useEffect, useState} from "react";
-import AddButton from "@/components/ui/addButton";
-import ListeUsers from "@/components/users/listeUsers";
+import AddButton from "@/app/ui/addButton";
+import ListeUsers from "@/app/ui/users/listeUsers";
 
 function Users() {
     const [users, setUsers] = useState([]);

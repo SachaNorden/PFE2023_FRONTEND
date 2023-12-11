@@ -1,4 +1,4 @@
-import FormComponent from "@/components/ui/Form.component";
+import FormComponent from "@/app/ui/Form.component";
 import back from "@/public/arrow-left.svg";
 
 

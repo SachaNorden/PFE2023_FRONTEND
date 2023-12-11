@@ -1,17 +1,18 @@
 'use client';
 import {Form, Input, message} from "antd";
-import {Button} from "@/components/ui/button";
-import {updateUser} from "@/lib/api";
+import {Button} from "@/app/ui/button";
+import {addClient} from "@/lib/api";
+import Link from "next/link";
 
-function ProfilUser({user}) {
+function AjoutClient() {
     const [form] = Form.useForm();
     const handleSubmit = async () => {
         try {
             const values = await form.validateFields();
-            await updateUser(user.id, values.username, values.password);
-            message.success("Profil mis à jour avec succès");
+            await addClient(values.nom, values.adresse_complete);
+            message.success("Client ajouté");
         } catch (error) {
-            message.error("Erreur lors de la mise à jour du profil");
+            message.error("Erreur lors de l'ajout du client");
         }
     };
 
@@ -31,35 +32,40 @@ function ProfilUser({user}) {
                   relative
                   z-20'
             >
-                <p className="text-4xl flex flex-col justify-center items-center">Modifier mon profil</p>
+                <p className="text-4xl flex flex-col justify-center items-center">Ajouter Client</p>
                 <div className='mb-4'>
                     <Form.Item
                         label="Nom"
-                        name="username"
-                        rules={[{required: true, message: "Please input your username"}]}
+                        name="nom"
+                        rules={[{required: true, message: "Please input the client name"}]}
                         required
                     >
-                        <Input placeholder={`${user?.username ?? 'Non spécifié'}`}/>
+                        <Input/>
                     </Form.Item>
                 </div>
                 <div className='mb-6'>
                     <Form.Item
-                        label="Mot de passe"
-                        name="password"
-                        rules={[{required: true, message: "Please input your password"}]}
+                        label="Adresse"
+                        name="adresse_complete"
+                        rules={[{required: true, message: "Please input the address"}]}
                         required
                     >
-                        <Input placeholder={`*****`}/>
+                        <Input/>
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
                     <Button type='submit'>
                         Enregistrer
                     </Button>
+                    <Link href={`/clients/`}>
+                        <Button>
+                            Retour
+                        </Button>
+                    </Link>
                 </div>
             </Form>
         </div>
     );
 }
 
-export default ProfilUser;
+export default AjoutClient;

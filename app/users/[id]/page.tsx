@@ -1,6 +1,6 @@
 'use client'
 import {Image} from "antd";
-import ProfilUser from "@/components/users/profilUser";
+import ProfilUser from "@/app/ui/users/profilUser";
 import {getUserById} from "@/lib/api";
 import {useEffect, useState} from "react";
 

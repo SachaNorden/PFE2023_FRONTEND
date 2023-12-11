@@ -1,18 +1,18 @@
 'use client';
 import {Form, Input, message} from "antd";
-import {Button} from "@/components/ui/button";
-import {addArticle} from "@/lib/api";
+import {Button} from "@/app/ui/button";
+import {addUser} from "@/lib/api";
 import Link from "next/link";
 
-function AjoutArticle() {
+function AjoutUser() {
     const [form] = Form.useForm();
     const handleSubmit = async () => {
         try {
             const values = await form.validateFields();
-            await addArticle(values.nom);
-            message.success("Article ajouté");
+            await addUser(values.username, values.password);
+            message.success("Livreur ajouté");
         } catch (error) {
-            message.error("Erreur lors de l'ajout de l'article");
+            message.error("Erreur lors de l'ajout du livreur");
         }
     };
 
@@ -32,12 +32,21 @@ function AjoutArticle() {
                   relative
                   z-20'
             >
-                <p className="text-4xl flex flex-col justify-center items-center">Ajouter Article</p>
-                <div className='mb-4'>
+                <p className="text-4xl flex flex-col justify-center items-center">Ajouter Livreur</p>
+                <div className='mb-6'>
                     <Form.Item
                         label="Nom"
-                        name="nom"
-                        rules={[{required: true, message: "Entrez le nom de l'article"}]}
+                        name="username"
+                        rules={[{required: true, message: "Introduire le nom du livreur"}]}
+                        required
+                    >
+                        <Input/>
+                    </Form.Item>
+                </div>
+                <div className='mb-6'>
+                    <Form.Item
+                        label="Mot de passe"
+                        name="password"
                         required
                     >
                         <Input/>
@@ -47,7 +56,7 @@ function AjoutArticle() {
                     <Button type='submit'>
                         Enregistrer
                     </Button>
-                    <Link href={`/articles/`}>
+                    <Link href={`/users/`}>
                         <Button>
                             Retour
                         </Button>
@@ -58,4 +67,4 @@ function AjoutArticle() {
     );
 }
 
-export default AjoutArticle;
+export default AjoutUser;

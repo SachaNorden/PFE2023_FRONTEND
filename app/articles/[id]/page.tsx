@@ -2,7 +2,7 @@
 import {Image} from "antd";
 import {getArticleById} from "@/lib/api";
 import {useEffect, useState} from "react";
-import ProfilArticle from "@/components/articles/profilArticle";
+import ProfilArticle from "@/app/ui/articles/profilArticle";
 
 function Profil() {
     const [article, setArticle] = useState([]);
