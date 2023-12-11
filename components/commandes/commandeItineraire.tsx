@@ -16,7 +16,7 @@ const getStatusColorClass = (status) => {
     }
 };
 
-function CommandeInItineraire({commande}) {
+function CommandeItineraire({commande}) {
     const [form] = Form.useForm();
 
     function handleModifierClick() {
@@ -28,6 +28,7 @@ function CommandeInItineraire({commande}) {
 
         <div className='flex items-center mb-4'>
             <div>
+
                 <p>
                     - <b className="text-base">{commande?.client.nom ?? 'Non spécifié'}</b>{' '}
                     <p></p>
@@ -39,16 +40,17 @@ function CommandeInItineraire({commande}) {
                 <p>---------------------------------</p>
             </div>
 
-            <div className='flex items-center justify-between flex-grow'>
-
-                <Button type='submit'>
-                    Modifier
-                </Button>
-            </div>
+            {commande?.status !== 'Livré' && (
+                <div className='flex items-center justify-between flex-grow'>
+                    <Button type='submit'>
+                        Modifier
+                    </Button>
+                </div>
+            )}
         </div>
 
 
     );
 }
 
-export default CommandeInItineraire;
+export default CommandeItineraire;
