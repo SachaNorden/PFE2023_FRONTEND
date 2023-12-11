@@ -142,3 +142,34 @@ export async function deleteClient(id: string) {
     }
 }
 
+
+export async function getCommandeById(id: string) {
+    try {
+        const response = await fetch(`http://localhost:8000/commandes/${id}/`);
+        if (!response) {
+            throw new Error(`Commande avec l'identifiant ${id} non trouvé.`);
+        }
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Erreur lors de la récupération de la commande');
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération de la commande avec l'identifiant ${id}.`);
+    }
+}
+
+export async function fetchCommandes() {
+    try {
+        const response = await fetch('http://localhost:8000/commandes/');
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Erreur lors de la récupération des commandes');
+        }
+    } catch (error) {
+        throw new Error('Erreur lors de la récupération des commandes');
+    }
+}

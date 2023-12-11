@@ -1,21 +1,46 @@
+'use client'
 import {Form, Input, Image, Button} from 'antd';
-/*
- <Button type="primary" icon={<EditOutlined/>} >
-                Modifier
-  </Button>
- */
 
-import { EditOutlined } from '@ant-design/icons'; // Importer l'icône de modification
+import FormComponent from "@/components/ui/Form.component";
 
-import FormComponent from "@/components/ui/Form.component"; // Importer l'icône de modification
+import commandeInItineraire from "@/components/users/profilUser";
+import {fetchClients, fetchCommandes, getCommandeById} from "@/lib/api";
+import {useEffect, useState} from "react";
+import CommandeInItineraire from "@/components/commandes/commandeInItineraire";
+import ClientCard from "@/components/clients/clientCard";
 
-// import { Button } from '@/components/ui/button'; // Example path, adjust according to your structure
-//rajouter un [id] dans la route
+
 
 export default function Itineraires() {
-    function handleModifierClick() {
-        console.log("cliqué (rajouter 'commandeId: any' en param");
-    }
+    const [commandes, setCommande] = useState([]);
+    /*const [commande, setCommande] = useState([]);
+  useEffect(() => {
+       const currentUrl = window.location.href;
+       const parts = currentUrl.split('/');
+       const commandeId = parts[parts.length - 1];
+       const fetchData = async () => {
+           try {
+               const data = await getCommandeById(commandeId);
+               setCommande(data);
+           } catch (error) {
+               console.error(error.message);
+           }
+       };
+       fetchData();
+   }, []);*/
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await fetchCommandes();
+                setCommande(data);
+            } catch (error) {
+                console.error(error.message);
+            }
+        };
+        fetchData();
+    }, [commandes]);
+
 
     return (
         <div className='min-h-screen flex flex-col '>
@@ -28,6 +53,10 @@ export default function Itineraires() {
                     className="text-2xl text-green-300 font-bold">EN COURS</span></p>
                 <p className="text-base">livreur2.nom</p>
                 <br/>
+                {commandes.map((commande) => (
+                    // eslint-disable-next-line react/jsx-key
+                    <CommandeInItineraire commande ={commande} />
+                ))}
 
                 <p>---------------------------------</p>
                 <p className="text-base text-gray-400">- <b className="text-lg">commande1</b> <span
