@@ -1,9 +1,9 @@
 'use client'
-import {useState} from 'react';
-import {Form, Image, Input, message} from 'antd';
-import {Button} from '@/app/ui/button';
-import {login} from "@/lib/api";
-import {redirect} from "next/navigation";
+
+import {Button, Form, Image, Input, message} from 'antd';
+import {decodeJWT, getUserById, login} from "@/lib/api";
+import {wait} from "next/dist/lib/wait";
+
 
 export default function LoginPage() {
     const [form] = Form.useForm();
@@ -14,8 +14,12 @@ export default function LoginPage() {
         try {
             const token = await login(values.username, values.password);
             localStorage.setItem('token', token);
+            const decodedToken = decodeJWT(token);
+            const user = await getUserById(decodedToken.user_id);
+            localStorage.setItem('isAdmin', user.isAdmin);
             message.success('Connexion réussie');
-            redirect('/clients/');
+            await wait(1000)
+            window.location.href = '/clients/';
         } catch (error) {
             message.error(error);
         } finally {
@@ -25,12 +29,12 @@ export default function LoginPage() {
 
     return (
         <div className='min-h-screen flex flex-col justify-center items-center  '>
-
             <Image width={200} src="/lapin.svg" preview={false}
                    className='absolute -top-20 left-1/2 transform -translate-x-1/2 -z10 -translate-y-5'/>
             <Form
                 form={form}
                 onFinish={handleSubmit}
+                initialValues={{remember: true}}
                 autoComplete="off"
                 className='
                   p-8
@@ -61,7 +65,7 @@ export default function LoginPage() {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <Button type='primary' htmlType="submit" loading="loading">
+                    <Button type="primary" htmlType="submit" loading={loading}>
                         Se Connecter
                     </Button>
                 </div>
