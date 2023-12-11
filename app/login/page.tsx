@@ -1,9 +1,9 @@
 'use client'
 import {useState} from 'react';
-import {Button, Form, Input, Image, message} from 'antd';
+import {Button, Form, Image, Input, message} from 'antd';
 import {decodeJWT, login} from "@/lib/api";
-import {redirect} from "next/navigation";
 import {useAuth} from "@/app/contexts/AuthContext";
+import {wait} from "next/dist/lib/wait";
 
 export default function LoginPage() {
     const [form] = Form.useForm();
@@ -15,10 +15,13 @@ export default function LoginPage() {
             const token = await login(values.username, values.password);
             localStorage.setItem('token', token);
             const decodedToken = decodeJWT(token);
-            const isAdmin = decodedToken.is_admin;
+            console.log("decodedToken :", decodedToken);
+            const isAdmin = decodedToken.isAdmin;
+            console.log("isAdmin : ", isAdmin);
             setAdmin(isAdmin);
             message.success('Connexion réussie');
-            redirect('/clients/');
+            await wait(10000)
+            window.location.href = '/clients/';
         } catch (error) {
             message.error(error);
         } finally {
@@ -28,11 +31,12 @@ export default function LoginPage() {
 
     return (
         <div className='min-h-screen flex flex-col justify-center items-center  '>
-            <Image width={200} src="/lapin.svg" preview={false} className='absolute -top-20 left-1/2 transform -translate-x-1/2 -z10 -translate-y-5' />
+            <Image width={200} src="/lapin.svg" preview={false}
+                   className='absolute -top-20 left-1/2 transform -translate-x-1/2 -z10 -translate-y-5'/>
             <Form
                 form={form}
                 onFinish={handleSubmit}
-                initialValues={{ remember: true }}
+                initialValues={{remember: true}}
                 autoComplete="off"
                 className='
                   p-8
@@ -47,10 +51,10 @@ export default function LoginPage() {
                     <Form.Item
                         label="Username"
                         name="username"
-                        rules={[{ required: true, message: 'Please input your username' }]}
+                        rules={[{required: true, message: 'Please input your username'}]}
                         required
-                        >
-                        <Input />
+                    >
+                        <Input/>
                     </Form.Item>
                 </div>
                 <div className='mb-6'>
@@ -68,7 +72,8 @@ export default function LoginPage() {
                     </Button>
                 </div>
             </Form>
-            <Image width={200} src="/snappiesPieds.png" preview={false} className='absolute left-1/2 transform -translate-x-1/2 -z10 -translate-y-1/3 ' />
+            <Image width={200} src="/snappiesPieds.png" preview={false}
+                   className='absolute left-1/2 transform -translate-x-1/2 -z10 -translate-y-1/3 '/>
         </div>
     );
 }

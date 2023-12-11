@@ -4,10 +4,10 @@ import {fetchClients} from "@/lib/api";
 import {useEffect, useState} from "react";
 import ListeClients from "@/app/ui/clients/listeClients";
 import AddButton from "@/app/ui/addButton";
-import {useAuth} from "@/app/contexts/AuthContext";
+import { useAuth } from "@/app/contexts/AuthContext";
 
 function Clients() {
-    const {isAdmin} = useAuth();
+    const { isAdmin } = useAuth();
     const [clients, setClients] = useState([]);
     const handleDelete = async () => {
         //const updatedClients = await fetchClients();
@@ -27,9 +27,6 @@ function Clients() {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
-            <ListeClients clients={clients} onDelete={handleDelete()}/>
-            <AddButton link="/clients/ajouterClient" />
             {isAdmin ? (
                 <div>
                     <p>Admin</p>
@@ -39,8 +36,24 @@ function Clients() {
                     <p>Livreur</p>
                 </div>
             )}
+            <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
+            <ListeClients clients={clients} onDelete={handleDelete()}/>
+            <AddButton link="/clients/ajouterClient" />
         </div>
     );
 }
 
 export default Clients;
+
+/**
+ *
+ *             {isAdmin ? (
+ *                 <div>
+ *                     <p>Admin</p>
+ *                 </div>
+ *             ) : (
+ *                 <div>
+ *                     <p>Livreur</p>
+ *                 </div>
+ *             )}
+ */
