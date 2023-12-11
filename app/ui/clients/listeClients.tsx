@@ -1,4 +1,4 @@
-import ClientCard from "@/components/clients/clientCard";
+import ClientCard from "@/app/ui/clients/clientCard";
 
 function ListeClients({ clients, onDelete }) {
     return (

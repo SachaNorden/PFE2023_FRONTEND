@@ -2,8 +2,8 @@
 import {Image} from "antd";
 import {fetchClients} from "@/lib/api";
 import {useEffect, useState} from "react";
-import ListeClients from "@/components/clients/listeClients";
-import AddButton from "@/components/ui/addButton";
+import ListeClients from "@/app/ui/clients/listeClients";
+import AddButton from "@/app/ui/addButton";
 
 function Clients() {
     const [clients, setClients] = useState([]);

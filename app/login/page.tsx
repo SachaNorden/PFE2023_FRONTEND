@@ -1,37 +1,31 @@
 'use client'
 import {useState} from 'react';
-import {Form, Input, Image} from 'antd';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-// Make sure your style component imports match what's in your project
-import { Button } from '@/components/ui/button'; // Example path, adjust according to your structure
+import {Button, Form, Input, Image, message} from 'antd';
+import {login} from "@/lib/api";
+import {redirect} from "next/navigation";
 
 export default function LoginPage() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    const handleSubmit = async () => {
-            try {
-            // Adapt the URL to where your backend API is served
-            const response = await axios.post('/api/auth/login', {
-                email,
-                password,
-            });
-            // Handle the response here, e.g., save the JWT token, redirect the user, etc.
-            console.log(response.data);
-            // Redirect the user to the itineraires after successful login
-
+    const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
+    const handleSubmit = async (values) => {
+        setLoading(true);
+        try {
+            const token = await login(values.username, values.password);
+            localStorage.setItem('token', token);
+            message.success('Connexion réussie');
+            redirect('/clients/');
         } catch (error) {
-            // Handle errors here, e.g., displaying an error message to the user
-            console.error(error);
+            message.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className='min-h-screen flex flex-col justify-center items-center  '>
-
             <Image width={200} src="/lapin.svg" preview={false} className='absolute -top-20 left-1/2 transform -translate-x-1/2 -z10 -translate-y-5' />
             <Form
+                form={form}
                 onFinish={handleSubmit}
                 initialValues={{ remember: true }}
                 autoComplete="off"
@@ -64,7 +58,7 @@ export default function LoginPage() {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <Button type='submit'>
+                    <Button type="primary" htmlType="submit" loading={loading}>
                         Se Connecter
                     </Button>
                 </div>

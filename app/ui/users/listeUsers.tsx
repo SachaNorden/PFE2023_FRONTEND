@@ -1,4 +1,4 @@
-import UserCard from "@/components/users/userCard";
+import UserCard from "@/app/ui/users/userCard";
 
 function ListeUsers({users, onDelete}) {
     return (

@@ -1,4 +1,4 @@
-import ArticleCard from "@/components/articles/articleCard";
+import ArticleCard from "@/app/ui/articles/articleCard";
 
 function ListeArticles({ articles, onDelete }) {
     return (
