@@ -12,6 +12,73 @@ export async function fetchArticles() {
     }
 }
 
+export async function getArticleById(id: string) {
+    try {
+        const response = await fetch(`http://localhost:8000/articles/${id}/`);
+        if (!response) {
+            throw new Error(`Utilisateur avec l'article ${id} non trouvé.`);
+        }
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Erreur lors de la récupération de l article');
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération de l'article avec l'identifiant ${id}.`);
+    }
+}
+
+export async function updateArticle(id: string, nom: string) {
+    try {
+        const response = await fetch(`http://localhost:8000/articles/${id}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({nom}),
+        });
+        if (!response.ok) {
+            throw new Error('Erreur lors de la mise à jour de l article');
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la mise à jour de l'article avec l'identifiant ${id}`);
+    }
+}
+
+export async function addArticle(nom: string) {
+    try {
+        const response = await fetch(`http://localhost:8000/articles/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({nom}),
+        });
+        if (!response.ok) {
+            throw new Error(`Erreur lors de l'ajout de l'article`);
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de l'enregistrement d'un nouvel article`);
+    }
+}
+
+export async function deleteArticle(id: string) {
+    try {
+        const response = await fetch(`http://localhost:8000/articles/${id}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la suppression de l'article avec l'identifiant ${id}`);
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la suppression de l'article avec l'identifiant ${id}`);
+    }
+}
+
 export async function fetchUsers() {
     try {
         const response = await fetch('http://localhost:8000/users/');
