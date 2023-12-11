@@ -1,6 +1,6 @@
 'use client'
 import {Image} from "antd";
-import AjoutUser from "@/components/users/ajoutUser";
+import AjoutUser from "@/app/ui/users/ajoutUser";
 
 function Users() {
     return (

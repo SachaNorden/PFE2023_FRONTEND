@@ -1,7 +1,7 @@
 'use client'
 import {useState} from 'react';
 import {Form, Image, Input, message} from 'antd';
-import {Button} from '@/components/ui/button';
+import {Button} from '@/app/ui/button';
 import {login} from "@/lib/api";
 import {redirect} from "next/navigation";
 

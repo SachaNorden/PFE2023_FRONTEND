@@ -1,6 +1,6 @@
 import {Form, Input, Image} from 'antd';
-import FormComponent from '@/components/ui/Form.component'
-import { Button } from '@/components/ui/button'; // Example path, adjust according to your structure
+import FormComponent from '@/app/ui/Form.component'
+import { Button } from '@/app/ui/button'; // Example path, adjust according to your structure
 
 
 export default function Itineraires() {

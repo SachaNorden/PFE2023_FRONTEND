@@ -1,10 +1,10 @@
 'use client'
 import {Form, Input, Image, Button} from 'antd';
-import FormComponent from "@/components/ui/Form.component";
+import FormComponent from "@/app/ui/Form.component";
 import {fetchClients, fetchCommandes, getCommandeById, getItineraireById} from "@/lib/api";
 import {useEffect, useState} from "react";
-import Itineraire from "@/components/itineraires/Itineraire";
-import ClientCard from "@/components/clients/clientCard";
+import Itineraire from "@/app/ui/itineraires/Itineraire";
+import ClientCard from "@/app/ui/clients/clientCard";
 
 
 

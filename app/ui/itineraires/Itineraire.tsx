@@ -1,7 +1,7 @@
 'use client';
 import {Form, Input, message} from "antd";
-import {Button} from "@/components/ui/button";
-import CommandeItineraire from "@/components/commandes/commandeItineraire";
+import {Button} from "@/app/ui/button";
+import CommandeItineraire from "@/app/ui/commandes/commandeItineraire";
 
 
 function Itineraire({itineraire: itine}) {

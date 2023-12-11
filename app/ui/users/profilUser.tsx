@@ -1,18 +1,17 @@
 'use client';
 import {Form, Input, message} from "antd";
-import {Button} from "@/components/ui/button";
-import {addUser} from "@/lib/api";
-import Link from "next/link";
+import {Button} from "@/app/ui/button";
+import {updateUser} from "@/lib/api";
 
-function AjoutUser() {
+function ProfilUser({user}) {
     const [form] = Form.useForm();
     const handleSubmit = async () => {
         try {
             const values = await form.validateFields();
-            await addUser(values.username, values.password);
-            message.success("Livreur ajouté");
+            await updateUser(user.id, values.username, values.password);
+            message.success("Profil mis à jour avec succès");
         } catch (error) {
-            message.error("Erreur lors de l'ajout du livreur");
+            message.error("Erreur lors de la mise à jour du profil");
         }
     };
 
@@ -32,39 +31,35 @@ function AjoutUser() {
                   relative
                   z-20'
             >
-                <p className="text-4xl flex flex-col justify-center items-center">Ajouter Livreur</p>
-                <div className='mb-6'>
+                <p className="text-4xl flex flex-col justify-center items-center">Modifier mon profil</p>
+                <div className='mb-4'>
                     <Form.Item
                         label="Nom"
                         name="username"
-                        rules={[{required: true, message: "Introduire le nom du livreur"}]}
+                        rules={[{required: true, message: "Please input your username"}]}
                         required
                     >
-                        <Input/>
+                        <Input placeholder={`${user?.username ?? 'Non spécifié'}`}/>
                     </Form.Item>
                 </div>
                 <div className='mb-6'>
                     <Form.Item
                         label="Mot de passe"
                         name="password"
+                        rules={[{required: true, message: "Please input your password"}]}
                         required
                     >
-                        <Input/>
+                        <Input placeholder={`*****`}/>
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
                     <Button type='submit'>
                         Enregistrer
                     </Button>
-                    <Link href={`/users/`}>
-                        <Button>
-                            Retour
-                        </Button>
-                    </Link>
                 </div>
             </Form>
         </div>
     );
 }
 
-export default AjoutUser;
+export default ProfilUser;
