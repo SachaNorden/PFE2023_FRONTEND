@@ -10,7 +10,9 @@ export default authMiddleware({
         "/itineraires/route",
         "/login",
         "/testArticles",
+        "/users",
         "/users/:id",
+        "/users/ajouterUser",
     ]
 });
 

@@ -1,12 +1,12 @@
 'use client'
 import {Image} from "antd";
-import {fetchClients} from "@/lib/api";
+import {fetchUsers} from "@/lib/api";
 import {useEffect, useState} from "react";
-import ListeClients from "@/components/clients/listeClients";
 import AddButton from "@/components/ui/addButton";
+import ListeUsers from "@/components/users/listeUsers";
 
-function Clients() {
-    const [clients, setClients] = useState([]);
+function Users() {
+    const [users, setUsers] = useState([]);
     const handleDelete = async () => {
         //const updatedClients = await fetchClients();
         //setClients(updatedClients);
@@ -14,22 +14,22 @@ function Clients() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchClients();
-                setClients(data);
+                const data = await fetchUsers();
+                setUsers(data);
             } catch (error) {
                 console.error(error.message);
             }
         };
         fetchData();
-    }, );
+    },);
 
     return (
         <div className="min-h-screen flex flex-col">
             <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
-            <ListeClients clients={clients} onDelete={handleDelete()}/>
-            <AddButton link="/clients/ajouterClient" />
+            <ListeUsers users={users} onDelete={handleDelete()}/>
+            <AddButton link="/users/ajouterUser"/>
         </div>
     );
 }
 
-export default Clients;
+export default Users;
