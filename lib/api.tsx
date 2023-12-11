@@ -60,6 +60,39 @@ export async function updateUser(id: string, username: string, password: string)
     }
 }
 
+export async function addUser(username: string, password: string) {
+    try {
+        const response = await fetch(`http://localhost:8000/users/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({username, password}),
+        });
+        if (!response.ok) {
+            throw new Error(`Erreur lors de l'ajout du livreur`);
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de l'enregistrement d'un nouveau livreur`);
+    }
+}
+
+export async function deleteUser(id: string) {
+    try {
+        const response = await fetch(`http://localhost:8000/users/${id}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la suppression du livreur avec l'identifiant ${id}`);
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la suppression du livreur avec l'identifiant ${id}`);
+    }
+}
+
 export async function fetchClients() {
     try {
         const response = await fetch('http://localhost:8000/clients/');
@@ -133,7 +166,6 @@ export async function deleteClient(id: string) {
                 'Content-Type': 'application/json',
             },
         });
-
         if (!response.ok) {
             throw new Error(`Erreur lors de la suppression du client avec l'identifiant ${id}`);
         }
