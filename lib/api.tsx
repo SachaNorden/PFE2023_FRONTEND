@@ -1,6 +1,19 @@
+import axios from 'axios';
+
+const BASE_URL = 'http://localhost:8000'; //
+
+export const login = async (username, password) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/login/`, { username, password });
+        return response.data.token;
+    } catch (error) {
+        throw new Error('Erreur lors de la connexion');
+    }
+};
+
 export async function fetchArticles() {
     try {
-        const response = await fetch('http://localhost:8000/articles/');
+        const response = await fetch(`${BASE_URL}/articles/`);
         if (response.ok) {
             const data = await response.json();
             return data;
@@ -14,7 +27,7 @@ export async function fetchArticles() {
 
 export async function getArticleById(id: string) {
     try {
-        const response = await fetch(`http://localhost:8000/articles/${id}/`);
+        const response = await fetch(`${BASE_URL}/articles/${id}/`);
         if (!response) {
             throw new Error(`Utilisateur avec l'article ${id} non trouvé.`);
         }
@@ -31,7 +44,7 @@ export async function getArticleById(id: string) {
 
 export async function updateArticle(id: string, nom: string) {
     try {
-        const response = await fetch(`http://localhost:8000/articles/${id}/`, {
+        const response = await fetch(`${BASE_URL}/articles/${id}/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,7 +61,7 @@ export async function updateArticle(id: string, nom: string) {
 
 export async function addArticle(nom: string) {
     try {
-        const response = await fetch(`http://localhost:8000/articles/`, {
+        const response = await fetch(`${BASE_URL}/articles/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -65,7 +78,7 @@ export async function addArticle(nom: string) {
 
 export async function deleteArticle(id: string) {
     try {
-        const response = await fetch(`http://localhost:8000/articles/${id}/`, {
+        const response = await fetch(`${BASE_URL}/articles/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,7 +94,7 @@ export async function deleteArticle(id: string) {
 
 export async function fetchUsers() {
     try {
-        const response = await fetch('http://localhost:8000/users/');
+        const response = await fetch(`${BASE_URL}/users/`);
         if (response.ok) {
             const data = await response.json();
             return data;
@@ -95,7 +108,7 @@ export async function fetchUsers() {
 
 export async function getUserById(id: string) {
     try {
-        const response = await fetch(`http://localhost:8000/users/${id}/`);
+        const response = await fetch(`${BASE_URL}/users/${id}/`);
         if (!response) {
             throw new Error(`Utilisateur avec l'identifiant ${id} non trouvé.`);
         }
@@ -112,7 +125,7 @@ export async function getUserById(id: string) {
 
 export async function updateUser(id: string, username: string, password: string) {
     try {
-        const response = await fetch(`http://localhost:8000/users/${id}/`, {
+        const response = await fetch(`${BASE_URL}/users/${id}/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -129,7 +142,7 @@ export async function updateUser(id: string, username: string, password: string)
 
 export async function addUser(username: string, password: string) {
     try {
-        const response = await fetch(`http://localhost:8000/users/`, {
+        const response = await fetch(`${BASE_URL}/users/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -146,7 +159,7 @@ export async function addUser(username: string, password: string) {
 
 export async function deleteUser(id: string) {
     try {
-        const response = await fetch(`http://localhost:8000/users/${id}/`, {
+        const response = await fetch(`${BASE_URL}/users/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -162,7 +175,7 @@ export async function deleteUser(id: string) {
 
 export async function fetchClients() {
     try {
-        const response = await fetch('http://localhost:8000/clients/');
+        const response = await fetch(`${BASE_URL}/clients/`);
         if (response.ok) {
             const data = await response.json();
             return data;
@@ -176,7 +189,7 @@ export async function fetchClients() {
 
 export async function getClientById(id: string) {
     try {
-        const response = await fetch(`http://localhost:8000/clients/${id}/`);
+        const response = await fetch(`${BASE_URL}/clients/${id}/`);
         if (!response) {
             throw new Error(`Client avec l'identifiant ${id} non trouvé.`);
         }
@@ -193,7 +206,7 @@ export async function getClientById(id: string) {
 
 export async function updateClient(id: string, nom: string, adresse_complete: string) {
     try {
-        const response = await fetch(`http://localhost:8000/clients/${id}/`, {
+        const response = await fetch(`${BASE_URL}/clients/${id}/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -210,7 +223,7 @@ export async function updateClient(id: string, nom: string, adresse_complete: st
 
 export async function addClient(nom: string, adresse_complete: string) {
     try {
-        const response = await fetch(`http://localhost:8000/clients/`, {
+        const response = await fetch(`${BASE_URL}/clients/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -227,7 +240,7 @@ export async function addClient(nom: string, adresse_complete: string) {
 
 export async function deleteClient(id: string) {
     try {
-        const response = await fetch(`http://localhost:8000/clients/${id}/`, {
+        const response = await fetch(`${BASE_URL}/clients/${id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -244,7 +257,7 @@ export async function deleteClient(id: string) {
 
 export async function getCommandeById(id: string) {
     try {
-        const response = await fetch(`http://localhost:8000/commandes/${id}/`);
+        const response = await fetch(`${BASE_URL}/commandes/${id}/`);
         if (!response) {
             throw new Error(`Commande avec l'identifiant ${id} non trouvé.`);
         }
@@ -261,7 +274,7 @@ export async function getCommandeById(id: string) {
 
 export async function fetchCommandes() {
     try {
-        const response = await fetch('http://localhost:8000/commandes/');
+        const response = await fetch(`${BASE_URL}/commandes/`);
         if (response.ok) {
             const data = await response.json();
             return data;
