@@ -39,12 +39,13 @@ function CommandeInItineraire({commande}) {
                 <p>---------------------------------</p>
             </div>
 
-            <div className='flex items-center justify-between flex-grow'>
-
-                <Button type='submit'>
-                    Modifier
-                </Button>
-            </div>
+            {commande?.status !== 'Livré' && (
+                <div className='flex items-center justify-between flex-grow'>
+                    <Button type='submit'>
+                        Modifier
+                    </Button>
+                </div>
+            )}
         </div>
 
 
