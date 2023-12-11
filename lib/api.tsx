@@ -300,7 +300,7 @@ export async function fetchCommandes() {
 
 export async function getItineraireById(id: string) {
     try {
-        const response = await fetch(`http://localhost:8000/livraisons/${id}/`);
+        const response = await fetch(`${BASE_URL}/itineraires/${id}/`);
         if (!response) {
             throw new Error(`Itineraire avec l'identifiant ${id} non trouvé.`);
         }
@@ -317,7 +317,7 @@ export async function getItineraireById(id: string) {
 
 export async function fetchItineraires() {
     try {
-        const response = await fetch('http://localhost:8000/livraisons/');
+        const response = await fetch(`${BASE_URL}/itineraires/`);
         if (response.ok) {
             const data = await response.json();
             return data;
