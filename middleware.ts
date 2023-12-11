@@ -12,6 +12,7 @@ export default authMiddleware({
         "/testArticles",
         "/users/:id",
     ]
+
 });
 
 export const config = {
