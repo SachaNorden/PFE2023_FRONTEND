@@ -1,17 +1,22 @@
 'use client'
 import {useState} from 'react';
 import {Button, Form, Input, Image, message} from 'antd';
-import {login} from "@/lib/api";
+import {decodeJWT, login} from "@/lib/api";
 import {redirect} from "next/navigation";
+import {useAuth} from "@/app/contexts/AuthContext";
 
 export default function LoginPage() {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+    const {setAdmin} = useAuth();
     const handleSubmit = async (values) => {
         setLoading(true);
         try {
             const token = await login(values.username, values.password);
             localStorage.setItem('token', token);
+            const decodedToken = decodeJWT(token);
+            const isAdmin = decodedToken.is_admin;
+            setAdmin(isAdmin);
             message.success('Connexion réussie');
             redirect('/clients/');
         } catch (error) {

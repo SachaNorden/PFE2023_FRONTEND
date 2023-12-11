@@ -1,13 +1,24 @@
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 const BASE_URL = 'http://localhost:8000';
 
 export const login = async (username: string, password: string) => {
     try {
-        const response = await axios.post(`${BASE_URL}/login`, { username, password });
+        const response = await axios.post(`${BASE_URL}/users/login/`, { username, password });
         return response.data.token;
     } catch (error) {
         throw new Error('Erreur lors de la connexion');
+    }
+};
+
+export const decodeJWT = (token: string) => {
+    try {
+        const decodedToken = jwt_decode(token);
+        return decodedToken;
+    } catch (error) {
+        console.error('Erreur lors du décodage du JWT', error);
+        throw new Error('Erreur lors du décodage du JWT');
     }
 };
 
