@@ -199,9 +199,40 @@ export async function fetchCommandes() {
             const data = await response.json();
             return data;
         } else {
-            throw new Error('Erreur lors de la récupération des commandes');
+            throw new Error('Erreur lors de la récupération des itineraires');
         }
     } catch (error) {
-        throw new Error('Erreur lors de la récupération des commandes');
+        throw new Error('Erreur lors de la récupération des itineraires');
+    }
+}
+
+export async function getItineraireById(id: string) {
+    try {
+        const response = await fetch(`http://localhost:8000/livraisons/${id}/`);
+        if (!response) {
+            throw new Error(`Itineraire avec l'identifiant ${id} non trouvé.`);
+        }
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Erreur lors de la récupération de l'itinéraire`);
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération de l'itinéraire avec l'identifiant ${id}.`);
+    }
+}
+
+export async function fetchItineraires() {
+    try {
+        const response = await fetch('http://localhost:8000/livraisons/');
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Erreur lors de la récupération des itineraires');
+        }
+    } catch (error) {
+        throw new Error('Erreur lors de la récupération des itineraires');
     }
 }

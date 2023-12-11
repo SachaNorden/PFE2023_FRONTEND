@@ -16,7 +16,7 @@ const getStatusColorClass = (status) => {
     }
 };
 
-function CommandeInItineraire({commande}) {
+function CommandeItineraire({commande}) {
     const [form] = Form.useForm();
 
     function handleModifierClick() {
@@ -28,6 +28,7 @@ function CommandeInItineraire({commande}) {
 
         <div className='flex items-center mb-4'>
             <div>
+
                 <p>
                     - <b className="text-base">{commande?.client.nom ?? 'Non spécifié'}</b>{' '}
                     <p></p>
@@ -52,4 +53,4 @@ function CommandeInItineraire({commande}) {
     );
 }
 
-export default CommandeInItineraire;
+export default CommandeItineraire;
