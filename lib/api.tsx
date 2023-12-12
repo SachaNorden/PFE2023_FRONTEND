@@ -6,7 +6,7 @@ const BASE_URL = 'http://localhost:8000';
 
 export const login = async (username: string, password: string) => {
     try {
-        const response = await axios.post(`${BASE_URL}/users/login/`, { username, password });
+        const response = await axios.post(`${BASE_URL}/users/login/`, {username, password});
         const token = response.data.access;
         return token;
     } catch (error) {
@@ -302,15 +302,9 @@ export async function fetchCommandes() {
 export async function getItineraireById(id: string) {
     try {
         const response = await fetch(`${BASE_URL}/itineraires/${id}/`);
-        if (!response) {
-            throw new Error(`Itineraire avec l'identifiant ${id} non trouvé.`);
-        }
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-        } else {
-            throw new Error(`Erreur lors de la récupération de l'itinéraire`);
-        }
+        if (!response.ok) { throw new Error(`Erreur lors de la récupération de l'itinéraire`); }
+        const data = await response.json();
+        return data;
     } catch (error) {
         throw new Error(`Erreur lors de la récupération de l'itinéraire avec l'identifiant ${id}.`);
     }
@@ -330,23 +324,16 @@ export async function fetchItineraires() {
     }
 }
 
-
 export async function fetchLivraisonArticle(id: string) {
-    try {
-        const response = await fetch(`${BASE_URL}/livraisons/${id}/articles`);
-        if (response.ok) {
-            const data = await response.json();
-
-            return data;
-        } else {
-            throw new Error('Erreur lors de la récupération des itineraires');
-        }
+    try{
+        const response = await fetch(`${BASE_URL}/livraisons/${id}/articles/`);
+        if (!response.ok) throw new Error(`Erreur lors de la récupération des articles de la livraison`);
+        const data = await response.json();
+        return data;
     } catch (error) {
-        throw new Error('Erreur lors de la récupération des itineraires');
+        throw new Error('Erreur lors de la récupération des articles de la livraison');
     }
 }
-
-
 
 // Définis un type pour les itinéraires
 type Itineraire = {
