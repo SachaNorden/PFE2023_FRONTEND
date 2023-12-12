@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {jwtDecode} from "jwt-decode";
+import itinerairesFictifs from './data.json'; // Assure-toi que le chemin vers ton fichier de données est correct
 
 const BASE_URL = 'http://localhost:8000';
 
@@ -328,3 +329,33 @@ export async function fetchItineraires() {
         throw new Error('Erreur lors de la récupération des itineraires');
     }
 }
+
+// ...autres imports
+
+
+// Définis un type pour les itinéraires
+type Itineraire = {
+    id: number;
+    commandes: Array<any>; // Remplace any par un type plus précis si possible
+    livreur: {
+        id: number;
+        username: string;
+        isAdmin: boolean;
+    };
+    status: string;
+};
+
+// Utilise ce type dans ta fonction fetchItinerairesFake
+export async function fetchItinerairesFake(): Promise<Itineraire[]> {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (itinerairesFictifs) {
+                resolve(itinerairesFictifs as Itineraire[]);
+            } else {
+                reject('Erreur lors de la récupération des itinéraires');
+            }
+        }, 1000);
+    });
+}
+
+

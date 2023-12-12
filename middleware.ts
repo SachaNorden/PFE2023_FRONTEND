@@ -16,6 +16,7 @@ export default authMiddleware({
         "/itineraires",
         "/itineraires/:id",
         "/itineraires/route",
+        "/itineraires/route/commandes"
     ]
 
 });
