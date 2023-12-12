@@ -5,13 +5,17 @@ const BASE_URL = 'http://localhost:8000';
 
 export const login = async (username: string, password: string) => {
     try {
-        const response = await axios.post(`${BASE_URL}/users/login/`, { username, password });
+        const response = await axios.post(`${BASE_URL}/users/token/`, { username, password });
         const token = response.data.access;
         return token;
     } catch (error) {
         throw new Error('Erreur lors de la connexion');
     }
 };
+
+export async function logout() {
+    localStorage.removeItem('token');
+}
 
 export const decodeJWT = (token: string) => {
     try {

@@ -1,7 +1,7 @@
 'use client'
 
-import {Form, Image, Input, message} from 'antd';
-import {Button} from '@/app/ui/button'
+import {Button, Form, Image, Input, message} from 'antd';
+//import {Button} from '@/app/ui/button'
 import {decodeJWT, getUserById, login} from "@/lib/api";
 import {wait} from "next/dist/lib/wait";
 import {useState} from "react";
@@ -15,11 +15,12 @@ export default function LoginPage() {
         setLoading(true);
         try {
             const token = await login(values.username, values.password);
-            localStorage.setItem('token', token);
             const decodedToken = decodeJWT(token);
             const user = await getUserById(decodedToken.user_id);
-            localStorage.setItem('isAdmin', user.isAdmin);
             message.success('Connexion réussie');
+            localStorage.setItem('token', token);
+            localStorage.setItem('isAdmin', user.isAdmin);
+            localStorage.setItem('userId', user.id);
             await wait(1000)
             window.location.href = '/clients/';
         } catch (error) {
@@ -67,7 +68,7 @@ export default function LoginPage() {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <Button type="primary" htmlType="submit" loading={loading}>
+                    <Button htmlType="submit" loading={loading}>
                         Se Connecter
                     </Button>
                 </div>
