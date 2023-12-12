@@ -27,7 +27,7 @@ function Itineraires( isAdmin: boolean) {
             }
         };
         fetchData();
-    }, );
+    },[] );
 
     return (
         <div className='min-h-screen flex flex-col '>

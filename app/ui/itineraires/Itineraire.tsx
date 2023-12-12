@@ -10,13 +10,19 @@ function Itineraire({itineraire: itine}) {
     function handleModifierClick() {
         console.log("cliqué (rajouter 'commandeId: any' en param");
     }
+    if (!itine) {
+        return null; // Ou vous pouvez afficher un message de chargement, etc.
+    }
 
     return (
 
 
         <div className='fmb-4'>
+            {itine.livreur && (
             <p className="text-base"><b className="text-xl">Itinéraire {itine.id}</b> <span
+
                 className="text-2xl text-green-300 font-bold">{itine.status}</span></p>
+                )}
             <p className="text-base">{itine.livreur.username}</p>
             <br/>
             {itine.commandes.map((commande) => (

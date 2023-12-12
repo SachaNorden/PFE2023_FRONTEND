@@ -13,7 +13,7 @@ import ClientCard from "@/app/ui/clients/clientCard";
 
 export default function Itineraires() {
     const [commandes, setCommande] = useState([]);
-    /*const [commande, setCommande] = useState([]);
+    /*const [commande.tsx, setCommande] = useState([]);
   useEffect(() => {
        const currentUrl = window.location.href;
        const parts = currentUrl.split('/');

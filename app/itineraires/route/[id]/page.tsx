@@ -2,12 +2,15 @@
 import FormComponent from "@/app/ui/Form.component";
 import back from "@/public/arrow-left.svg";
 import {useEffect, useState} from "react";
+import { useNavigate } from 'react-router-dom';
 import {fetchLivraisonArticle, getItineraireById} from "@/lib/api";
 import {message} from "antd";
 
 export default function Route() {
     const [itineraire, setItineraire] = useState(null);
     const [articlesTotals, setArticlesTotals] = useState({});
+    const navigate = useNavigate();
+
     useEffect(() => {
         const itineraireId = window.location.href.split('/').pop();
         const fetchItineraireData = async () => {
@@ -15,11 +18,14 @@ export default function Route() {
                 const data = await getItineraireById(itineraireId);
                 setItineraire(data);
                 const articlesFetchPromises = data.commandes.map((livraison) => fetchLivraisonArticle(livraison.id));
+                console.log(articlesFetchPromises);
                 const articlesResults = await Promise.all(articlesFetchPromises);
                 const totals = {};
                 articlesResults.forEach((articles) => {
+
                     articles.forEach((article) => {
-                        const {nom, quantite} = article.article;
+                        const {nom} = article.article;
+                        const quantite= article.quantite
                         totals[nom] = (totals[nom] || 0) + quantite;
                     });
                 });
@@ -32,6 +38,11 @@ export default function Route() {
     }, []);
     if (!itineraire) {
         return <div>Chargement...</div>;
+    }
+
+    function handleModifierClick() {
+        navigate(`/itineraires/route/${itineraire.id}/livraison`, { state: { itineraire } });
+        window.location.reload();
     }
     return (
         <div className="items-center justify-center h-1/3">
@@ -50,7 +61,6 @@ export default function Route() {
             </div>
             <FormComponent>
                 <div>
-
                     <img src={back.src} alt="Back" className="w-6 h-6"/>
                     <div className="font-bold text-lg mb-4">Itinéraire {itineraire.id}:</div>
                     <p>Article totaux:</p>
@@ -59,10 +69,7 @@ export default function Route() {
                             {nom}: {quantite}
                         </p>
                     ))}
-
-
-                    <button className="mt-4 bg-blue-500 text-white p-2 rounded">Sélectionner</button>
-
+                    <button onClick={handleModifierClick} className="mt-4 bg-blue-500 text-white p-2 rounded">Sélectionner</button>
                 </div>
             </FormComponent>
 

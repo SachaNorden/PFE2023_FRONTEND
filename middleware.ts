@@ -15,9 +15,10 @@ export default authMiddleware({
         "/users/ajouterUser",
         "/itineraires",
         "/itineraires/:id",
-        "/itineraires/route",
         "/itineraires/route/:id",
-        "/itineraires/route/commandes"
+        "/itineraires/route/:id/livraison",
+        "/itineraires/route/:id/livraison/:idLivraison"
+
     ]
 
 });
