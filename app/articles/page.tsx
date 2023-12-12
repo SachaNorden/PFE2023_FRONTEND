@@ -22,7 +22,7 @@ function Articles() {
             }
         };
         fetchData();
-    }, );
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col">

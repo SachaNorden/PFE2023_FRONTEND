@@ -4,6 +4,7 @@ import {fetchClients} from "@/lib/api";
 import {useEffect, useState} from "react";
 import ListeClients from "@/app/ui/clients/listeClients";
 import AddButton from "@/app/ui/addButton";
+import LogOutButton from "@/app/ui/logOutButton";
 
 function Clients() {
     const [clients, setClients] = useState([]);
@@ -23,7 +24,7 @@ function Clients() {
             }
         };
         fetchData();
-    },);
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -39,6 +40,7 @@ function Clients() {
             <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
             <ListeClients clients={clients} onDelete={handleDelete()}/>
             <AddButton link="/clients/ajouterClient"/>
+            <LogOutButton />
         </div>
     );
 }
