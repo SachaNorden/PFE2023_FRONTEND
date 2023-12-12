@@ -1,6 +1,7 @@
 'use client'
 
-import {Button, Form, Image, Input, message} from 'antd';
+import {Form, Image, Input, message} from 'antd';
+import {Button} from '@/app/ui/button'
 import {decodeJWT, getUserById, login} from "@/lib/api";
 import {wait} from "next/dist/lib/wait";
 import {useState} from "react";

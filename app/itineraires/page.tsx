@@ -11,6 +11,8 @@ import { Menu, Dropdown, Button } from 'antd';  // npm install antdµµµµ
 function Itineraires() {
 
     const [itineraires, setItineraires] = useState([]);
+
+
     const handleDelete = async () => {
         //const updatedClients = await fetchClients();
         //setClients(updatedClients);
@@ -27,6 +29,7 @@ function Itineraires() {
         fetchData();
     }, );
 
+    // @ts-ignore
     return (
         <div className='min-h-screen flex flex-col'>
             <div className="flex justify-between items-center">
@@ -52,12 +55,15 @@ function Itineraires() {
             </div>
 
             <p className="text-4xl flex flex-col justify-center items-center">Feuilles de routes</p>
+
+
             <FormComponent>
                 <ListItineraires itineraires={itineraires}></ListItineraires>
                 {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 <Image width={60} src="/plus.png" preview={false}
                        className='absolute -top-21 left-1/2 transform -translate-x-1/2 -z10 -translate-y-5'/>
             </FormComponent>
+
         </div>
     )
 }
