@@ -18,9 +18,9 @@ export default function Itineraires() {
                 </Form.Item>
                 {//  Ajoute autant de `Form.Item` que nécessaire }
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">
+                    <Menu type="primary" htmlType="submit">
                         Soumettre
-                    </Button>
+                    </Menu>
                 </Form.Item>
                 */
                 }
