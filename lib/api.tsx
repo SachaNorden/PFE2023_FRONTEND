@@ -274,16 +274,16 @@ export async function getLivraisonById(id: string) {
     try {
         const response = await fetch(`${BASE_URL}/livraisons/${id}/`);
         if (!response) {
-            throw new Error(`Commande avec l'identifiant ${id} non trouvé.`);
+            throw new Error(`Livraison avec l'identifiant ${id} non trouvé.`);
         }
         if (response.ok) {
             const data = await response.json();
             return data;
         } else {
-            throw new Error('Erreur lors de la récupération de la commande');
+            throw new Error('Erreur lors de la récupération de la livraison');
         }
     } catch (error) {
-        throw new Error(`Erreur lors de la récupération de la commande avec l'identifiant ${id}.`);
+        throw new Error(`Erreur lors de la récupération de la livraison avec l'identifiant ${id}.`);
     }
 }
 
@@ -346,5 +346,39 @@ export async function addItineraire(livraisons: Object, livreur: Object, status 
         }
     } catch (error) {
         throw new Error(`Erreur lors de l'enregistrement d'un nouvel itineraire`);
+    }
+}
+
+export async function getArticlesByLivraisonsId(id: string) {
+    try {
+        const response = await fetch(`${BASE_URL}/livraisons/${id}/articles/`);
+        if (!response) {
+            throw new Error(`Articles de la livraison avec l'identifiant ${id} non trouvé.`);
+        }
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Erreur lors de la récupération des articles`);
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération des articles de la livraison avec l'identifiant ${id}.`);
+    }
+}
+
+export async function updateLivraison(id: string, client: Object, date_livraison: string, status: string, isModified: boolean) {
+    try {
+        const response = await fetch(`${BASE_URL}/livraisons/${id}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({client, date_livraison, status, isModified}),
+        });
+        if (!response.ok) {
+            throw new Error('Erreur lors de la mise à jour de la livraison');
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la mise à jour de la livraison avec l'identifiant ${id}`);
     }
 }

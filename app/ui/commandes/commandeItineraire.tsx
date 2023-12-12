@@ -20,15 +20,13 @@ function CommandeItineraire({commande}) {
     const [form] = Form.useForm();
 
     function handleModifierClick() {
-        window.location.href=`/clients/${commande.client.id}`
+        window.location.href=`/livraisons/${commande.client.id}/articles`
     }
 
     return (
 
-
         <div className='flex items-center mb-4'>
             <div>
-
                 <p>
                     - <b className="text-base">{commande?.client.nom ?? 'Non spécifié'}</b>{' '}
                     <p></p>
