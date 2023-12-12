@@ -266,10 +266,9 @@ export async function deleteClient(id: string) {
     }
 }
 
-
-export async function getCommandeById(id: string) {
+export async function getLivraisonById(id: string) {
     try {
-        const response = await fetch(`${BASE_URL}/commandes/${id}/`);
+        const response = await fetch(`${BASE_URL}/livraisons/${id}/`);
         if (!response) {
             throw new Error(`Commande avec l'identifiant ${id} non trouvé.`);
         }
@@ -284,9 +283,9 @@ export async function getCommandeById(id: string) {
     }
 }
 
-export async function fetchCommandes() {
+export async function fetchLivraisons() {
     try {
-        const response = await fetch(`${BASE_URL}/commandes/`);
+        const response = await fetch(`${BASE_URL}/livraisons/`);
         if (response.ok) {
             const data = await response.json();
             return data;

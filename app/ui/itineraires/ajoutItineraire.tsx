@@ -1,6 +1,6 @@
 'use client';
 import {Button} from "@/app/ui/button";
-import {addItineraire, fetchCommandes, fetchItineraires, fetchUsers} from "@/lib/api";
+import {addItineraire, fetchLivraisons, fetchItineraires, fetchUsers} from "@/lib/api";
 import Link from "next/link";
 import { Form, Select, message } from "antd";
 import {useEffect, useState} from "react";
@@ -22,7 +22,7 @@ function AjoutItineraire() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchCommandes();
+                const data = await fetchLivraisons();
                 setCommandes(data);
             } catch (error) {
                 console.error(error.message);

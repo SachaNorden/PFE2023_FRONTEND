@@ -15,7 +15,7 @@ const getStatusColorClass = (status) => {
 };
 function ItineraireCard({ itineraire }) {
     function handleModifierClick() {
-        console.log("cliqué (rajouter 'commandeId: any' en param");
+        window.location.href=`/itineraires/${itineraire.id}`
     }
 
     return (
