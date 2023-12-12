@@ -20,7 +20,7 @@ function CommandeItineraire({commande}) {
     const [form] = Form.useForm();
 
     function handleModifierClick() {
-        window.location.href=`/clients/${commande.id}`
+        window.location.href=`/clients/${commande.client.id}`
     }
 
     return (

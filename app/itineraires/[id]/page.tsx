@@ -1,11 +1,13 @@
 'use client'
-import {Menu, Form, Input, Image, Button} from 'antd';// npm install antd
+import {Menu, Form, Input, Image, Button, Select} from 'antd';// npm install antd
 import FormComponent from "@/app/ui/Form.component";
-import {fetchClients, fetchCommandes, getCommandeById, getItineraireById} from "@/lib/api";
+import {fetchClients, fetchLivraisons, getLivraisonById, getItineraireById} from "@/lib/api";
 import {useEffect, useState} from "react";
 import Itineraire from "@/app/ui/itineraires/Itineraire";
 import MenuDer from "@/app/ui/menu/menuAdmin";
-import AddButton from "@/app/ui/addButton";
+import Link from "next/link";
+import {PlusOutlined} from "@ant-design/icons";
+const { Option } = Select;
 
 
 export default function Itineraires() {
@@ -25,6 +27,19 @@ export default function Itineraires() {
            fetchData();
        }, []);
 
+    const [commandes, setCommandes] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await fetchLivraisons();
+                setCommandes(data);
+            } catch (error) {
+                console.error(error.message);
+            }
+        };
+        fetchData();
+    }, );
+
     return (
         <div className='min-h-screen flex flex-col '>
 
@@ -37,8 +52,35 @@ export default function Itineraires() {
                 {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <br/>
 
-                {/* eslint-disable-next-line jsx-a11y/alt-text */}
-                <AddButton link="/clients/ajouterClient" />
+                <div className='mb-4'>
+                    <Form.Item
+                        label="Commandes"
+                        name="commandes"
+                        rules={[{required: true, message: "Ajouter un Client"}]}
+                        required
+                    >
+                        <div className="flex flex-row items-center">
+                            <Button
+                                type="primary"
+                                shape="circle"
+                                size="small"
+                                icon={<PlusOutlined />}
+                                style={{ backgroundColor: '#52c41a', border: 'none' }}
+                            />
+                            <Select placeholder="Ajouter un Client" allowClear>
+                                {commandes.map(commande => (
+                                    <Option key={commande.id} value={commande.id}>
+                                        {commande.client.nom} {/* Assurez-vous d'adapter cela en fonction de la structure de vos commandes */}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </div>
+                        <Button type='submit'>
+                            Ajouter
+                        </Button>
+                    </Form.Item>
+
+                </div>
             </FormComponent>
 
         </div>
