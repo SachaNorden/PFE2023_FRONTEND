@@ -5,6 +5,7 @@ import {fetchClients, fetchCommandes, getCommandeById, getItineraireById} from "
 import {useEffect, useState} from "react";
 import Itineraire from "@/app/ui/itineraires/Itineraire";
 import MenuDer from "@/app/ui/menu/menuAdmin";
+import AddButton from "@/app/ui/addButton";
 
 
 export default function Itineraires() {
@@ -37,8 +38,7 @@ export default function Itineraires() {
                 <br/>
 
                 {/* eslint-disable-next-line jsx-a11y/alt-text */}
-                <Image width={60} src="/plus.png" preview={false}
-                       className='absolute -top-21 left-1/2 transform -translate-x-1/2 -z10 -translate-y-5'/>
+                <AddButton link="/clients/ajouterClient" />
             </FormComponent>
 
         </div>

@@ -20,7 +20,7 @@ function CommandeItineraire({commande}) {
     const [form] = Form.useForm();
 
     function handleModifierClick() {
-        console.log("cliqué (rajouter 'commandeId: any' en param");
+        window.location.href=`/clients/${commande.id}`
     }
 
     return (
@@ -42,7 +42,7 @@ function CommandeItineraire({commande}) {
 
             {commande?.status !== 'Livré' && (
                 <div className='flex items-center justify-between flex-grow'>
-                    <Button type='submit'>
+                    <Button type='submit' onClick={handleModifierClick}>
                         Modifier
                     </Button>
                 </div>

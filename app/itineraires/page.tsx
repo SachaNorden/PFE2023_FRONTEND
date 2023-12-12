@@ -5,6 +5,7 @@ import ListItineraires from '@/app/ui/itineraires/listeItineraire'
 import {useEffect, useState} from "react";
 import { fetchItineraires} from "@/lib/api";
 import MenuDer from '@/app/ui/menu/menuAdmin'
+import AddButton from "@/app/ui/addButton";
 
 
 
@@ -41,8 +42,7 @@ function Itineraires() {
             <FormComponent>
                 <ListItineraires itineraires={itineraires}></ListItineraires>
                 {/* eslint-disable-next-line jsx-a11y/alt-text */}
-                <Image width={60} src="/plus.png" preview={false}
-                       className='absolute -top-21 left-1/2 transform -translate-x-1/2 -z10 -translate-y-5'/>
+                <AddButton link="/itineraires/creation" />
             </FormComponent>
 
         </div>
