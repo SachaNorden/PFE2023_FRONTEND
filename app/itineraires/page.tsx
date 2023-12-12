@@ -3,22 +3,23 @@ import {Form, Input, Image} from 'antd';
 import FormComponent from '@/app/ui/Form.component'
 import ListItineraires from '@/app/ui/itineraires/listeItineraire'
 import {useEffect, useState} from "react";
-import {fetchItineraires, fetchItinerairesFake, fetchItinerairesfake} from "@/lib/api";
+import {fetchItineraires, fetchItinerairesFake} from "@/lib/api";
 import Itineraire from "@/app/ui/itineraires/Itineraire";
 
 
-function Itineraires( isAdmin =false) {
+function Itineraires( isAdmin: boolean) {
 
     // @ts-ignore
-    const [itineraires, setItineraires] = useState<Itineraire[]>([]);
+    const [itineraires, setItineraires] = useState([]);
     const handleDelete = async () => {
         //const updatedClients = await fetchClients();
         //setClients(updatedClients);
     }
+    isAdmin=false;
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchItinerairesFake();
+                const data = await fetchItineraires();
                 setItineraires(data);
             } catch (error) {
                 // @ts-ignore
@@ -37,7 +38,7 @@ function Itineraires( isAdmin =false) {
                 <ListItineraires itineraires={itineraires} isAdmin={isAdmin}></ListItineraires>
 
                 {/* change isAdmin */}
-                {!isAdmin && (
+                {isAdmin && (
                     <Image width={60} src="/plus.png" preview={false} className='absolute -top-21 left-1/2 transform -translate-x-1/2 -z10 -translate-y-5' />)
                 }
             </FormComponent>

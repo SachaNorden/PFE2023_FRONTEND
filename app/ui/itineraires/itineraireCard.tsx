@@ -16,11 +16,11 @@ const getStatusColorClass = (status) => {
 // @ts-ignore
 function ItineraireCard({ itineraire, isAdmin   }) {
     function handleModifierClick() {
-        console.log("cliqué (rajouter 'commandeId: any' en param");
+        window.location.href=`/itineraires/route/${itineraire.id}`
     }
 
     const renderAdminActions = (id :string) => {
-        if (!isAdmin && itineraire?.status !== 'Livré') {
+        if (isAdmin && itineraire?.status !== 'Livré') {
             return (
                 <Button type='submit' onClick={handleModifierClick}>
                     Modifier

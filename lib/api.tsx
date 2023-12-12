@@ -330,7 +330,22 @@ export async function fetchItineraires() {
     }
 }
 
-// ...autres imports
+
+export async function fetchLivraisonArticle(id: string) {
+    try {
+        const response = await fetch(`${BASE_URL}/livraisons/${id}/articles`);
+        if (response.ok) {
+            const data = await response.json();
+
+            return data;
+        } else {
+            throw new Error('Erreur lors de la récupération des itineraires');
+        }
+    } catch (error) {
+        throw new Error('Erreur lors de la récupération des itineraires');
+    }
+}
+
 
 
 // Définis un type pour les itinéraires
