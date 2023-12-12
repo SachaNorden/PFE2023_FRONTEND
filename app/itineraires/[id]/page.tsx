@@ -4,12 +4,9 @@ import FormComponent from "@/app/ui/Form.component";
 import {fetchClients, fetchCommandes, getCommandeById, getItineraireById} from "@/lib/api";
 import {useEffect, useState} from "react";
 import Itineraire from "@/app/ui/itineraires/Itineraire";
-import ClientCard from "@/app/ui/clients/clientCard";
-
 
 
 export default function Itineraires() {
-
     const [itin, setItineraire] = useState([]);
       useEffect(() => {
            const currentUrl = window.location.href;
@@ -26,15 +23,13 @@ export default function Itineraires() {
            fetchData();
        }, []);
 
-
-
     return (
         <div className='min-h-screen flex flex-col '>
             <Image width={65} src="/Snappies-Logo.png" preview={false} className=' '/>
 
             <p className="text-3xl flex flex-col justify-center items-center">Détails Itineraire</p>
             <FormComponent >
-                <Itineraire itineraire ={itin} />
+                <Itineraire itine ={itin} />
 
                 {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <br/>
@@ -42,7 +37,6 @@ export default function Itineraires() {
                 {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 <Image width={60} src="/plus.png" preview={false}
                        className='absolute -top-21 left-1/2 transform -translate-x-1/2 -z10 -translate-y-5'/>
-
             </FormComponent >
 
         </div>
