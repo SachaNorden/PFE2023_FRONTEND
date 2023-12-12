@@ -328,3 +328,20 @@ export async function fetchItineraires() {
         throw new Error('Erreur lors de la récupération des itineraires');
     }
 }
+
+export async function addItineraire(livraisons: Object, livreur: Object, status : String) {
+    try {
+        const response = await fetch(`${BASE_URL}/itineraires/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({livraisons, livreur, status}),
+        });
+        if (!response.ok) {
+            throw new Error(`Erreur lors de l'ajout de l'itineraire`);
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de l'enregistrement d'un nouvel itineraire`);
+    }
+}
