@@ -5,7 +5,7 @@ const BASE_URL = 'http://localhost:8000';
 
 export const login = async (username: string, password: string) => {
     try {
-        const response = await axios.post(`${BASE_URL}/users/token/`, { username, password });
+        const response = await axios.post(`${BASE_URL}/users/token/`, {username, password});
         const token = response.data.access;
         return token;
     } catch (error) {
@@ -332,7 +332,7 @@ export async function fetchItineraires() {
     }
 }
 
-export async function addItineraire(livraisons: Object, livreur: Object, status : String) {
+export async function addItineraire(livraisons: Object, livreur: Object, status: String) {
     try {
         const response = await fetch(`${BASE_URL}/itineraires/`, {
             method: 'POST',
@@ -346,5 +346,95 @@ export async function addItineraire(livraisons: Object, livreur: Object, status 
         }
     } catch (error) {
         throw new Error(`Erreur lors de l'enregistrement d'un nouvel itineraire`);
+    }
+}
+
+
+export async function fetchCommandes() {
+    try {
+        const response = await fetch(`${BASE_URL}/commandes/`);
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Erreur lors de la récupération des commandes');
+        }
+    } catch (error) {
+        throw new Error('Erreur lors de la récupération des commandes');
+    }
+}
+
+export async function getCommandeById(id: string) {
+    try {
+        const response = await fetch(`${BASE_URL}/commandes/${id}/`);
+        if (!response) {
+            throw new Error(`Commande avec l'article ${id} non trouvé.`);
+        }
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Erreur lors de la récupération de la commande');
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération de la commande avec l'identifiant ${id}.`);
+    }
+}
+
+export async function deleteCommande(id: string) {
+    try {
+        const response = await fetch(`${BASE_URL}/commandes/${id}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la suppression de la commande avec l'identifiant ${id}`);
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la suppression de la commande avec l'identifiant ${id}`);
+    }
+}
+
+export async function addCommande(client: Object, date_commande: string) {
+    //TODO
+    console.log(client);
+    try {
+        const response = await fetch(`${BASE_URL}/commandes/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({client, date_commande}),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Erreur lors de l\'ajout de la commande');
+        }
+    } catch (error) {
+        throw new Error('Erreur lors de l\'ajout de la commande');
+    }
+}
+
+
+export async function updateCommande(id: string) {
+    //TODO
+    try {
+        const response = await fetch(`${BASE_URL}/commandes/${id}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+        });
+        if (!response.ok) {
+            throw new Error('Erreur lors de la mise à jour de la commande');
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la mise à jour de la commande avec l'identifiant ${id}`);
     }
 }

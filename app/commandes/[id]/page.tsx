@@ -1,30 +1,30 @@
 'use client'
 import {Image} from "antd";
-import ProfilClient from "@/app/ui/clients/profilClient";
-import {getClientById} from "@/lib/api";
+import ProfilCommande from "@/app/ui/commandes/profilCommande";
+import {getCommandeById} from "@/lib/api";
 import {useEffect, useState} from "react";
 
 function Profil() {
-    const [client, setclient] = useState([]);
+    const [commandes, setcommandes] = useState([]);
+    const currentUrl = window.location.href;
+    const parts = currentUrl.split('/');
+    const commandeId = parts[parts.length - 1];
     useEffect(() => {
-        const currentUrl = window.location.href;
-        const parts = currentUrl.split('/');
-        const clientId = parts[parts.length - 1];
         const fetchData = async () => {
             try {
-                const data = await getClientById(clientId);
-                setclient(data);
+                const data = await getCommandeById(commandeId);
+                setcommandes(data);
             } catch (error) {
                 console.error(error.message);
             }
         };
-            fetchData();
-        }, []);
+        fetchData();
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col">
             <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
-            <ProfilClient client={client}/>
+            <ProfilCommande commande={commandes}/>
         </div>
     );
 }
