@@ -5,6 +5,8 @@ import {redirect} from "next/navigation";
 
 function ClientCard({ client, onDelete }) {
     const handleDelete = async () => {
+        const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
+        const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
         try {
             await deleteClient(client.id);
             message.success("Client supprimé avec succès");
@@ -20,6 +22,11 @@ function ClientCard({ client, onDelete }) {
             <Link href={`/clients/${client.id}`}>
                 <Button>
                     Modifier
+                </Button>
+            </Link>
+            <Link href={`/commandes/ajouterCommande/${client.id}`}>
+                <Button>
+                    Commande
                 </Button>
             </Link>
             <Popconfirm
