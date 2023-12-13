@@ -14,7 +14,8 @@ export const login = async (username: string, password: string) => {
 };
 
 export async function logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('userId');
 }
 
 export const decodeJWT = (token: string) => {
