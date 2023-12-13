@@ -8,6 +8,7 @@ import MenuDer from '@/app/ui/menu/menuAdmin'
 import AddButton from "@/app/ui/addButton";
 
 import Itineraire from "@/app/ui/itineraires/Itineraire";
+import LogOutButton from "@/app/ui/logOutButton";
 
 
 
@@ -51,6 +52,7 @@ function Itineraires() {
                 )}
             </FormComponent>
 
+            <LogOutButton />
         </div>
     )
 }

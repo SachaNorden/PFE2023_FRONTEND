@@ -24,7 +24,7 @@ function ClientCard({ client, onDelete }) {
                     Modifier
                 </Button>
             </Link>
-            <Link href={`/commandes/ajouterCommande/${client.id}`}>
+            <Link href={`/commandes/${client.id}`}>
                 <Button>
                     Commande
                 </Button>

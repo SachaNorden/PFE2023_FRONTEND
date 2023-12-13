@@ -3,8 +3,11 @@ import {Image} from "antd";
 import ProfilUser from "@/app/ui/users/profilUser";
 import {getUserById} from "@/lib/api";
 import {useEffect, useState} from "react";
+import LogOutButton from "@/app/ui/logOutButton";
 
 function Profil() {
+    const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
+    const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     const [user, setUser] = useState([]);
     useEffect(() => {
         const currentUrl = window.location.href;
@@ -24,7 +27,14 @@ function Profil() {
     return (
         <div className="min-h-screen flex flex-col">
             <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
-            <ProfilUser user={user}/>
+            {isAdmin ? (
+                <ProfilUser user={user}/>
+            ) : (
+                <div>
+                    <div>Vous n'avez pas accès à cette page, veuillez contacter l'administrateur.</div>
+                    <LogOutButton/>
+                </div>
+            )}
         </div>
     );
 }

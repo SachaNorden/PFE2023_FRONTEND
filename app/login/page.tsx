@@ -1,7 +1,6 @@
 'use client'
 
 import {Button, Form, Image, Input, message} from 'antd';
-//import {Button} from '@/app/ui/button'
 import {decodeJWT, getUserById, login} from "@/lib/api";
 import {wait} from "next/dist/lib/wait";
 import {useState} from "react";
@@ -18,11 +17,16 @@ export default function LoginPage() {
             const decodedToken = decodeJWT(token);
             const user = await getUserById(decodedToken.user_id);
             message.success('Connexion réussie');
-            localStorage.setItem('token', token);
-            localStorage.setItem('isAdmin', user.isAdmin);
+            const isAdmin = user.isAdmin;
+            localStorage.setItem('isAdmin', isAdmin);
             localStorage.setItem('userId', user.id);
             await wait(1000)
-            window.location.href = '/clients/';
+            if(isAdmin) {
+                window.location.href = '/clients/';
+            } else {
+                window.location.href = '/itineraires/';
+            }
+
         } catch (error) {
             message.error(error);
         } finally {
