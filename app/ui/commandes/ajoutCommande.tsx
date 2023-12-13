@@ -1,11 +1,20 @@
 'use client';
 import {Form, Input, message, Popconfirm} from "antd";
 import {Button} from "@/app/ui/button";
-import {addCommande, addLigneCommande, deleteClient, deleteCommande} from "@/lib/api";
+import {addCommande, addLigneCommande, deleteCommande} from "@/lib/api";
 import Link from "next/link";
+import {useEffect, useState} from "react";
 
-function AjoutCommande({clientId}) {
+function AjoutCommande() {
     const [form] = Form.useForm();
+    const [clientId, setClientId] = useState();
+
+    useEffect(() => {
+        const currentUrl = window.location.href;
+        const parts = currentUrl.split('/');
+        const id = parts[parts.length - 1];
+        setClientId(id);
+    }, []);
 
     const handleDelete = async () => {
         const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
@@ -20,7 +29,6 @@ function AjoutCommande({clientId}) {
 
     const handleSubmit = async () => {
         try {
-            console.log("client id : ", clientId);
             const data = await addCommande(clientId);
             const id_commande = data.id_commande;
             const values = await form.validateFields();
@@ -58,7 +66,7 @@ function AjoutCommande({clientId}) {
             <Form
                 form={form}
                 onFinish={handleSubmit}
-                initialValues={{ remember: true }}
+                initialValues={{remember: true}}
                 autoComplete="off"
                 className='p-8 border-2 border-gray-300 rounded-lg shadow-xl bg-white relative z-20'
             >
@@ -67,62 +75,62 @@ function AjoutCommande({clientId}) {
                     <Form.Item
                         label="Langes S"
                         name="champ1"
-                        rules={[{ required: true, message: "Veuillez saisir la quantité pour Langes S" }]}
+                        rules={[{required: true, message: "Veuillez saisir la quantité pour Langes S"}]}
                         required
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
                 </div>
                 <div className='mb-6'>
                     <Form.Item
                         label="Langes M"
                         name="champ2"
-                        rules={[{ required: true, message: "Veuillez saisir la quantité pour Langes M" }]}
+                        rules={[{required: true, message: "Veuillez saisir la quantité pour Langes M"}]}
                         required
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
                 </div>
                 <div className='mb-6'>
                     <Form.Item
                         label="Langes L"
                         name="champ3"
-                        rules={[{ required: true, message: "Veuillez saisir la quantité pour Langes L" }]}
+                        rules={[{required: true, message: "Veuillez saisir la quantité pour Langes L"}]}
                         required
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
                 </div>
                 <div className='mb-6'>
                     <Form.Item
                         label="Sac-poubelles"
                         name="champ4"
-                        rules={[{ required: true, message: "Veuillez saisir la quantité pour Sac-poubelles" }]}
+                        rules={[{required: true, message: "Veuillez saisir la quantité pour Sac-poubelles"}]}
                         required
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
                 </div>
                 <div className='mb-6'>
                     <Form.Item
                         label="Gants de toilette"
                         name="champ5"
-                        rules={[{ required: true, message: "Veuillez saisir la quantité pour Gants de toilette" }]}
+                        rules={[{required: true, message: "Veuillez saisir la quantité pour Gants de toilette"}]}
                         required
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
                     <Link href={`/clients/`}>
                         <Button>Retour</Button>
                     </Link><Popconfirm
-                    title="Êtes-vous sûr de vouloir supprimer ce client?"
+                    title="Êtes-vous sûr de vouloir supprimer cette commande ?"
                     onConfirm={handleDelete}
                     okText="Oui"
                     cancelText="Non"
                 >
-                    <Button style={{ marginLeft: 250 }}>Supprimer</Button>
+                    <Button style={{marginLeft: 250}}>Supprimer</Button>
                 </Popconfirm>
                     <Button type='submit'>Enregistrer</Button>
                 </div>

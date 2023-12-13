@@ -383,7 +383,7 @@ export async function getCommandeById(id: string) {
 
 export async function deleteCommande(clientId: string) {
     try {
-        const response = await fetch(`${BASE_URL}/commandes/${clientId}/`, {
+        const response = await fetch(`${BASE_URL}/commandes/client/${clientId}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -419,17 +419,19 @@ export async function addCommande(clientId: string) {
 
 export async function addLigneCommande(id_commande: string, articles: any) {
     try {
-        const formattedArticles = articles.map(({article, quantite}) => ({
+        const formattedArticles = articles.map(({ article, quantite }) => ({
             article: article,
             quantite: quantite,
         }));
+
         const response = await fetch(`${BASE_URL}/commandes/${id_commande}/articles/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({articles: formattedArticles}),
+            body: JSON.stringify(formattedArticles), // Send the array directly
         });
+
         if (response.ok) {
             const data = await response.json();
             return data;
@@ -440,6 +442,7 @@ export async function addLigneCommande(id_commande: string, articles: any) {
         throw new Error('Erreur lors de l\'ajout de la commande');
     }
 }
+
 
 
 export async function updateCommande(id: string) {
