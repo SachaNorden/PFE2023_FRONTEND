@@ -1,7 +1,7 @@
 'use client';
 import {Form, Image, Input, message, Popconfirm} from "antd";
 import {Button} from "@/app/ui/button";
-import {addCommande, addLigneCommande, deleteCommande, getCommandeByClientId} from "@/lib/api";
+import {addCommande, addLigneCommande, deleteCommande, getCommandeByClientId, updateCommande} from "@/lib/api";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 
@@ -10,6 +10,7 @@ function AjoutCommande() {
     const [clientId, setClientId] = useState();
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
+    const [commandeId, setCommandeId] = useState();
 
     useEffect(() => {
         const currentUrl = window.location.href;
@@ -17,24 +18,25 @@ function AjoutCommande() {
         const id = parts[parts.length - 1];
         setClientId(id);
         const fetchCommandeDetails = async () => {
-            try {
-                const commandeDetails = await getCommandeByClientId(clientId);
-                if (commandeDetails) {
-                    // Mettez à jour le formulaire avec les détails de la commande existante
-                    form.setFieldsValue({
-                        champ1: commandeDetails.articles.find(article => article.article === 1)?.quantite || 0,
-                        champ2: commandeDetails.articles.find(article => article.article === 2)?.quantite || 0,
-                        champ3: commandeDetails.articles.find(article => article.article === 3)?.quantite || 0,
-                        champ4: commandeDetails.articles.find(article => article.article === 4)?.quantite || 0,
-                        champ5: commandeDetails.articles.find(article => article.article === 5)?.quantite || 0,
-                    });
-                }
-            } catch (error) {
-                message.error("Erreur lors de la récupération des détails de la commande");
-            }
+            getCommandeByClientId(clientId)
+                .then((commandeDetails) => {
+                    console.log("Commande details:", commandeDetails); // Vérifier les détails de la commande
+                    if (commandeDetails) {
+                        form.setFieldsValue({
+                            champ1: commandeDetails.find(item => item.article === 1)?.quantite || 0,
+                            champ2: commandeDetails.find(item => item.article === 2)?.quantite || 0,
+                            champ3: commandeDetails.find(item => item.article === 3)?.quantite || 0,
+                            champ4: commandeDetails.find(item => item.article === 4)?.quantite || 0,
+                            champ5: commandeDetails.find(item => item.article === 5)?.quantite || 0,
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erreur lors de la récupération des détails de la commande:", error);
+                    message.error("Erreur lors de la récupération des détails de la commande");
+                });
         };
-
-        fetchCommandeDetails();
+        if (clientId) fetchCommandeDetails();
     }, [clientId]);
 
     const handleDelete = async () => {
@@ -45,6 +47,25 @@ function AjoutCommande() {
             message.error("Erreur lors de la suppression de la commande");
         }
     };
+
+    const handleUpdate = async () => {
+        try {
+            const id_commande = await getCommandeIdBuClientId(clientId); //TODO
+            const values = await form.validateFields();
+            const articles = [
+                { article: 1, quantite: values.champ1 || 0 },
+                { article: 2, quantite: values.champ2 || 0 },
+                { article: 3, quantite: values.champ3 || 0 },
+                { article: 4, quantite: values.champ4 || 0 },
+                { article: 5, quantite: values.champ5 || 0 },
+            ];
+            await updateCommande(id_commande, articles);
+            message.success("Commande mise à jour avec succès");
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de la commande:", error);
+            message.error("Erreur lors de la mise à jour de la commande");
+        }
+    }
 
     const handleSubmit = async () => {
         try {
@@ -145,14 +166,16 @@ function AjoutCommande() {
                     <div className='flex items-center justify-between'>
                         <Link href={`/clients/`}>
                             <Button>Retour</Button>
-                        </Link><Popconfirm
-                        title="Êtes-vous sûr de vouloir supprimer cette commande ?"
-                        onConfirm={handleDelete}
-                        okText="Oui"
-                        cancelText="Non"
-                    >
-                        <Button style={{marginLeft: 250}}>Supprimer</Button>
-                    </Popconfirm>
+                        </Link>
+                        <Popconfirm
+                            title="Êtes-vous sûr de vouloir supprimer cette commande ?"
+                            onConfirm={handleDelete}
+                            okText="Oui"
+                            cancelText="Non"
+                        >
+                            <Button style={{background: 'red', borderColor: 'grey', color: 'white'}}>Supprimer</Button>
+                        </Popconfirm>
+                        <Button type='primary' onClick={handleUpdate}>Modifier</Button>
                         <Button type='submit'>Enregistrer</Button>
                     </div>
                 </Form>

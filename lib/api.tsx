@@ -466,15 +466,19 @@ export async function addLigneCommande(id_commande: string, articles: any) {
     }
 }
         
-export async function updateCommande(id: string) {
+export async function updateCommande(id: string, articles: any) {
     //TODO
+    const formattedArticles = articles.map(({ article, quantite }) => ({
+        article: article,
+        quantite: quantite,
+    }));
     try {
         const response = await fetch(`${BASE_URL}/commandes/${id}/`, {
           method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-        body: JSON.stringify({}),
+        body: JSON.stringify({formattedArticles}),
         });
         if (!response.ok) {
             throw new Error('Erreur lors de la mise à jour de la commande');
@@ -510,9 +514,8 @@ export async function updateLivraison(id: string, client: Object, date_livraison
 }
 
 export async function getCommandeByClientId(clientId: string) {
-    const id_commande = 0; //TODO : trouver l'id de la commande depuis l'id du client
     try {
-        const response = await fetch(`${BASE_URL}/commandes/${id_commande}/articles/`);
+        const response = await fetch(`${BASE_URL}/commandes/client/${clientId}/`);
         if (!response.ok) {
             throw new Error(`Erreur lors de la récupération de la commande du client avec l'identifiant ${clientId}`);
         }
