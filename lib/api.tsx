@@ -332,6 +332,28 @@ export async function fetchItineraires() {
     }
 }
 
+export async function fetchLivraisonArticle(id: string) {
+    try{
+        const response = await fetch(`${BASE_URL}/livraisons/${id}/articles/`);
+        if (!response.ok) throw new Error(`Erreur lors de la récupération des articles de la livraison`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error('Erreur lors de la récupération des articles de la livraison');
+    }
+}
+
+export async function fetchLivraison() {
+    try{
+        const response = await fetch(`${BASE_URL}/livraisons/`);
+        if (!response.ok) throw new Error(`Erreur lors de la récupération des articles de la livraison`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error('Erreur lors de la récupération des articles de la livraison');
+    }
+}
+
 export async function addItineraire(livraisons: Object, livreur: Object, status : String) {
     try {
         const response = await fetch(`${BASE_URL}/itineraires/`, {

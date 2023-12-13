@@ -13,10 +13,37 @@ const getStatusColorClass = (status) => {
             return 'text-sm text-gray-400 font-bold';
     }
 };
-function ItineraireCard({ itineraire }) {
+
+// @ts-ignore
+function ItineraireCard({ itineraire   }) {
+    const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
+    const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     function handleModifierClick() {
-        window.location.href=`/itineraires/${itineraire.id}`
+        if(isAdmin){
+            window.location.href=`/itineraires/${itineraire.id}`
+        }else{
+            window.location.href=`/itineraires/route/${itineraire.id}`
+        }
     }
+
+    const renderAdminActions = (id :string) => {
+        if (isAdmin && itineraire?.status !== 'Livré') {
+            return (
+                <Button type='submit' onClick={handleModifierClick}>
+                    Modifier
+                </Button>
+            );
+        }
+        return (
+            <button type='submit' onClick={handleModifierClick} >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" className="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </button>
+        );
+    };
 
     return (
         <div className='flex items-center mb-4'>
@@ -37,14 +64,6 @@ function ItineraireCard({ itineraire }) {
                 </p>
                 <p>---------------------------------</p>
             </div>
-
-            {itineraire?.status !== 'Livré' && (
-                <div className='flex items-center justify-between flex-grow'>
-                    <Button type='submit' onClick={handleModifierClick}>
-                        Modifier
-                    </Button>
-                </div>
-            )}
         </div>
     );
 }
