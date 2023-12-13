@@ -402,11 +402,10 @@ export async function getCommandeById(id: string) {
         throw new Error(`Erreur lors de la récupération de la commande avec l'identifiant ${id}.`);
     }
 }
-        
 
-export async function deleteCommande(clientId: string) {
+export async function deleteCommande(commandeId: string) {
     try {
-        const response = await fetch(`${BASE_URL}/commandes/client/${clientId}/`, {
+        const response = await fetch(`${BASE_URL}/commandes/${commandeId}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -452,7 +451,7 @@ export async function addLigneCommande(id_commande: string, articles: any) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formattedArticles), // Send the array directly
+            body: JSON.stringify(formattedArticles),
         });
 
         if (response.ok) {
@@ -473,12 +472,12 @@ export async function updateCommande(id: string, articles: any) {
         quantite: quantite,
     }));
     try {
-        const response = await fetch(`${BASE_URL}/commandes/${id}/`, {
+        const response = await fetch(`${BASE_URL}/commandes/${id}/articles/`, {
           method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-        body: JSON.stringify({formattedArticles}),
+        body: JSON.stringify({articles}),
         });
         if (!response.ok) {
             throw new Error('Erreur lors de la mise à jour de la commande');
@@ -523,5 +522,18 @@ export async function getCommandeByClientId(clientId: string) {
         return data;
     } catch (error) {
         throw new Error(`Erreur lors de la récupération de la commande du client avec l'identifiant ${clientId}`);
+    }
+}
+
+export async function getCommandeIdDuClientId(clientId: string) {
+    try {
+        const response = await fetch(`${BASE_URL}/commandes/commande-par-client/${clientId}/`);
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la récupération de l'id de la commande du client avec l'identifiant : ${clientId}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération de l'id de la commande du client avec l'identifiant du client : ${clientId}`);
     }
 }

@@ -1,9 +1,17 @@
 'use client';
 import {Form, Image, Input, message, Popconfirm} from "antd";
 import {Button} from "@/app/ui/button";
-import {addCommande, addLigneCommande, deleteCommande, getCommandeByClientId, updateCommande} from "@/lib/api";
+import {
+    addCommande,
+    addLigneCommande,
+    deleteCommande,
+    getCommandeByClientId,
+    getCommandeIdDuClientId,
+    updateCommande
+} from "@/lib/api";
 import Link from "next/link";
 import {useEffect, useState} from "react";
+import {wait} from "next/dist/lib/wait";
 
 function AjoutCommande() {
     const [form] = Form.useForm();
@@ -18,9 +26,12 @@ function AjoutCommande() {
         const id = parts[parts.length - 1];
         setClientId(id);
         const fetchCommandeDetails = async () => {
+            getCommandeIdDuClientId(clientId)
+                .then((result) => {
+                    setCommandeId(result[0]);
+                });
             getCommandeByClientId(clientId)
                 .then((commandeDetails) => {
-                    console.log("Commande details:", commandeDetails); // Vérifier les détails de la commande
                     if (commandeDetails) {
                         form.setFieldsValue({
                             champ1: commandeDetails.find(item => item.article === 1)?.quantite || 0,
@@ -33,7 +44,6 @@ function AjoutCommande() {
                 })
                 .catch((error) => {
                     console.error("Erreur lors de la récupération des détails de la commande:", error);
-                    message.error("Erreur lors de la récupération des détails de la commande");
                 });
         };
         if (clientId) fetchCommandeDetails();
@@ -41,36 +51,35 @@ function AjoutCommande() {
 
     const handleDelete = async () => {
         try {
-            await deleteCommande(clientId);
+            await deleteCommande(commandeId);
             message.success("Commande supprimé avec succès");
         } catch (error) {
-            message.error("Erreur lors de la suppression de la commande");
+            console.error("Erreur lors de la suppression de la commande");
         }
     };
 
     const handleUpdate = async () => {
         try {
-            const id_commande = await getCommandeIdBuClientId(clientId); //TODO
             const values = await form.validateFields();
             const articles = [
-                { article: 1, quantite: values.champ1 || 0 },
-                { article: 2, quantite: values.champ2 || 0 },
-                { article: 3, quantite: values.champ3 || 0 },
-                { article: 4, quantite: values.champ4 || 0 },
-                { article: 5, quantite: values.champ5 || 0 },
+                {article: 1, quantite: values.champ1 || 0},
+                {article: 2, quantite: values.champ2 || 0},
+                {article: 3, quantite: values.champ3 || 0},
+                {article: 4, quantite: values.champ4 || 0},
+                {article: 5, quantite: values.champ5 || 0},
             ];
-            await updateCommande(id_commande, articles);
+            await updateCommande(commandeId, articles);
             message.success("Commande mise à jour avec succès");
+            wait(1000);
+            window.location.reload();
         } catch (error) {
             console.error("Erreur lors de la mise à jour de la commande:", error);
-            message.error("Erreur lors de la mise à jour de la commande");
         }
     }
 
     const handleSubmit = async () => {
         try {
-            const data = await addCommande(clientId);
-            const id_commande = data.id_commande;
+            await addCommande(clientId);
             const values = await form.validateFields();
             const articles = [
                 {
@@ -94,10 +103,10 @@ function AjoutCommande() {
                     quantite: values.champ5 || 0,
                 },
             ];
-            await addLigneCommande(id_commande, articles);
+            await addLigneCommande(commandeId, articles);
             message.success("Commande ajoutée");
         } catch (error) {
-            message.error("Erreur lors de l'ajout de la commande");
+            console.error("Erreur lors de l'ajout de la commande");
         }
     };
 
