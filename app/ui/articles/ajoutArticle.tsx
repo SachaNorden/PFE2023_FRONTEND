@@ -12,7 +12,7 @@ function AjoutArticle() {
             await addArticle(values.nom);
             message.success("Article ajouté");
         } catch (error) {
-            message.error("Erreur lors de l'ajout de l'article");
+            console.error("Erreur lors de l'ajout de l'article");
         }
     };
 

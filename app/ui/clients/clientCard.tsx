@@ -12,7 +12,7 @@ function ClientCard({ client, onDelete }) {
             message.success("Client supprimé avec succès");
             onDelete();
         } catch (error) {
-            message.error("Erreur lors de la suppression du client");
+            console.error("Erreur lors de la suppression du client");
         }
     };
 

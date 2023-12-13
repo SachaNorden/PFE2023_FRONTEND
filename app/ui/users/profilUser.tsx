@@ -11,7 +11,7 @@ function ProfilUser({user}) {
             await updateUser(user.id, values.username, values.password);
             message.success("Profil mis à jour avec succès");
         } catch (error) {
-            message.error("Erreur lors de la mise à jour du profil");
+            console.error("Erreur lors de la mise à jour du profil");
         }
     };
 

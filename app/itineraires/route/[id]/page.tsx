@@ -31,7 +31,7 @@ export default function Route() {
                 });
                 setArticlesTotals(totals);
             } catch (error) {
-                message.error(error.message);
+                console.error(error.message);
             }
         };
         fetchItineraireData();

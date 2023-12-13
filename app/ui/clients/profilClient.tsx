@@ -15,7 +15,7 @@ function ProfilClient({client}) {
             await wait(1000);
             window.location.href = '/clients/';
         } catch (error) {
-            message.error("Erreur lors de la mise à jour du profil");
+            console.error("Erreur lors de la mise à jour du profil");
         }
     };
     useEffect(() => {

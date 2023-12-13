@@ -12,7 +12,7 @@ function AjoutClient() {
             await addClient(values.nom, values.adresse_complete);
             message.success("Client ajouté");
         } catch (error) {
-            message.error("Erreur lors de l'ajout du client");
+            console.error("Erreur lors de l'ajout du client");
         }
     };
 

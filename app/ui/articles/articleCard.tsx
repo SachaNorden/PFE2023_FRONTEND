@@ -9,7 +9,7 @@ function ArticleCard({ client: article, onDelete }) {
             message.success("Article supprimé avec succès");
             onDelete();
         } catch (error) {
-            message.error("Erreur lors de la suppression de l'article");
+            console.error("Erreur lors de la suppression de l'article");
         }
     };
 

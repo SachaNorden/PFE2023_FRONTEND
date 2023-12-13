@@ -19,7 +19,7 @@ export default function Livraison() {
                 const data = await getArticlesByLivraisonsId(livraisonId);
                 setArticles(data);
             } catch (error) {
-                message.error(error.message);
+                console.error(error.message);
             }
         };
         fetchData();
@@ -37,7 +37,7 @@ export default function Livraison() {
                 const data = await getLivraisonById(livraisonId);
                 setLivraison(data);
             } catch (error) {
-                message.error(error.message);
+                console.error(error.message);
             }
         };
         fetchData();
