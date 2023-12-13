@@ -14,43 +14,45 @@ import {useEffect, useState} from "react";
 import {wait} from "next/dist/lib/wait";
 
 function AjoutCommande() {
-    const [form] = Form.useForm();
-    const [clientId, setClientId] = useState();
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
+
+    const [form] = Form.useForm();
     const [commandeId, setCommandeId] = useState();
     const [isExisting, setIsExisting] = useState(false);
 
     useEffect(() => {
-        const currentUrl = window.location.href;
-        const parts = currentUrl.split('/');
-        const id = parts[parts.length - 1];
-        setClientId(id);
         const fetchCommandeDetails = async () => {
-            getCommandeIdDuClientId(clientId)
-                .then((result) => {
+            try {
+                const clientId = window.location.href.split('/').pop();
+                const result = await getCommandeIdDuClientId(clientId);
+                if (result[0] !== undefined) {
                     setCommandeId(result[0]);
-                });
-            getCommandeByClientId(clientId)
-                .then((commandeDetails) => {
-                    if (commandeDetails) {
-                        form.setFieldsValue({
-                            champ1: commandeDetails.find(item => item.article === 1)?.quantite || 0,
-                            champ2: commandeDetails.find(item => item.article === 2)?.quantite || 0,
-                            champ3: commandeDetails.find(item => item.article === 3)?.quantite || 0,
-                            champ4: commandeDetails.find(item => item.article === 4)?.quantite || 0,
-                            champ5: commandeDetails.find(item => item.article === 5)?.quantite || 0,
-                        });
-                        const sum = commandeDetails.reduce((total, item) => total + item.quantite, 0);
-                        setIsExisting(sum != 0);
-                    }
-                })
-                .catch((error) => {
-                    console.error("Erreur lors de la récupération des détails de la commande:", error);
-                });
+                    console.log("commandeId <= result[0] !== undefined", commandeId);
+                } else {
+                    const idComm = await addCommande(clientId);
+                    setCommandeId(idComm);
+                    console.log("commandeId <= result[0] === undefined", commandeId);
+                }
+                const commandeDetails = await getCommandeByClientId(clientId);
+                if (commandeDetails) {
+                    form.setFieldsValue({
+                        champ1: commandeDetails.find(item => item.article === 1)?.quantite || 0,
+                        champ2: commandeDetails.find(item => item.article === 2)?.quantite || 0,
+                        champ3: commandeDetails.find(item => item.article === 3)?.quantite || 0,
+                        champ4: commandeDetails.find(item => item.article === 4)?.quantite || 0,
+                        champ5: commandeDetails.find(item => item.article === 5)?.quantite || 0,
+                    });
+                    const sum = commandeDetails.reduce((total, item) => total + item.quantite, 0);
+                    setIsExisting(sum !== 0);
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération des détails de la commande:", error);
+            }
         };
-        if (clientId) fetchCommandeDetails();
-    }, [clientId]);
+
+        fetchCommandeDetails();
+    }, [isExisting]);
 
     const handleDelete = async () => {
         try {
@@ -82,7 +84,6 @@ function AjoutCommande() {
 
     const handleSubmit = async () => {
         try {
-            await addCommande(clientId);
             const values = await form.validateFields();
             const articles = [
                 {
@@ -179,19 +180,15 @@ function AjoutCommande() {
                         <Link href={`/clients/`}>
                             <Button>Retour</Button>
                         </Link>
-                        {isExisting ? (
-                            <>
-                                <Popconfirm
-                                    title="Êtes-vous sûr de vouloir supprimer cette commande ?"
-                                    onConfirm={handleDelete}
-                                    okText="Oui"
-                                    cancelText="Non"
-                                >
-                                    <Button
-                                        style={{background: 'red', borderColor: 'grey', color: 'white'}}>Supprimer</Button>
-                                </Popconfirm>
-                            </>
-                        ):<></>}
+                        <Popconfirm
+                            title="Êtes-vous sûr de vouloir supprimer cette commande ?"
+                            onConfirm={handleDelete}
+                            okText="Oui"
+                            cancelText="Non"
+                        >
+                            <Button
+                                style={{background: 'red', borderColor: 'grey', color: 'white'}}>Supprimer</Button>
+                        </Popconfirm>
                         <Button type='primary' onClick={handleUpdate}>Modifier</Button>
                     </div>
                 </Form>
