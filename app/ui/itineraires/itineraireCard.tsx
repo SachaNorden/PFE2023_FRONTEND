@@ -26,7 +26,7 @@ function ItineraireCard({ itineraire   }) {
         }
     }
 
-    const renderAdminActions = (id :string) => {
+    const renderAdminActions = () => {
         if (isAdmin && itineraire?.status !== 'Livré') {
             return (
                 <Button type='submit' onClick={handleModifierClick}>
@@ -59,8 +59,11 @@ function ItineraireCard({ itineraire   }) {
                     {itineraire.commandes.map((commande, index) => (
                         <div key={index} className='flex items-center justify-between flex-grow'>
                             <p>{commande.client.nom}</p>
+
                         </div>
+
                     ))}
+                    {renderAdminActions()}
                 </p>
                 <p>---------------------------------</p>
             </div>
