@@ -14,7 +14,7 @@ function AjoutItineraire() {
             await addItineraire(values.commandes, values.users, values.status);
             message.success("Iitneraire ajouté");
         } catch (error) {
-            message.error("Erreur lors de l'ajout de l'itinéraire");
+            console.error("Erreur lors de l'ajout de l'itinéraire");
         }
     };
 

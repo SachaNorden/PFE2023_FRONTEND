@@ -17,7 +17,7 @@ function ArticleLivraison({articles, livraison}) {
             await wait(1000);
             window.location.href = '/itineraires/';
         } catch (error) {
-            message.error("Erreur lors de la mise à jour de la livraison");
+            console.error("Erreur lors de la mise à jour de la livraison");
         }
     };
     useEffect(() => {

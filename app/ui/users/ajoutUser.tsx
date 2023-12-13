@@ -12,7 +12,7 @@ function AjoutUser() {
             await addUser(values.username, values.password);
             message.success("Livreur ajouté");
         } catch (error) {
-            message.error("Erreur lors de l'ajout du livreur");
+            console.error("Erreur lors de l'ajout du livreur");
         }
     };
 

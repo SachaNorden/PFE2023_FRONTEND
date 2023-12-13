@@ -20,7 +20,7 @@ function Clients() {
                 const data = await fetchClients();
                 setClients(data);
             } catch (error) {
-                message.error(error.message);
+                console.error(error.message);
             }
         };
         fetchData();

@@ -28,7 +28,7 @@ export default function LivraisonDetail() {
                 );
                 setMatchedLivraisons(matched);
             } catch (error) {
-                message.error(error.message);
+                console.error(error.message);
             }
         };
 

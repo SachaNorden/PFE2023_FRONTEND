@@ -28,11 +28,9 @@ function AjoutCommande() {
                 const result = await getCommandeIdDuClientId(clientId);
                 if (result[0] !== undefined) {
                     setCommandeId(result[0]);
-                    console.log("commandeId <= result[0] !== undefined", commandeId);
                 } else {
                     const idComm = await addCommande(clientId);
                     setCommandeId(idComm);
-                    console.log("commandeId <= result[0] === undefined", commandeId);
                 }
                 const commandeDetails = await getCommandeByClientId(clientId);
                 if (commandeDetails) {

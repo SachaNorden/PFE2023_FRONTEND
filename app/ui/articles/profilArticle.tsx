@@ -15,7 +15,7 @@ function ProfilArticle({article}) {
             await wait(1000);
             window.location.href = '/articles/';
         } catch (error) {
-            message.error("Erreur lors de la mise à jour de l'article");
+            console.error("Erreur lors de la mise à jour de l'article");
         }
     };
     useEffect(() => {
