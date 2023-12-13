@@ -35,7 +35,9 @@ function ClientCard({ client, onDelete }) {
                 okText="Oui"
                 cancelText="Non"
             >
-                <Button style={{ marginLeft: 250 }}>Supprimer</Button>
+                <Button style={{ background: 'red', borderColor: 'grey', color: 'white' }}>
+                    Supprimer
+                </Button>
             </Popconfirm>
         </Card>
     );

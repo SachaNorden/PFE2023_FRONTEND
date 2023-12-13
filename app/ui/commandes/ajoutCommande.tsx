@@ -1,36 +1,88 @@
 'use client';
 import {Form, Image, Input, message, Popconfirm} from "antd";
 import {Button} from "@/app/ui/button";
-import {addCommande, addLigneCommande, deleteCommande} from "@/lib/api";
+import {
+    addCommande,
+    addLigneCommande,
+    deleteCommande,
+    getCommandeByClientId,
+    getCommandeIdDuClientId,
+    updateCommande
+} from "@/lib/api";
 import Link from "next/link";
 import {useEffect, useState} from "react";
+import {wait} from "next/dist/lib/wait";
 
 function AjoutCommande() {
     const [form] = Form.useForm();
     const [clientId, setClientId] = useState();
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
+    const [commandeId, setCommandeId] = useState();
+    const [isExisting, setIsExisting] = useState(false);
 
     useEffect(() => {
         const currentUrl = window.location.href;
         const parts = currentUrl.split('/');
         const id = parts[parts.length - 1];
         setClientId(id);
-    }, []);
+        const fetchCommandeDetails = async () => {
+            getCommandeIdDuClientId(clientId)
+                .then((result) => {
+                    setCommandeId(result[0]);
+                });
+            getCommandeByClientId(clientId)
+                .then((commandeDetails) => {
+                    if (commandeDetails) {
+                        form.setFieldsValue({
+                            champ1: commandeDetails.find(item => item.article === 1)?.quantite || 0,
+                            champ2: commandeDetails.find(item => item.article === 2)?.quantite || 0,
+                            champ3: commandeDetails.find(item => item.article === 3)?.quantite || 0,
+                            champ4: commandeDetails.find(item => item.article === 4)?.quantite || 0,
+                            champ5: commandeDetails.find(item => item.article === 5)?.quantite || 0,
+                        });
+                        const sum = commandeDetails.reduce((total, item) => total + item.quantite, 0);
+                        setIsExisting(sum != 0);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erreur lors de la récupération des détails de la commande:", error);
+                });
+        };
+        if (clientId) fetchCommandeDetails();
+    }, [clientId]);
 
     const handleDelete = async () => {
         try {
-            await deleteCommande(clientId);
+            await deleteCommande(commandeId);
             message.success("Commande supprimé avec succès");
         } catch (error) {
-            message.error("Erreur lors de la suppression de la commande");
+            console.error("Erreur lors de la suppression de la commande");
         }
     };
 
+    const handleUpdate = async () => {
+        try {
+            const values = await form.validateFields();
+            const articles = [
+                {article: 1, quantite: values.champ1 || 0},
+                {article: 2, quantite: values.champ2 || 0},
+                {article: 3, quantite: values.champ3 || 0},
+                {article: 4, quantite: values.champ4 || 0},
+                {article: 5, quantite: values.champ5 || 0},
+            ];
+            await updateCommande(commandeId, articles);
+            message.success("Commande mise à jour avec succès");
+            wait(1000);
+            window.location.reload();
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de la commande:", error);
+        }
+    }
+
     const handleSubmit = async () => {
         try {
-            const data = await addCommande(clientId);
-            const id_commande = data.id_commande;
+            await addCommande(clientId);
             const values = await form.validateFields();
             const articles = [
                 {
@@ -54,10 +106,10 @@ function AjoutCommande() {
                     quantite: values.champ5 || 0,
                 },
             ];
-            await addLigneCommande(id_commande, articles);
+            await addLigneCommande(commandeId, articles);
             message.success("Commande ajoutée");
         } catch (error) {
-            message.error("Erreur lors de l'ajout de la commande");
+            console.error("Erreur lors de l'ajout de la commande");
         }
     };
 
@@ -126,15 +178,21 @@ function AjoutCommande() {
                     <div className='flex items-center justify-between'>
                         <Link href={`/clients/`}>
                             <Button>Retour</Button>
-                        </Link><Popconfirm
-                        title="Êtes-vous sûr de vouloir supprimer cette commande ?"
-                        onConfirm={handleDelete}
-                        okText="Oui"
-                        cancelText="Non"
-                    >
-                        <Button style={{marginLeft: 250}}>Supprimer</Button>
-                    </Popconfirm>
-                        <Button type='submit'>Enregistrer</Button>
+                        </Link>
+                        {isExisting ? (
+                            <>
+                                <Popconfirm
+                                    title="Êtes-vous sûr de vouloir supprimer cette commande ?"
+                                    onConfirm={handleDelete}
+                                    okText="Oui"
+                                    cancelText="Non"
+                                >
+                                    <Button
+                                        style={{background: 'red', borderColor: 'grey', color: 'white'}}>Supprimer</Button>
+                                </Popconfirm>
+                            </>
+                        ):<></>}
+                        <Button type='primary' onClick={handleUpdate}>Modifier</Button>
                     </div>
                 </Form>
             ) : (
