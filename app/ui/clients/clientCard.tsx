@@ -26,7 +26,7 @@ function ClientCard({ client, onDelete }) {
             </Link>
             <Link href={`/commandes/ajouterCommande/${client.id}`}>
                 <Button>
-                    Ajouter commande
+                    Commande
                 </Button>
             </Link>
             <Popconfirm

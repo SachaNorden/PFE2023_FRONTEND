@@ -381,34 +381,55 @@ export async function getCommandeById(id: string) {
     }
 }
 
-export async function deleteCommande(id: string) {
+export async function deleteCommande(clientId: string) {
     try {
-        const response = await fetch(`${BASE_URL}/commandes/${id}/`, {
+        const response = await fetch(`${BASE_URL}/commandes/${clientId}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
         if (!response.ok) {
-            throw new Error(`Erreur lors de la suppression de la commande avec l'identifiant ${id}`);
+            throw new Error(`Erreur lors de la suppression de la commande`);
         }
     } catch (error) {
-        throw new Error(`Erreur lors de la suppression de la commande avec l'identifiant ${id}`);
+        throw new Error(`Erreur lors de la suppression de la commande`);
     }
 }
 
-export async function addCommande(client: Object, date_commande: string) {
-    //TODO
-    console.log(client);
+export async function addCommande(clientId: string) {
     try {
         const response = await fetch(`${BASE_URL}/commandes/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({client, date_commande}),
+            body: JSON.stringify({client: clientId}),
         });
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Erreur lors de l\'ajout de la commande');
+        }
+    } catch (error) {
+        throw new Error('Erreur lors de l\'ajout de la commande');
+    }
+}
 
+export async function addLigneCommande(id_commande: string, articles: any) {
+    try {
+        const formattedArticles = articles.map(({article, quantite}) => ({
+            article: article,
+            quantite: quantite,
+        }));
+        const response = await fetch(`${BASE_URL}/commandes/${id_commande}/articles/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({articles: formattedArticles}),
+        });
         if (response.ok) {
             const data = await response.json();
             return data;

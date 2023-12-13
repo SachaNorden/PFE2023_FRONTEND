@@ -2,7 +2,6 @@
 import {Image, message} from "antd";
 import {fetchCommandes} from "@/lib/api";
 import {useEffect, useState} from "react";
-import AddButton from "@/app/ui/addButton";
 import LogOutButton from "@/app/ui/logOutButton";
 import ListeCommandes from "@/app/ui/commandes/listeCommandes";
 
@@ -39,7 +38,6 @@ function Commandes() {
             )}
             <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
             <ListeCommandes commandes={commandes} onDelete={handleDelete()}/>
-            <AddButton link="/commandes/ajouterCommande"/>
             <LogOutButton/>
         </div>
     );
