@@ -1,5 +1,7 @@
 'use client';
 import {Button, Card, Form, message, Popconfirm} from 'antd';
+import {useEffect, useState} from "react";
+import {fetchLivraisonArticle, getClientById, getLivraisonById} from "@/lib/api";
 
 const getStatusColorClass = (status) => {
     switch (status) {
@@ -18,6 +20,27 @@ const getStatusColorClass = (status) => {
 function ItineraireCard({ itineraire   }) {
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
+    const [clientsDetails, setClientsDetails] = useState({});
+    useEffect(() => {
+        const fetchClientsDetails = async () => {
+            const clientsPromises = itineraire.commandes.map(async (commande) => {
+                const clientDetail = await getClientById(commande.client);
+                console.log("client", clientDetail);
+                return { [commande.client.nom]: clientDetail };
+            });
+            try {
+                const clientsDetailsArray = await Promise.all(clientsPromises);
+                // Fusionner tous les objets de détails des clients dans un seul objet.
+                const clientsDetailsObj = Object.assign({}, ...clientsDetailsArray);
+                setClientsDetails(clientsDetailsObj);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des détails des clients:", error);
+            }
+        };
+
+        fetchClientsDetails();
+    }, [itineraire]);
+
     function handleModifierClick() {
         if(isAdmin){
             window.location.href=`/itineraires/${itineraire.id}`
@@ -58,7 +81,7 @@ function ItineraireCard({ itineraire   }) {
                 <p className="text-sm text-gray-400">
                     {itineraire.commandes.map((commande, index) => (
                         <div key={index} className='flex items-center justify-between flex-grow'>
-                            <p>{commande.client.nom}</p>
+                            <p>{clientsDetails[commande.client.nom]?.nom ?? 'Chargement...'}</p>
                         </div>
                     ))}
                 </p>

@@ -21,7 +21,7 @@ export default function ArticleLivraison() {
                 try {
                     const data = await fetchLivraisonArticle(livraisonId);
                     setArticles(data); // Assurez-vous que 'data' est un tableau d'objets article
-                    getLivraisonById(livraisonId);
+                    // getLivraisonById(livraisonId);
 
                 } catch (error) {
                     console.error("Erreur lors de la récupération des détails de la livraison:", error);
@@ -41,17 +41,20 @@ export default function ArticleLivraison() {
     };
 
     const handleSubmit = async () => {
+        console.log(articles);
            try {
             const currentLivraison = await getLivraisonById(livraisonId);
-            console.log('currentLivraison à soumettre:', currentLivraison);
+            //console.log('currentLivraison à soumettre:', currentLivraison);
 
-            const updatedLivraison = {
-                ...currentLivraison,
-                status: "Livrée" // Mettez à jour le statut comme nécessaire
-            };
+               const clientData = {
+                   id: currentLivraison.client.id,
+                   nom: currentLivraison.client.nom,
+                   adresse_complete: currentLivraison.client.adresse_complete,
+                   // ... autres propriétés du client si nécessaires
+               };
             await updateLivraison(
                 livraisonId,
-                currentLivraison.client,
+                currentLivraison.client.id,
                 currentLivraison.date_livraison,
                 "Livrée",
                 currentLivraison.isModified

@@ -388,7 +388,7 @@ export async function getArticlesByLivraisonsId(id: string) {
     }
 }
 
-export async function updateLivraison(id: string, client: Object, date_livraison: string, status: string, isModified: boolean) {
+export async function updateLivraison(id: string, client: string, date_livraison: string, status: string, isModified: boolean) {
     try {
         const response = await fetch(`${BASE_URL}/livraisons/${id}/`, {
             method: 'PUT',

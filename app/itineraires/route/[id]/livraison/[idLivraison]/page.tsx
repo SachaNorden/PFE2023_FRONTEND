@@ -34,6 +34,8 @@ export default function ArticleLivraison() {
     console.log(detailsLivraison);
     return (
         <div>
+            <div className="flex justify-center items-center min-h-screen">
+                <div className="w-full max-w-xs">
             <FormComponent>
                 {detailsLivraison && detailsLivraison.length > 0 ? ( // Vérifiez que 'detailsLivraison' est un tableau et qu'il contient des éléments
                     <div>
@@ -52,6 +54,8 @@ export default function ArticleLivraison() {
                     <p>Chargement des détails de la livraison...</p>
                 )}
             </FormComponent>
+                </div>
+            </div>
         </div>
     );
 }
