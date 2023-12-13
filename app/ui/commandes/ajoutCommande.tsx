@@ -190,11 +190,9 @@ function AjoutCommande() {
                                     <Button
                                         style={{background: 'red', borderColor: 'grey', color: 'white'}}>Supprimer</Button>
                                 </Popconfirm>
-                                <Button type='primary' onClick={handleUpdate}>Modifier</Button>
                             </>
-                        ) : (
-                            <Button type='submit'>Enregistrer</Button>
-                        )}
+                        ):<></>}
+                        <Button type='primary' onClick={handleUpdate}>Modifier</Button>
                     </div>
                 </Form>
             ) : (

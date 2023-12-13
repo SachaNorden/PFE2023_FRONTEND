@@ -441,6 +441,7 @@ export async function addCommande(clientId: string) {
 
 export async function addLigneCommande(id_commande: string, articles: any) {
     try {
+        // @ts-ignore
         const formattedArticles = articles.map(({ article, quantite }) => ({
             article: article,
             quantite: quantite,
@@ -466,11 +467,6 @@ export async function addLigneCommande(id_commande: string, articles: any) {
 }
         
 export async function updateCommande(id: string, articles: any) {
-    //TODO
-    const formattedArticles = articles.map(({ article, quantite }) => ({
-        article: article,
-        quantite: quantite,
-    }));
     try {
         const response = await fetch(`${BASE_URL}/commandes/${id}/articles/`, {
           method: 'PUT',

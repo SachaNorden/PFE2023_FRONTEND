@@ -26,7 +26,6 @@ export default function LoginPage() {
             } else {
                 window.location.href = '/itineraires/';
             }
-
         } catch (error) {
             message.error(error);
         } finally {
