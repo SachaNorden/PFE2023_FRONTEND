@@ -509,3 +509,16 @@ export async function updateLivraison(id: string, client: Object, date_livraison
     }
 }
 
+export async function getCommandeByClientId(clientId: string) {
+    const id_commande = 0; //TODO : trouver l'id de la commande depuis l'id du client
+    try {
+        const response = await fetch(`${BASE_URL}/commandes/${id_commande}/articles/`);
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la récupération de la commande du client avec l'identifiant ${clientId}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération de la commande du client avec l'identifiant ${clientId}`);
+    }
+}

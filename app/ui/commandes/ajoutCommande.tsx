@@ -1,7 +1,7 @@
 'use client';
 import {Form, Image, Input, message, Popconfirm} from "antd";
 import {Button} from "@/app/ui/button";
-import {addCommande, addLigneCommande, deleteCommande} from "@/lib/api";
+import {addCommande, addLigneCommande, deleteCommande, getCommandeByClientId} from "@/lib/api";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 
@@ -16,7 +16,26 @@ function AjoutCommande() {
         const parts = currentUrl.split('/');
         const id = parts[parts.length - 1];
         setClientId(id);
-    }, []);
+        const fetchCommandeDetails = async () => {
+            try {
+                const commandeDetails = await getCommandeByClientId(clientId);
+                if (commandeDetails) {
+                    // Mettez à jour le formulaire avec les détails de la commande existante
+                    form.setFieldsValue({
+                        champ1: commandeDetails.articles.find(article => article.article === 1)?.quantite || 0,
+                        champ2: commandeDetails.articles.find(article => article.article === 2)?.quantite || 0,
+                        champ3: commandeDetails.articles.find(article => article.article === 3)?.quantite || 0,
+                        champ4: commandeDetails.articles.find(article => article.article === 4)?.quantite || 0,
+                        champ5: commandeDetails.articles.find(article => article.article === 5)?.quantite || 0,
+                    });
+                }
+            } catch (error) {
+                message.error("Erreur lors de la récupération des détails de la commande");
+            }
+        };
+
+        fetchCommandeDetails();
+    }, [clientId]);
 
     const handleDelete = async () => {
         try {
