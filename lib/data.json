@@ -1,0 +1,84 @@
+[
+  {
+    "id": 1,
+    "commandes": [
+      {
+        "id": 1,
+        "client": {
+          "id": 4,
+          "nom": "Client4",
+          "adresse_complete": "Adresse4"
+        },
+        "date_commande": "2023-12-02T22:35:22.729174",
+        "status": "En préparation"
+      },
+      {
+        "id": 15,
+        "client": {
+          "id": 5,
+          "nom": "Client5",
+          "adresse_complete": "Adresse5"
+        },
+        "date_commande": "2023-12-07T22:35:22.729179",
+        "status": "En préparation"
+      }
+    ],
+    "livreur": {
+      "id": 5,
+      "username": "Livreur1",
+      "isAdmin": false
+    },
+    "status": "En attente"
+  },
+  {
+    "id": 2,
+    "commandes": [
+      {
+        "id": 13,
+        "client": {
+          "id": 10,
+          "nom": "Client10",
+          "adresse_complete": "Adresse10"
+        },
+        "date_commande": "2023-12-03T22:35:22.729169",
+        "status": "Livré"
+      },
+      {
+        "id": 11,
+        "client": {
+          "id": 9,
+          "nom": "Client9",
+          "adresse_complete": "Adresse9"
+        },
+        "date_commande": "2023-12-07T22:35:22.729158",
+        "status": "En préparation"
+      },
+      {
+        "id": 6,
+        "client": {
+          "id": 4,
+          "nom": "Client4",
+          "adresse_complete": "Adresse4"
+        },
+        "date_commande": "2023-12-05T22:35:22.729131",
+        "status": "Livré"
+      },
+      {
+        "id": 7,
+        "client": {
+          "id": 6,
+          "nom": "Client6",
+          "adresse_complete": "Adresse6"
+        },
+        "date_commande": "2023-12-02T22:35:22.729136",
+        "status": "En préparation"
+      }
+    ],
+    "livreur": {
+      "id": 2,
+      "username": "Livreur2",
+      "isAdmin": true
+    },
+    "status": "En attente"
+  }
+]

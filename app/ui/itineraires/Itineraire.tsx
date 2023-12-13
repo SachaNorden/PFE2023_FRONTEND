@@ -19,12 +19,13 @@ function Itineraire({itine}) {
     return (
 
         <div className='fmb-4'>
+
             <p className="text-base"><b className="text-xl">Itinéraire {itine.id}</b> <span
+
                 className="text-2xl text-green-300 font-bold">{itine.status}</span></p>
 
-            {/* Vérification de la nullité de itine.livreur */}
             {itine.livreur && (
-                <p className="text-base">{itine.livreur.username}</p>
+            <p className="text-base">{itine.livreur.username}</p>
             )}
             <br/>
 

@@ -7,6 +7,8 @@ import { fetchItineraires} from "@/lib/api";
 import MenuDer from '@/app/ui/menu/menuAdmin'
 import AddButton from "@/app/ui/addButton";
 
+import Itineraire from "@/app/ui/itineraires/Itineraire";
+
 
 
 function Itineraires() {
@@ -14,6 +16,8 @@ function Itineraires() {
     const [itineraires, setItineraires] = useState([]);
 
 
+    const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
+    const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     const handleDelete = async () => {
         //const updatedClients = await fetchClients();
         //setClients(updatedClients);
@@ -28,7 +32,7 @@ function Itineraires() {
             }
         };
         fetchData();
-    }, );
+    },[] );
 
     // @ts-ignore
     return (
@@ -42,7 +46,9 @@ function Itineraires() {
             <FormComponent>
                 <ListItineraires itineraires={itineraires}></ListItineraires>
                 {/* eslint-disable-next-line jsx-a11y/alt-text */}
+                {isAdmin &&(
                 <AddButton link="/itineraires/creation" />
+                )}
             </FormComponent>
 
         </div>

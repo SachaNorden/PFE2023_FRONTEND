@@ -20,6 +20,11 @@ export default authMiddleware({
         "/itineraires/:id",
         "/itineraires/route",
         "/itineraires/creation",
+        "/livraisons/:id/articles",
+        "/itineraires/route/:id",
+        "/itineraires/route/:id/livraison",
+        "/itineraires/route/:id/livraison/:idLivraison"
+
     ]
 
 });
