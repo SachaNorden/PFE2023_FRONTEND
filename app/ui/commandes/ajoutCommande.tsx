@@ -19,6 +19,7 @@ function AjoutCommande() {
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     const [commandeId, setCommandeId] = useState();
+    const [isExisting, setIsExisting] = useState(false);
 
     useEffect(() => {
         const currentUrl = window.location.href;
@@ -40,6 +41,8 @@ function AjoutCommande() {
                             champ4: commandeDetails.find(item => item.article === 4)?.quantite || 0,
                             champ5: commandeDetails.find(item => item.article === 5)?.quantite || 0,
                         });
+                        const sum = commandeDetails.reduce((total, item) => total + item.quantite, 0);
+                        setIsExisting(sum != 0);
                     }
                 })
                 .catch((error) => {
@@ -176,16 +179,22 @@ function AjoutCommande() {
                         <Link href={`/clients/`}>
                             <Button>Retour</Button>
                         </Link>
-                        <Popconfirm
-                            title="Êtes-vous sûr de vouloir supprimer cette commande ?"
-                            onConfirm={handleDelete}
-                            okText="Oui"
-                            cancelText="Non"
-                        >
-                            <Button style={{background: 'red', borderColor: 'grey', color: 'white'}}>Supprimer</Button>
-                        </Popconfirm>
-                        <Button type='primary' onClick={handleUpdate}>Modifier</Button>
-                        <Button type='submit'>Enregistrer</Button>
+                        {isExisting ? (
+                            <>
+                                <Popconfirm
+                                    title="Êtes-vous sûr de vouloir supprimer cette commande ?"
+                                    onConfirm={handleDelete}
+                                    okText="Oui"
+                                    cancelText="Non"
+                                >
+                                    <Button
+                                        style={{background: 'red', borderColor: 'grey', color: 'white'}}>Supprimer</Button>
+                                </Popconfirm>
+                                <Button type='primary' onClick={handleUpdate}>Modifier</Button>
+                            </>
+                        ) : (
+                            <Button type='submit'>Enregistrer</Button>
+                        )}
                     </div>
                 </Form>
             ) : (
