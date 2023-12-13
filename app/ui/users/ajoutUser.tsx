@@ -53,14 +53,14 @@ function AjoutUser() {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <Button type='submit'>
-                        Enregistrer
-                    </Button>
                     <Link href={`/users/`}>
                         <Button>
                             Retour
                         </Button>
                     </Link>
+                    <Button type='submit'>
+                        Enregistrer
+                    </Button>
                 </div>
             </Form>
         </div>

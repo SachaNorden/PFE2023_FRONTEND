@@ -33,6 +33,7 @@ function Articles() {
                 <div>
                     <ListeArticles articles={articles} onDelete={handleDelete()}/>
                     <AddButton link="/articles/ajouterArticle"/>
+                    <LogOutButton/>
                 </div>
             ) : (
                 <div>

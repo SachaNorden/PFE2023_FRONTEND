@@ -33,6 +33,7 @@ function Users() {
                 <div>
                     <ListeUsers users={users} onDelete={handleDelete()}/>
                     <AddButton link="/users/ajouterUser"/>
+                    <LogOutButton/>
                 </div>
             ) : (
                 <div>

@@ -2,6 +2,7 @@
 import {Form, Input, message} from "antd";
 import {Button} from "@/app/ui/button";
 import {updateUser} from "@/lib/api";
+import Link from "next/link";
 
 function ProfilUser({user}) {
     const [form] = Form.useForm();
@@ -53,6 +54,9 @@ function ProfilUser({user}) {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
+                    <Link href={`/users/`}>
+                        <Button>Retour</Button>
+                    </Link>
                     <Button type='submit'>
                         Enregistrer
                     </Button>

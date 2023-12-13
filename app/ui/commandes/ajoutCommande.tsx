@@ -4,7 +4,7 @@ import {Button} from "@/app/ui/button";
 import {
     addCommande,
     addLigneCommande,
-    deleteCommande,
+    deleteCommande, getClientById,
     getCommandeByClientId,
     getCommandeIdDuClientId,
     updateCommande
@@ -20,6 +20,7 @@ function AjoutCommande() {
     const [form] = Form.useForm();
     const [commandeId, setCommandeId] = useState();
     const [isExisting, setIsExisting] = useState(false);
+    const [client, setClient] = useState();
 
     useEffect(() => {
         const fetchCommandeDetails = async () => {
@@ -40,10 +41,13 @@ function AjoutCommande() {
                         champ3: commandeDetails.find(item => item.article === 3)?.quantite || 0,
                         champ4: commandeDetails.find(item => item.article === 4)?.quantite || 0,
                         champ5: commandeDetails.find(item => item.article === 5)?.quantite || 0,
+                        champ6: commandeDetails.find(item => item.article === 6)?.quantite || 0,
                     });
                     const sum = commandeDetails.reduce((total, item) => total + item.quantite, 0);
                     setIsExisting(sum !== 0);
                 }
+                const clientData = await getClientById(clientId);
+                setClient(clientData);
             } catch (error) {
                 console.error("Erreur lors de la récupération des détails de la commande:", error);
             }
@@ -72,6 +76,7 @@ function AjoutCommande() {
                 {article: 3, quantite: values.champ3 || 0},
                 {article: 4, quantite: values.champ4 || 0},
                 {article: 5, quantite: values.champ5 || 0},
+                {article: 6, quantite: values.champ6 || 0},
             ];
             await updateCommande(commandeId, articles);
             message.success("Commande mise à jour avec succès");
@@ -86,26 +91,12 @@ function AjoutCommande() {
         try {
             const values = await form.validateFields();
             const articles = [
-                {
-                    article: 1,
-                    quantite: values.champ1 || 0,
-                },
-                {
-                    article: 2,
-                    quantite: values.champ2 || 0,
-                },
-                {
-                    article: 3,
-                    quantite: values.champ3 || 0,
-                },
-                {
-                    article: 4,
-                    quantite: values.champ4 || 0,
-                },
-                {
-                    article: 5,
-                    quantite: values.champ5 || 0,
-                },
+                {article: 1, quantite: values.champ1 || 0,},
+                {article: 2, quantite: values.champ2 || 0,},
+                {article: 3, quantite: values.champ3 || 0,},
+                {article: 4, quantite: values.champ4 || 0,},
+                {article: 5, quantite: values.champ5 || 0,},
+                {article: 6, quantite: values.champ6 || 0,},
             ];
             await addLigneCommande(commandeId, articles);
             message.success("Commande ajoutée");
@@ -125,7 +116,9 @@ function AjoutCommande() {
                     autoComplete="off"
                     className='p-8 border-2 border-gray-300 rounded-lg shadow-xl bg-white relative z-20'
                 >
-                    <p className="text-4xl flex flex-col justify-center items-center">Commande</p>
+                    <p className="text-4xl flex flex-col justify-center items-center">
+                        Commande {client && client.nom ? `pour ${client.nom}` : ''}
+                    </p>
                     <div className='mb-6'>
                         <Form.Item
                             label="Langes S"
@@ -158,22 +151,32 @@ function AjoutCommande() {
                     </div>
                     <div className='mb-6'>
                         <Form.Item
-                            label="Sac-poubelles"
+                            label="Inserts"
                             name="champ4"
-                            rules={[{required: true, message: "Veuillez saisir la quantité pour Sac-poubelles"}]}
+                            rules={[{ required: true, message: "Veuillez saisir la quantité pour Inserts" }]}
                             required
                         >
-                            <Input/>
+                            <Input />
+                        </Form.Item>
+                    </div>
+                    <div className='mb-6'>
+                        <Form.Item
+                            label="Sac-poubelles"
+                            name="champ5"
+                            rules={[{ required: true, message: "Veuillez saisir la quantité pour Sac-poubelles" }]}
+                            required
+                        >
+                            <Input />
                         </Form.Item>
                     </div>
                     <div className='mb-6'>
                         <Form.Item
                             label="Gants de toilette"
-                            name="champ5"
-                            rules={[{required: true, message: "Veuillez saisir la quantité pour Gants de toilette"}]}
+                            name="champ6"
+                            rules={[{ required: true, message: "Veuillez saisir la quantité pour Gants de toilette" }]}
                             required
                         >
-                            <Input/>
+                            <Input />
                         </Form.Item>
                     </div>
                     <div className='flex items-center justify-between'>
