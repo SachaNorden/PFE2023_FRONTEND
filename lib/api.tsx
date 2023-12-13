@@ -467,10 +467,6 @@ export async function addLigneCommande(id_commande: string, articles: any) {
 }
         
 export async function updateCommande(id: string, articles: any) {
-    const formattedArticles = articles.map(({ article, quantite }) => ({
-        article: article,
-        quantite: quantite,
-    }));
     try {
         const response = await fetch(`${BASE_URL}/commandes/${id}/articles/`, {
           method: 'PUT',

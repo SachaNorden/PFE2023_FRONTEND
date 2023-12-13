@@ -58,6 +58,8 @@ function AjoutCommande() {
         try {
             await deleteCommande(commandeId);
             message.success("Commande supprimé avec succès");
+            wait(1000);
+            window.location.reload();
         } catch (error) {
             console.error("Erreur lors de la suppression de la commande");
         }
