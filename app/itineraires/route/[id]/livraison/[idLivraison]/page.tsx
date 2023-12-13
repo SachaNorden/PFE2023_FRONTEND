@@ -2,11 +2,12 @@
 import FormComponent from "@/app/ui/Form.component";
 import {useEffect, useState} from "react";
 import {fetchLivraisonArticle} from "@/lib/api";
+import {useNavigate} from "react-router-dom";
 
 
 export default function ArticleLivraison() {
     const [detailsLivraison, setDetailsLivraison] = useState(null);
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const livraisonId = window.location.href.split('/').pop();
@@ -24,6 +25,12 @@ export default function ArticleLivraison() {
 
         fetchDetails();
     }, []);
+
+    const handleCloture = () => {
+        // Passer les détails de la livraison dans l'état de navigation
+        navigate(`${window.location.pathname}/article`, { state: { detailsLivraison } });
+        window.location.reload();
+    };
     console.log(detailsLivraison);
     return (
         <div>
@@ -39,7 +46,7 @@ export default function ArticleLivraison() {
                                 </li>
                             ))}
                         </ul>
-                        <button>Clôturer</button>
+                        <button  onClick={handleCloture }>Clôturer</button>
                     </div>
                 ) : (
                     <p>Chargement des détails de la livraison...</p>

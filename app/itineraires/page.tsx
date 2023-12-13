@@ -15,8 +15,9 @@ function Itineraires() {
 
     const [itineraires, setItineraires] = useState([]);
 
-    const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
+
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
+    const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     const handleDelete = async () => {
         //const updatedClients = await fetchClients();
         //setClients(updatedClients);
