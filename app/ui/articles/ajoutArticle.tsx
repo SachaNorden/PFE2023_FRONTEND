@@ -44,14 +44,14 @@ function AjoutArticle() {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <Button type='submit'>
-                        Enregistrer
-                    </Button>
                     <Link href={`/articles/`}>
                         <Button>
                             Retour
                         </Button>
                     </Link>
+                    <Button type='submit'>
+                        Enregistrer
+                    </Button>
                 </div>
             </Form>
         </div>

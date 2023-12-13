@@ -4,6 +4,7 @@ import {Button} from '@/app/ui/button';
 import {updateArticle, updateClient} from '@/lib/api';
 import {useEffect} from "react";
 import {wait} from "next/dist/lib/wait";
+import Link from "next/link";
 
 function ProfilArticle({article}) {
     const [form] = Form.useForm();
@@ -48,6 +49,9 @@ function ProfilArticle({article}) {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
+                    <Link href={`/articles/`}>
+                        <Button>Retour</Button>
+                    </Link>
                     <Button type='submit'>Enregistrer</Button>
                 </div>
             </Form>
