@@ -8,7 +8,7 @@ import {fetchLivraisonArticle, getLivraisonById, updateLivraison} from "@/lib/ap
 export default function ArticleLivraison() {
     const { state } = useLocation();
     const [articles, setArticles] = useState([]);
-    const [livraison, setLivraison] = useState(null);
+    const [articlesDetails, setArticlesDetails] = useState({});
 
     const urlSegments = window.location.href.split('/');
     const livraisonId = urlSegments[urlSegments.length - 2];
@@ -22,7 +22,6 @@ export default function ArticleLivraison() {
                     const data = await fetchLivraisonArticle(livraisonId);
                     setArticles(data); // Assurez-vous que 'data' est un tableau d'objets article
                     // getLivraisonById(livraisonId);
-
                 } catch (error) {
                     console.error("Erreur lors de la récupération des détails de la livraison:", error);
                 }

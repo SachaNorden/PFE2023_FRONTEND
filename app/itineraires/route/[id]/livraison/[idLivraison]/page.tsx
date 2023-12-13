@@ -1,12 +1,13 @@
 'use client'
 import FormComponent from "@/app/ui/Form.component";
 import {useEffect, useState} from "react";
-import {fetchLivraisonArticle} from "@/lib/api";
+import {fetchArticles, fetchLivraisonArticle} from "@/lib/api";
 import {useNavigate} from "react-router-dom";
 
 
 export default function ArticleLivraison() {
     const [detailsLivraison, setDetailsLivraison] = useState(null);
+    const [articlesDetails, setArticlesDetails] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,8 +23,20 @@ export default function ArticleLivraison() {
             }
 
         };
-
+        // Fetch les noms des articles
+        const fetchArticleNames = async () => {
+            try {
+                const articlesData = await fetchArticles();
+                setArticlesDetails(articlesData.reduce((acc, article) => {
+                    acc[article.id] = article.nom;
+                    return acc;
+                }, {}));
+            } catch (error) {
+                console.error("Erreur lors de la récupération des noms des articles:", error);
+            }
+        }
         fetchDetails();
+        fetchArticleNames();
     }, []);
 
     const handleCloture = () => {
@@ -42,9 +55,9 @@ export default function ArticleLivraison() {
                         <h2>Livraison :</h2>
                         <h3>Articles :</h3>
                         <ul>
-                            {detailsLivraison.map((item) => (
-                                <li key={item.article.id}>
-                                    {item.article.nom} : {item.quantite}
+                            {detailsLivraison.map(item => (
+                                <li key={item.article}>
+                                    {articlesDetails[item.article]} : {item.quantite}
                                 </li>
                             ))}
                         </ul>

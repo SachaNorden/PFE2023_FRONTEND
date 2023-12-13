@@ -23,11 +23,14 @@ function ItineraireCard({ itineraire   }) {
     const [clientsDetails, setClientsDetails] = useState({});
     useEffect(() => {
         const fetchClientsDetails = async () => {
-            const clientsPromises = itineraire.commandes.map(async (commande) => {
-                const clientDetail = await getClientById(commande.client);
-                console.log("client", clientDetail);
-                return { [commande.client.nom]: clientDetail };
+            // Créez un Set pour enregistrer les ID de clients uniques.
+            const uniqueClientIds = new Set(itineraire.commandes.map(commande => commande.client));
+
+            const clientsPromises = Array.from(uniqueClientIds).map(async (clientId) => {
+                const clientDetail = await getClientById(clientId);
+                return { [clientId]: clientDetail }; // Utilisez l'ID du client comme clé.
             });
+
             try {
                 const clientsDetailsArray = await Promise.all(clientsPromises);
                 // Fusionner tous les objets de détails des clients dans un seul objet.
@@ -49,7 +52,7 @@ function ItineraireCard({ itineraire   }) {
         }
     }
 
-    const renderAdminActions = (id :string) => {
+    const renderAdminActions = () => {
         if (isAdmin && itineraire?.status !== 'Livré') {
             return (
                 <Button type='submit' onClick={handleModifierClick}>
@@ -81,9 +84,11 @@ function ItineraireCard({ itineraire   }) {
                 <p className="text-sm text-gray-400">
                     {itineraire.commandes.map((commande, index) => (
                         <div key={index} className='flex items-center justify-between flex-grow'>
-                            <p>{clientsDetails[commande.client.nom]?.nom ?? 'Chargement...'}</p>
+                            {/* Utilisez l'ID du client pour obtenir les détails du client */}
+                            <p>{clientsDetails[commande.client]?.nom ?? 'Chargement...'}</p>
                         </div>
                     ))}
+                    {renderAdminActions()}
                 </p>
                 <p>---------------------------------</p>
             </div>

@@ -3,38 +3,51 @@ import FormComponent from "@/app/ui/Form.component";
 import back from "@/public/arrow-left.svg";
 import {useEffect, useState} from "react";
 import { useNavigate } from 'react-router-dom';
-import {fetchLivraisonArticle, getItineraireById} from "@/lib/api";
+import {fetchArticles, fetchLivraisonArticle, getItineraireById} from "@/lib/api";
 import {message} from "antd";
 
 export default function Route() {
     const [itineraire, setItineraire] = useState(null);
-    const [articlesTotals, setArticlesTotals] = useState({});
+    const [articles, setArticles] = useState({});
+    const [totals, setTotals] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
         const itineraireId = window.location.href.split('/').pop();
-        const fetchItineraireData = async () => {
-            try {
-                const data = await getItineraireById(itineraireId);
-                setItineraire(data);
-                const articlesFetchPromises = data.commandes.map((livraison) => fetchLivraisonArticle(livraison.id));
-                console.log(articlesFetchPromises);
-                const articlesResults = await Promise.all(articlesFetchPromises);
-                const totals = {};
-                articlesResults.forEach((articles) => {
 
-                    articles.forEach((article) => {
-                        const {nom} = article.article;
-                        const quantite= article.quantite
-                        totals[nom] = (totals[nom] || 0) + quantite;
-                    });
-                });
-                setArticlesTotals(totals);
+        const fetchArticlesData = async () => {
+            try {
+                // Récupérer les noms des articles
+                const allArticles = await fetchArticles();
+
+                // Créer un objet pour accéder facilement aux noms par ID
+                const articlesById = allArticles.reduce((obj, article) => {
+                    obj[article.id] = article.nom;
+                    return obj;
+                }, {});
+
+                // Récupérer l'itinéraire et les articles associés
+                const itineraireData = await getItineraireById(itineraireId);
+                setItineraire(itineraireData);
+
+                // Calculer les totaux pour chaque article
+                for (const livraison of itineraireData.commandes) {
+                    const livraisonArticles = await fetchLivraisonArticle(livraison.id);
+                    for (const { article: articleId, quantite } of livraisonArticles) {
+                        if (!totals[articleId]) {
+                            totals[articleId] = { quantite: 0, nom: articlesById[articleId] || 'Nom inconnu' };
+                        }
+                        totals[articleId].quantite += quantite;
+                    }
+                }
+
+                setArticles(totals);
             } catch (error) {
-                message.error(error.message);
+                console.error("Erreur lors de la récupération des données:", error);
             }
         };
-        fetchItineraireData();
+
+        fetchArticlesData();
     }, []);
     if (!itineraire) {
         return <div>Chargement...</div>;
@@ -64,10 +77,11 @@ export default function Route() {
                     <img src={back.src} alt="Back" className="w-6 h-6"/>
                     <div className="font-bold text-lg mb-4">Itinéraire {itineraire.id}:</div>
                     <p>Article totaux:</p>
-                    {Object.entries(articlesTotals).map(([nom, quantite]) => (
-                        <p key={nom}>
-                            {nom}: {quantite}
-                        </p>
+                    {Object.entries(articles).map(([articleId, { quantite, nom }]) => (
+                        <div key={articleId}>
+                            <p>Article: {nom}</p>
+                            <p>Quantité totale: {quantite}</p>
+                        </div>
                     ))}
                     <button onClick={handleModifierClick} className="mt-4 bg-blue-500 text-white p-2 rounded">Sélectionner</button>
                 </div>
