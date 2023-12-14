@@ -7,8 +7,7 @@ import LogOutButton from "@/app/ui/logOutButton";
 import MenuDer from "@/app/ui/menu/menu";
 
 function Profil() {
-    const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
-    const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
+
     const [user, setUser] = useState([]);
     useEffect(() => {
         const currentUrl = window.location.href;
@@ -29,14 +28,9 @@ function Profil() {
     return (
         <div className="min-h-screen flex flex-col">
             <MenuDer />
-            {isAdmin ? (
-                <ProfilUser user={user}/>
-            ) : (
-                <div>
-                    <div>Vous n avez pas accès à cette page, veuillez contacter l administrateur.</div>
-                    <LogOutButton/>
-                </div>
-            )}
+
+            <ProfilUser user={user}/>
+
         </div>
     );
 }

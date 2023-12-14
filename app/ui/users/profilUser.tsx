@@ -6,6 +6,8 @@ import Link from "next/link";
 
 // @ts-ignore
 function ProfilUser({user}) {
+    const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
+    const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     const [form] = Form.useForm();
     const handleSubmit = async () => {
         try {
@@ -55,9 +57,15 @@ function ProfilUser({user}) {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <Link href={`/users/`}>
-                        <Button>Retour</Button>
-                    </Link>
+                    {isAdmin ? (
+                        <Link href={`/users/`}>
+                            <Button>Retour</Button>
+                        </Link>
+                    ) : (
+                        <Link href={`/itineraires/`}>
+                            <Button>Retour</Button>
+                        </Link>
+                    )}
                     <Button type='submit'>
                         Enregistrer
                     </Button>

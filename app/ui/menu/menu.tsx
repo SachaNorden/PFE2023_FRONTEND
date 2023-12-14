@@ -19,10 +19,7 @@ function MenuDer() {
                 </Menu.Item>
                 {isAdmin ? (
                     <>
-                        <Menu.Item key="newItineraire">
-                            <a href="/itineraires/creation">Nouvel Itinéraire</a>
-                        </Menu.Item>
-                        <Menu.Item key="newItineraire">
+                        <Menu.Item key="listeItineraire">
                             <a href="/itineraires/">Liste Itinéraire</a>
                         </Menu.Item>
                         <Menu.Item key="listeClients">

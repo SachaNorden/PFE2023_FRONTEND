@@ -21,15 +21,17 @@ interface Client {
 }
 
 function AjoutCommande() {
+
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
 
     const [form] = Form.useForm();
-    const [commandeId, setCommandeId] = useState();
+    const [commandeId, setCommandeId] = useState<string>('');
     const [isExisting, setIsExisting] = useState(false);
     const [client, setClient] = useState<Client>();
 
     useEffect(() => {
+
         const fetchCommandeDetails = async () => {
             try {
                 const clientId = window.location.href.split('/').pop();
@@ -42,9 +44,7 @@ function AjoutCommande() {
                     // @ts-ignore
                     setCommandeId(result[0]);
                 } else {
-                    if (typeof clientId === "string") idComm = await addCommande(clientId);
-                    // @ts-ignore
-                    setCommandeId(idComm);
+                    if (typeof clientId === "string") await addCommande(clientId).then((rep)=>setCommandeId(rep));
                 }
                 if (typeof clientId === "string") commandeDetails = await getCommandeByClientId(clientId);
 
@@ -86,18 +86,28 @@ function AjoutCommande() {
         try {
             const values = await form.validateFields();
             const articles = [
-                {article: 1, quantite: values.champ1 || 0},
-                {article: 2, quantite: values.champ2 || 0},
-                {article: 3, quantite: values.champ3 || 0},
-                {article: 4, quantite: values.champ4 || 0},
-                {article: 5, quantite: values.champ5 || 0},
-                {article: 6, quantite: values.champ6 || 0},
+                { article: 1, quantite: values.champ1 || 0 },
+                { article: 2, quantite: values.champ2 || 0 },
+                { article: 3, quantite: values.champ3 || 0 },
+                { article: 4, quantite: values.champ4 || 0 },
+                { article: 5, quantite: values.champ5 || 0 },
+                { article: 6, quantite: values.champ6 || 0 },
             ];
+            console.log(commandeId)
+
+            const commID = (commandeId.id_commande==='undefined') ? commandeId : commandeId[0]
             // @ts-ignore
-            await updateCommande(commandeId, articles);
+            await updateCommande(commID, articles);
             message.success("Commande mise à jour avec succès");
-            wait(1000);
-            window.location.reload();
+
+            const updatedCommandeDetails = await getCommandeByClientId(commID);
+
+            if (updatedCommandeDetails != articles) {
+                message.success("Mise à jour réussie");
+                window.location.reload();
+            } else {
+                message.error("La mise à jour n'a pas été correctement prise en compte");
+            }
         } catch (error) {
             console.error("Erreur lors de la mise à jour de la commande:", error);
         }

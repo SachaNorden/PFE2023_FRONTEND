@@ -5,11 +5,18 @@ import {useEffect, useState} from "react";
 import {getUserById} from "@/lib/api";
 
 
+
+interface Livreur {
+    id: string,
+    username: string,
+    isAdmin: boolean,
+}
+
 // @ts-ignore
 function Itineraire({itine}) {
     const [form] = Form.useForm();
 
-    const [livreur, setUser] = useState<Array<{ id: string; client: { nom: string } }>>([]);
+    const [livreur, setUser] = useState<Livreur>();
 
     useEffect(() => {
 
@@ -43,11 +50,12 @@ function Itineraire({itine}) {
 
             <p className="text-base"><b className="text-xl">Itinéraire {itine.id}  </b>
                 <span className="text-2xl text-green-300 font-bold">{itine.status}</span></p>
-
-            <p className="text-base">{livreur.username}</p>
-
-            <br/>
-
+            {livreur && (
+                <>
+                    <p className="text-base">{livreur.username}</p>
+                    <br/>
+                </>
+            )}
             {/* Vérification de la nullité de itine.commandes */}
             {itine.clients && (
                 itine.clients.map((client: any) => (
