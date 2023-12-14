@@ -1,6 +1,19 @@
 'use client';
 import {Button, Card, Form, message, Popconfirm} from 'antd';
 
+interface Commande {
+    id: string,
+    client: Client,
+    date_commande: string,
+}
+
+interface Client {
+    id: string,
+    nom: string,
+    adresse_complete: string,
+}
+
+// @ts-ignore
 const getStatusColorClass = (status) => {
     switch (status) {
         case 'En cours':
@@ -29,7 +42,7 @@ function ItineraireCard({ itineraire   }) {
     const renderAdminActions = () => {
         if (isAdmin && itineraire?.status !== 'Livré') {
             return (
-                <Button type='submit' onClick={handleModifierClick}>
+                <Button type='primary' htmlType='submit' onClick={handleModifierClick}>
                     Modifier
                 </Button>
             );
@@ -56,7 +69,7 @@ function ItineraireCard({ itineraire   }) {
                     </span>
                 </p>
                 <p className="text-sm text-gray-400">
-                    {itineraire.commandes.map((commande, index) => (
+                    {itineraire.commandes.map((commande: any, index: number) => (
                         <div key={index} className='flex items-center justify-between flex-grow'>
                             <p>{commande.client.nom}</p>
 

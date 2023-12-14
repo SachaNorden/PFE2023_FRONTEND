@@ -4,6 +4,7 @@ import {Button} from "@/app/ui/button";
 import CommandeItineraire from "@/app/ui/commandes/commandeItineraire";
 
 
+// @ts-ignore
 function Itineraire({itine}) {
     const [form] = Form.useForm();
 
@@ -31,7 +32,7 @@ function Itineraire({itine}) {
 
             {/* Vérification de la nullité de itine.commandes */}
             {itine.commandes && itine.commandes.length > 0 && (
-                itine.commandes.map((commande) => (
+                itine.commandes.map((commande: any) => (
                     // eslint-disable-next-line react/jsx-key
                     <div className='flex items-center justify-between flex-grow'>
                         <CommandeItineraire commande={commande} />

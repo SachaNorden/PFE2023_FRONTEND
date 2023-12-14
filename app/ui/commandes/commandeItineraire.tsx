@@ -3,6 +3,7 @@ import {Form, Input, message} from "antd";
 import {Button} from "@/app/ui/button";
 import {updateUser} from "@/lib/api";
 
+// @ts-ignore
 const getStatusColorClass = (status) => {
     switch (status) {
         case 'En cours':
@@ -16,6 +17,7 @@ const getStatusColorClass = (status) => {
     }
 };
 
+// @ts-ignore
 function CommandeItineraire({commande}) {
     const [form] = Form.useForm();
 

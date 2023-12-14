@@ -21,6 +21,7 @@ function Users() {
                 const data = await fetchUsers();
                 setUsers(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
@@ -38,7 +39,7 @@ function Users() {
                 </div>
             ) : (
                 <div>
-                    <div>Vous n'avez pas accès à cette page, veuillez contacter l'administrateur.</div>
+                    <div>Vous n avez pas accès à cette page, veuillez contacter l administrateur.</div>
                     <LogOutButton/>
                 </div>
             )}

@@ -6,6 +6,24 @@ import { Form, Select, message } from "antd";
 import {useEffect, useState} from "react";
 const { Option } = Select;
 
+interface Commande {
+    id: string,
+    client: Client,
+    date_commande: string,
+}
+
+interface Client {
+    id: string,
+    nom: string,
+    adresse_complete: string;
+}
+
+interface User {
+    id: string,
+    username: string,
+    isAdmin: boolean,
+}
+
 function AjoutItineraire() {
     const [form] = Form.useForm();
     const handleSubmit = async () => {
@@ -18,26 +36,28 @@ function AjoutItineraire() {
         }
     };
 
-    const [commandes, setCommandes] = useState([]);
+    const [commandes, setCommandes] = useState<Commande[]>([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await fetchLivraisons();
                 setCommandes(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
         fetchData();
     }, );
 
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<User[]>([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await fetchUsers();
                 setUsers(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };

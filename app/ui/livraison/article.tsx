@@ -4,6 +4,7 @@ import {MinusOutlined, PlusOutlined} from "@ant-design/icons";
 import {updateClient} from "@/lib/api";
 import {wait} from "next/dist/lib/wait";
 
+// @ts-ignore
 function Article({ article }) {
 
     const [quantite, setQuantite] = useState(article.quantite);

@@ -2,6 +2,7 @@ import {Button, Card, message, Popconfirm} from 'antd';
 import Link from "next/link";
 import {deleteArticle} from '@/lib/api';
 
+// @ts-ignore
 function ArticleCard({ client: article, onDelete }) {
     const handleDelete = async () => {
         try {

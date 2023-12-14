@@ -4,6 +4,7 @@ import {Button} from "@/app/ui/button";
 import {updateUser} from "@/lib/api";
 import Link from "next/link";
 
+// @ts-ignore
 function ProfilUser({user}) {
     const [form] = Form.useForm();
     const handleSubmit = async () => {

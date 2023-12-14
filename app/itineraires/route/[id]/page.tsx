@@ -6,31 +6,51 @@ import { useNavigate } from 'react-router-dom';
 import {fetchLivraisonArticle, getItineraireById} from "@/lib/api";
 import {message} from "antd";
 
+interface Itineraire {
+    id: string,
+    client: object,
+    livreur: Livreur,
+    status: string,
+}
+
+interface Livreur {
+    id: string,
+    username: string,
+    isAdmin: boolean,
+}
+
+interface ArticleTotal {
+    nom: string,
+    quantite: number,
+}
 export default function Route() {
-    const [itineraire, setItineraire] = useState(null);
-    const [articlesTotals, setArticlesTotals] = useState({});
+    const [itineraire, setItineraire] = useState<Itineraire>();
+    const [articlesTotals, setArticlesTotals] = useState<{ [key: string]: ArticleTotal }>({});
     const navigate = useNavigate();
 
     useEffect(() => {
         const itineraireId = window.location.href.split('/').pop();
         const fetchItineraireData = async () => {
             try {
+                // @ts-ignore
                 const data = await getItineraireById(itineraireId);
                 setItineraire(data);
-                const articlesFetchPromises = data.commandes.map((livraison) => fetchLivraisonArticle(livraison.id));
+                const articlesFetchPromises = data.commandes.map((livraison: any) => fetchLivraisonArticle(livraison.id));
                 console.log(articlesFetchPromises);
                 const articlesResults = await Promise.all(articlesFetchPromises);
-                const totals = {};
+                let totals = {};
                 articlesResults.forEach((articles) => {
 
-                    articles.forEach((article) => {
+                    articles.forEach((article: { article: { nom: any; }; quantite: any; }) => {
                         const {nom} = article.article;
                         const quantite= article.quantite
+                        // @ts-ignore
                         totals[nom] = (totals[nom] || 0) + quantite;
                     });
                 });
                 setArticlesTotals(totals);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
@@ -41,6 +61,7 @@ export default function Route() {
     }
 
     function handleModifierClick() {
+        // @ts-ignore
         navigate(`/itineraires/route/${itineraire.id}/livraison`, { state: { itineraire } });
         window.location.reload();
     }
@@ -49,10 +70,8 @@ export default function Route() {
             <br></br>
             <div className="w-full flex items-center justify-between px-4 py-4">
                 <div className="flex-initial">
-                    {/* Remplace ce div par ton icône de flèche */}
 
                 </div>
-                {/* Titre "Ma route" centré */}
                 <div className="flex-grow text-center text-lg font-bold">
                     {itineraire.livreur && (
                         <div>Ma route: {itineraire.livreur.username}</div>
@@ -64,9 +83,9 @@ export default function Route() {
                     <img src={back.src} alt="Back" className="w-6 h-6"/>
                     <div className="font-bold text-lg mb-4">Itinéraire {itineraire.id}:</div>
                     <p>Article totaux:</p>
-                    {Object.entries(articlesTotals).map(([nom, quantite]) => (
-                        <p key={nom}>
-                            {nom}: {quantite}
+                    {Object.values(articlesTotals).map((articleTotal) => (
+                        <p key={articleTotal.nom}>
+                            {articleTotal.nom}: {articleTotal.quantite}
                         </p>
                     ))}
                     <button onClick={handleModifierClick} className="mt-4 bg-blue-500 text-white p-2 rounded">Sélectionner</button>

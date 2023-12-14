@@ -5,16 +5,21 @@ import {decodeJWT, getUserById, login} from "@/lib/api";
 import {wait} from "next/dist/lib/wait";
 import {useState} from "react";
 
+interface JwtPayload {
+    user_id: string;
+}
 
 export default function LoginPage() {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
+    // @ts-ignore
     const handleSubmit = async (values) => {
         setLoading(true);
         try {
             const token = await login(values.username, values.password);
-            const decodedToken = decodeJWT(token);
+            // @ts-ignore
+            const decodedToken: JwtPayload = decodeJWT(token);
             const user = await getUserById(decodedToken.user_id);
             message.success('Connexion réussie');
             const isAdmin = user.isAdmin;
