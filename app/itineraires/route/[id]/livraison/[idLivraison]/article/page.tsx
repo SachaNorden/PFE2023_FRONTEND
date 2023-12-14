@@ -1,13 +1,7 @@
 'use client'
-import {Form, Image, Input, message, Popconfirm} from "antd";
+import {Form, Input, message} from "antd";
 import {Button} from "@/app/ui/button";
-import {
-    addLivraison,
-    getClientById,
-    getLivraionById,
-    fetchLivraisonParClient,
-    updateLivraison
-} from "@/lib/api";
+import {fetchLivraisonParClient, getClientById, getLivraionById, updateLivraison} from "@/lib/api";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import {wait} from "next/dist/lib/wait";
@@ -18,16 +12,17 @@ interface Client {
     adresse_complete: string,
 }
 
-export default function ArticleLivraison() {
+interface Article {
+    article: number;
+    quantite: number;
+}
 
+export default function ArticleLivraison() {
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
-
     const [form] = Form.useForm();
     const [isExisting, setIsExisting] = useState(false);
     const [client, setClient] = useState<Client>();
-
-
     const [livraisonId, setLivraisonId] = useState();
 
     useEffect(() => {
@@ -35,14 +30,11 @@ export default function ArticleLivraison() {
             try {
                 const urlSegments = window.location.href.split('/');
                 const clientId = urlSegments[urlSegments.length - 4];
-
-
                 let livraisonDetails = null;
                 let clientData = null;
                 const livraisonIdBis = await fetchLivraisonParClient(clientId);
                 setLivraisonId(livraisonIdBis[0]);
-                if(livraisonId !== undefined) livraisonDetails = await getLivraionById(livraisonId);
-
+                if (livraisonId !== undefined) livraisonDetails = await getLivraionById(livraisonId);
                 if (livraisonDetails) {
                     form.setFieldsValue({
                         champ1: livraisonDetails.find((item: { article: number; }) => item.article === 1)?.quantite || 0,
@@ -67,12 +59,10 @@ export default function ArticleLivraison() {
         fetchLivraisonDetails();
     }, [isExisting, livraisonId]);
 
-
-
     const handleUpdate = async () => {
         try {
             const values = await form.validateFields();
-            const articles = [
+            const articles : Article[] = [
                 {article: 1, quantite: values.champ1 || 0},
                 {article: 2, quantite: values.champ2 || 0},
                 {article: 3, quantite: values.champ3 || 0},
@@ -89,8 +79,6 @@ export default function ArticleLivraison() {
             console.error("Erreur lors de la mise à jour de la livraison:", error);
         }
     }
-
-
 
     return (
         <div className="min-h-screen flex flex-col">

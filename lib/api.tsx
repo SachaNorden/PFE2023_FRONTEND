@@ -343,8 +343,6 @@ export async function fetchLivraisonArticle(id: string) {
     }
 }
 
-
-
 export async function addItineraire(livraisons: Object, livreur: Object, status : String) {
     try {
         const response = await fetch(`${BASE_URL}/itineraires/`, {
@@ -379,15 +377,21 @@ export async function getArticlesByLivraisonsId(id: string) {
     }
 }
 
-export async function updateLivraison(id: string, articles: any) {
+interface Article {
+    article: number;
+    quantite: number;
+}
+
+export async function updateLivraison(id: string, articles: Article[]) {
     try {
         const response = await fetch(`${BASE_URL}/livraisons/${id}/articles/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({articles}),
+            body: JSON.stringify(articles),
         });
+
         if (!response.ok) {
             throw new Error('Erreur lors de la mise à jour de la livraison');
         }
@@ -395,7 +399,6 @@ export async function updateLivraison(id: string, articles: any) {
         throw new Error(`Erreur lors de la mise à jour de la livraison avec l'identifiant ${id}`);
     }
 }
-
 
 export async function updateLivraisonArticle(id: string, articles: any) {
     try {
@@ -448,7 +451,6 @@ export async function getLivraionById(livraisonId: string) {
         throw new Error(`Erreur lors de la récupération de la livraison du client avec l'identifiant ${livraisonId}`);
     }
 }
-
 
 export async function fetchLivraisonParClient(id: string) {
     try {
