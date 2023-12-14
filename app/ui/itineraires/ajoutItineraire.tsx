@@ -1,10 +1,11 @@
 'use client';
 import {Button} from "@/app/ui/button";
-import {addItineraire, fetchLivraisons, fetchItineraires, fetchUsers} from "@/lib/api";
+import {addItineraire, fetchLivraisons, fetchUsers} from "@/lib/api";
 import Link from "next/link";
-import { Form, Select, message } from "antd";
+import {Form, message, Select} from "antd";
 import {useEffect, useState} from "react";
-const { Option } = Select;
+
+const {Option} = Select;
 
 interface Commande {
     id: string,
@@ -48,7 +49,7 @@ function AjoutItineraire() {
             }
         };
         fetchData();
-    }, );
+    },);
 
     const [users, setUsers] = useState<User[]>([]);
     useEffect(() => {
@@ -62,7 +63,7 @@ function AjoutItineraire() {
             }
         };
         fetchData();
-    }, );
+    },);
 
 
     return (
