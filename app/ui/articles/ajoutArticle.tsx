@@ -3,6 +3,7 @@ import {Form, Input, message} from "antd";
 import {Button} from "@/app/ui/button";
 import {addArticle} from "@/lib/api";
 import Link from "next/link";
+import MenuDer from "@/app/ui/menu/menu";
 
 function AjoutArticle() {
     const [form] = Form.useForm();
@@ -18,6 +19,7 @@ function AjoutArticle() {
 
     return (
         <div className='min-h-screen flex flex-col justify-center items-center  '>
+            <MenuDer />
             <Form
                 form={form}
                 onFinish={handleSubmit}

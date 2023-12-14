@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import ListeClients from "@/app/ui/clients/listeClients";
 import AddButton from "@/app/ui/addButton";
 import LogOutButton from "@/app/ui/logOutButton";
+import MenuDer from "@/app/ui/menu/menu";
 
 function Clients() {
     const [clients, setClients] = useState([]);
@@ -28,23 +29,18 @@ function Clients() {
 
     return (
         <div className="min-h-screen flex flex-col">
+            <MenuDer />
             {isAdmin ? (
                 <div>
-                    <p>Admin</p>
-                    <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
                     <ListeClients clients={clients} onDelete={handleDelete()}/>
                     <AddButton link="/clients/ajouterClient"/>
-                    <LogOutButton/>
                 </div>
             ) : (
                 <div>
-                    <p>Livreur</p>
-                    <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
                     <div>Vous n'avez pas accès à cette page, veuillez contacter l'administrateur.</div>
-                    <LogOutButton/>
                 </div>
             )}
-
+            <LogOutButton/>
         </div>
     );
 }

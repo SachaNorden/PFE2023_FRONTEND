@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import {wait} from "next/dist/lib/wait";
+import MenuDer from "@/app/ui/menu/menu";
 
 function AjoutCommande() {
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
@@ -107,7 +108,7 @@ function AjoutCommande() {
 
     return (
         <div className='min-h-screen flex flex-col justify-center items-center'>
-            <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
+            <MenuDer />
             {isAdmin ? (
                 <Form
                     form={form}

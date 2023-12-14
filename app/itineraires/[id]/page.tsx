@@ -4,7 +4,7 @@ import FormComponent from "@/app/ui/Form.component";
 import {fetchClients, fetchLivraisons, getLivraisonById, getItineraireById} from "@/lib/api";
 import {useEffect, useState} from "react";
 import Itineraire from "@/app/ui/itineraires/Itineraire";
-import MenuDer from "@/app/ui/menu/menuAdmin";
+import MenuDer from "@/app/ui/menu/menu";
 import Link from "next/link";
 import {PlusOutlined} from "@ant-design/icons";
 const { Option } = Select;
@@ -27,12 +27,12 @@ export default function Itineraires() {
            fetchData();
        }, []);
 
-    const [commandes, setCommandes] = useState([]);
+    const [livraisons, setLivraisons] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await fetchLivraisons();
-                setCommandes(data);
+                setLivraisons(data);
             } catch (error) {
                 console.error(error.message);
             }
@@ -40,10 +40,11 @@ export default function Itineraires() {
         fetchData();
     }, );
 
+
     return (
         <div className='min-h-screen flex flex-col '>
 
-            <MenuDer></MenuDer>
+            <MenuDer />
 
             <p className="text-3xl flex flex-col justify-center items-center">Détails Itineraire</p>
             <FormComponent>
@@ -68,9 +69,9 @@ export default function Itineraires() {
                                 style={{ backgroundColor: '#52c41a', border: 'none' }}
                             />
                             <Select placeholder="Ajouter un Client" allowClear>
-                                {commandes.map(commande => (
-                                    <Option key={commande.id} value={commande.id}>
-                                        {commande.client.nom} {/* Assurez-vous d'adapter cela en fonction de la structure de vos commandes */}
+                                {livraisons.map(livraison => (
+                                    <Option key={livraison.id} value={livraison.id}>
+                                        {livraison.client.nom} {/* Assurez-vous d'adapter cela en fonction de la structure de vos livraisons */}
                                     </Option>
                                 ))}
                             </Select>
