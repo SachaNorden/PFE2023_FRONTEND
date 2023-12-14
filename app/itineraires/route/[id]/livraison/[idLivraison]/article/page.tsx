@@ -62,7 +62,7 @@ export default function ArticleLivraison() {
     const handleUpdate = async () => {
         try {
             const values = await form.validateFields();
-            const articles : Article[] = [
+            const articles: Article[] = [
                 {article: 1, quantite: values.champ1 || 0},
                 {article: 2, quantite: values.champ2 || 0},
                 {article: 3, quantite: values.champ3 || 0},
@@ -83,92 +83,85 @@ export default function ArticleLivraison() {
     return (
         <div className="min-h-screen flex flex-col">
             <div className='min-h-screen flex flex-col justify-center items-center'>
-                {isAdmin ? (
-                    <Form
-                        form={form}
-                        initialValues={{remember: true}}
-                        autoComplete="off"
-                        className='p-8 border-2 border-gray-300 rounded-lg shadow-xl bg-white relative z-20'
-                    >
-                        <p className="text-4xl flex flex-col justify-center items-center">
-                            Livraison {client && client.nom ? `pour ${client.nom}` : ''}
-                        </p>
-                        <div className='mb-6'>
-                            <Form.Item
-                                label="Langes S"
-                                name="champ1"
-                                rules={[{required: true, message: "Veuillez saisir la quantité pour Langes S"}]}
-                                required
-                            >
-                                <Input/>
-                            </Form.Item>
-                        </div>
-                        <div className='mb-6'>
-                            <Form.Item
-                                label="Langes M"
-                                name="champ2"
-                                rules={[{required: true, message: "Veuillez saisir la quantité pour Langes M"}]}
-                                required
-                            >
-                                <Input/>
-                            </Form.Item>
-                        </div>
-                        <div className='mb-6'>
-                            <Form.Item
-                                label="Langes L"
-                                name="champ3"
-                                rules={[{required: true, message: "Veuillez saisir la quantité pour Langes L"}]}
-                                required
-                            >
-                                <Input/>
-                            </Form.Item>
-                        </div>
-                        <div className='mb-6'>
-                            <Form.Item
-                                label="Inserts"
-                                name="champ4"
-                                rules={[{required: true, message: "Veuillez saisir la quantité pour Inserts"}]}
-                                required
-                            >
-                                <Input/>
-                            </Form.Item>
-                        </div>
-                        <div className='mb-6'>
-                            <Form.Item
-                                label="Sac-poubelles"
-                                name="champ5"
-                                rules={[{required: true, message: "Veuillez saisir la quantité pour Sac-poubelles"}]}
-                                required
-                            >
-                                <Input/>
-                            </Form.Item>
-                        </div>
-                        <div className='mb-6'>
-                            <Form.Item
-                                label="Gants de toilette"
-                                name="champ6"
-                                rules={[{
-                                    required: true,
-                                    message: "Veuillez saisir la quantité pour Gants de toilette"
-                                }]}
-                                required
-                            >
-                                <Input/>
-                            </Form.Item>
-                        </div>
-                        <div className='flex items-center justify-between'>
-                            <Link href={`/clients/`}>
-                                <Button>Retour</Button>
-                            </Link>
-                            <Button type='submit' onClick={handleUpdate}>Modifier</Button>
-                        </div>
-                    </Form>
-                ) : (
-                    <div>
-                        <div>Vous n avez pas accès à cette page, veuillez contacter l administrateur.</div>
+                <Form
+                    form={form}
+                    initialValues={{remember: true}}
+                    autoComplete="off"
+                    className='p-8 border-2 border-gray-300 rounded-lg shadow-xl bg-white relative z-20'
+                >
+                    <p className="text-4xl flex flex-col justify-center items-center">
+                        Livraison {client && client.nom ? `pour ${client.nom}` : ''}
+                    </p>
+                    <div className='mb-6'>
+                        <Form.Item
+                            label="Langes S"
+                            name="champ1"
+                            rules={[{required: true, message: "Veuillez saisir la quantité pour Langes S"}]}
+                            required
+                        >
+                            <Input/>
+                        </Form.Item>
                     </div>
-                )}
-
+                    <div className='mb-6'>
+                        <Form.Item
+                            label="Langes M"
+                            name="champ2"
+                            rules={[{required: true, message: "Veuillez saisir la quantité pour Langes M"}]}
+                            required
+                        >
+                            <Input/>
+                        </Form.Item>
+                    </div>
+                    <div className='mb-6'>
+                        <Form.Item
+                            label="Langes L"
+                            name="champ3"
+                            rules={[{required: true, message: "Veuillez saisir la quantité pour Langes L"}]}
+                            required
+                        >
+                            <Input/>
+                        </Form.Item>
+                    </div>
+                    <div className='mb-6'>
+                        <Form.Item
+                            label="Inserts"
+                            name="champ4"
+                            rules={[{required: true, message: "Veuillez saisir la quantité pour Inserts"}]}
+                            required
+                        >
+                            <Input/>
+                        </Form.Item>
+                    </div>
+                    <div className='mb-6'>
+                        <Form.Item
+                            label="Sac-poubelles"
+                            name="champ5"
+                            rules={[{required: true, message: "Veuillez saisir la quantité pour Sac-poubelles"}]}
+                            required
+                        >
+                            <Input/>
+                        </Form.Item>
+                    </div>
+                    <div className='mb-6'>
+                        <Form.Item
+                            label="Gants de toilette"
+                            name="champ6"
+                            rules={[{
+                                required: true,
+                                message: "Veuillez saisir la quantité pour Gants de toilette"
+                            }]}
+                            required
+                        >
+                            <Input/>
+                        </Form.Item>
+                    </div>
+                    <div className='flex items-center justify-between'>
+                        <Link href={`/itineraires/route/${localStorage.getItem('userId')}/livraison/`}>
+                            <Button>Retour</Button>
+                        </Link>
+                        <Button type='submit' onClick={handleUpdate}>Modifier</Button>
+                    </div>
+                </Form>
             </div>
         </div>
     );
