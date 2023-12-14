@@ -515,7 +515,7 @@ export async function getLivraionById(livraisonId: string) {
         const data = await response.json();
         return data;
     } catch (error) {
-        throw new Error(`Erreur lors de la récupération de l'id de la commande du client avec l'identifiant du client : ${clientId}`);
+        throw new Error(`Erreur lors de la récupération de la livraison`);
     }
 }
 
