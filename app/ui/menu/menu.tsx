@@ -22,8 +22,8 @@ function MenuDer() {
                         <Menu.Item key="newItineraire">
                             <a href="/itineraires/creation">Nouvel Itinéraire</a>
                         </Menu.Item>
-                        <Menu.Item key="newClient">
-                            <a href="/clients/ajouterClient">Nouveau Client</a>
+                        <Menu.Item key="newItineraire">
+                            <a href="/itineraires/">Liste Itinéraire</a>
                         </Menu.Item>
                         <Menu.Item key="listeClients">
                             <a href="/clients">Liste des Clients</a>

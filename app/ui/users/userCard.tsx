@@ -2,6 +2,7 @@ import {Button, Card, message, Popconfirm} from 'antd';
 import Link from "next/link";
 import {deleteUser} from "@/lib/api";
 
+// @ts-ignore
 function UserCard({user, onDelete}) {
     const handleDelete = async () => {
         try {

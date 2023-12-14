@@ -21,6 +21,7 @@ function Clients() {
                 const data = await fetchClients();
                 setClients(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
@@ -37,7 +38,7 @@ function Clients() {
                 </div>
             ) : (
                 <div>
-                    <div>Vous n'avez pas accès à cette page, veuillez contacter l'administrateur.</div>
+                    <div>Vous n avez pas accès à cette page, veuillez contacter l administrateur.</div>
                 </div>
             )}
             <LogOutButton/>

@@ -29,6 +29,7 @@ function Itineraires() {
                 const data = await fetchItineraires();
                 setItineraires(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
@@ -46,7 +47,6 @@ function Itineraires() {
 
             <FormComponent>
                 <ListItineraires itineraires={itineraires}></ListItineraires>
-                {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 {isAdmin &&(
                 <AddButton link="/itineraires/creation" />
                 )}

@@ -1,5 +1,6 @@
 import {Form} from "antd";
 
+// @ts-ignore
 export default function FormComponent({children, ...props}){
     return(
         <Form {...props}

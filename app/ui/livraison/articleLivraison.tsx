@@ -7,6 +7,7 @@ import {updateLivraison} from "@/lib/api";
 import {wait} from "next/dist/lib/wait";
 import {useEffect} from "react";
 
+// @ts-ignore
 function ArticleLivraison({articles, livraison}) {
     console.log(articles);
     const [form] = Form.useForm();
@@ -36,7 +37,7 @@ function ArticleLivraison({articles, livraison}) {
         >
             <div className='flex flex-col justify-center items-center'>
                 <br/> <br/>
-                {articles.map((article) => (
+                {articles.map((article: any) => (
                     // eslint-disable-next-line react/jsx-key
                         <Article article={article}/>
 

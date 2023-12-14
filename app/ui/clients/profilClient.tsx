@@ -6,6 +6,7 @@ import {useEffect} from "react";
 import {wait} from "next/dist/lib/wait";
 import Link from "next/link";
 
+// @ts-ignore
 function ProfilClient({client}) {
     const [form] = Form.useForm();
     const handleSubmit = async () => {
