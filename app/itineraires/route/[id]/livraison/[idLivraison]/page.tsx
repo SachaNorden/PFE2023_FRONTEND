@@ -6,10 +6,22 @@ import {useNavigate} from "react-router-dom";
 import back from "@/public/arrow-left.svg";
 import {Button} from "antd";
 
+interface Livraison {
+    id: string,
+    client: string,
+    date_livraison: string,
+    status: string,
+    isModified: boolean,
+}
+
+interface Item {
+    article: string,
+    quantite: string,
+}
 
 export default function ArticleLivraison() {
-    const [detailsLivraison, setDetailsLivraison] = useState(null);
-    const [articlesDetails, setArticlesDetails] = useState({});
+    const [detailsLivraison, setDetailsLivraison] = useState([]);
+    const [articlesDetails, setArticlesDetails] = useState<{ [key: string]: any }>({});
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,7 +42,7 @@ export default function ArticleLivraison() {
         const fetchArticleNames = async () => {
             try {
                 const articlesData = await fetchArticles();
-                setArticlesDetails(articlesData.reduce((acc, article) => {
+                setArticlesDetails(articlesData.reduce((acc: { [x: string]: any; }, article: { id: string | number; nom: any; }) => {
                     acc[article.id] = article.nom;
                     return acc;
                 }, {}));
@@ -53,6 +65,7 @@ export default function ArticleLivraison() {
         navigate(newPath);
         window.location.reload()
     }
+    // @ts-ignore
     return (
         <div>
             <div className="flex justify-center items-center min-h-screen">
@@ -65,7 +78,7 @@ export default function ArticleLivraison() {
                                 <div className="text-2xl">Livraison :</div>
                                 <div className="text-lg">Articles :</div>
                                 <ul>
-                                    {detailsLivraison.map(item => (
+                                    {detailsLivraison.map((item: Item) => (
                                         <li key={item.article}>
                                             <div className="font-bold">{articlesDetails[item.article]}</div> : {item.quantite}
                                         </li>
