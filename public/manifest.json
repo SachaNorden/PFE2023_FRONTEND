@@ -2,7 +2,7 @@
   "name": "Snappies",
   "short_name": "Snappies",
   "description": "Le lange lavable pour des crèches sans déchets",
-  "start_url": "/",
+  "start_url": "/login",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
