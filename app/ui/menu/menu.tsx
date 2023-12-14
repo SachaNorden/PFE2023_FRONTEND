@@ -25,14 +25,11 @@ function MenuDer() {
                         <Menu.Item key="newClient">
                             <a href="/clients/ajouterClient">Nouveau Client</a>
                         </Menu.Item>
-                        <Menu.Item key="newCommande">
-                            <a href="/commandes/creation">Nouvelle Commande</a>
-                        </Menu.Item>
                         <Menu.Item key="listeClients">
                             <a href="/clients">Liste des Clients</a>
                         </Menu.Item>
                         <Menu.Item key="listeLivreurs">
-                            <a href="/users">Liste des Clients</a>
+                            <a href="/users">Liste des Livreurs</a>
                         </Menu.Item>
                     </>
                 ) : (<></>)}
