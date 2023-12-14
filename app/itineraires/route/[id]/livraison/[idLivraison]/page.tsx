@@ -3,6 +3,8 @@ import FormComponent from "@/app/ui/Form.component";
 import {useEffect, useState} from "react";
 import {fetchArticles, fetchLivraisonArticle} from "@/lib/api";
 import {useNavigate} from "react-router-dom";
+import back from "@/public/arrow-left.svg";
+import {Button} from "antd";
 
 
 export default function ArticleLivraison() {
@@ -44,29 +46,41 @@ export default function ArticleLivraison() {
         navigate(`${window.location.pathname}/article`, { state: { detailsLivraison } });
         window.location.reload();
     };
-    console.log(detailsLivraison);
+
+    function handleBackClick() {
+        // Prendre l'URL actuelle et diviser en segments
+        const urlSegments = window.location.pathname.split('/');
+
+        // Enlever les deux derniers segments
+        const newPath = urlSegments.slice(0, -1).join('/');
+        // Rediriger vers la nouvelle URL
+        navigate(newPath);
+        window.location.reload()
+    }
     return (
         <div>
             <div className="flex justify-center items-center min-h-screen">
                 <div className="w-full max-w-xs">
-            <FormComponent>
-                {detailsLivraison && detailsLivraison.length > 0 ? ( // Vérifiez que 'detailsLivraison' est un tableau et qu'il contient des éléments
-                    <div>
-                        <h2>Livraison :</h2>
-                        <h3>Articles :</h3>
-                        <ul>
-                            {detailsLivraison.map(item => (
-                                <li key={item.article}>
-                                    {articlesDetails[item.article]} : {item.quantite}
-                                </li>
-                            ))}
-                        </ul>
-                        <button  onClick={handleCloture }>Clôturer</button>
-                    </div>
-                ) : (
-                    <p>Chargement des détails de la livraison...</p>
-                )}
-            </FormComponent>
+
+                    <FormComponent>
+                        <img src={back.src} onClick={handleBackClick} alt="Back" className="w-6 h-6"/>
+                        {detailsLivraison && detailsLivraison.length > 0 ? ( // Vérifiez que 'detailsLivraison' est un tableau et qu'il contient des éléments
+                            <div>
+                                <div className="text-2xl">Livraison :</div>
+                                <div className="text-lg">Articles :</div>
+                                <ul>
+                                    {detailsLivraison.map(item => (
+                                        <li key={item.article}>
+                                            <div className="font-bold">{articlesDetails[item.article]}</div> : {item.quantite}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <Button className="text-lg" onClick={handleCloture }>Clôturer</Button>
+                            </div>
+                        ) : (
+                            <p>Chargement des détails de la livraison...</p>
+                        )}
+                    </FormComponent>
                 </div>
             </div>
         </div>

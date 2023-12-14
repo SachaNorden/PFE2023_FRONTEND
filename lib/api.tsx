@@ -404,3 +404,36 @@ export async function updateLivraison(id: string, client: string, date_livraison
         throw new Error(`Erreur lors de la mise à jour de la livraison avec l'identifiant ${id}`);
     }
 }
+
+export async function fetchLivraisonParClient(id: string) {
+    try {
+        const response = await fetch(`${BASE_URL}/livraisons/livraison-par-client/${id}/`);
+        if (!response) {
+            throw new Error(`Articles de la livraison avec l'identifiant ${id} non trouvé.`);
+        }
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Erreur lors de la récupération de l'id`);
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération de l'id ${id}.`);
+    }
+}
+export async function updateLivraisonArticle(id: string, articles: any) {
+    try {
+        const response = await fetch(`${BASE_URL}/livraisons/${id}/articles/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({articles}),
+        });
+        if (!response.ok) {
+            throw new Error('Erreur lors de la mise à jour de la commande');
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la mise à jour de la commande avec l'identifiant ${id}`);
+    }
+}

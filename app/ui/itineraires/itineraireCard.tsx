@@ -21,28 +21,6 @@ function ItineraireCard({ itineraire   }) {
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     const [clientsDetails, setClientsDetails] = useState({});
-    useEffect(() => {
-        const fetchClientsDetails = async () => {
-            // Créez un Set pour enregistrer les ID de clients uniques.
-            const uniqueClientIds = new Set(itineraire.commandes.map(commande => commande.client));
-
-            const clientsPromises = Array.from(uniqueClientIds).map(async (clientId) => {
-                const clientDetail = await getClientById(clientId);
-                return { [clientId]: clientDetail }; // Utilisez l'ID du client comme clé.
-            });
-
-            try {
-                const clientsDetailsArray = await Promise.all(clientsPromises);
-                // Fusionner tous les objets de détails des clients dans un seul objet.
-                const clientsDetailsObj = Object.assign({}, ...clientsDetailsArray);
-                setClientsDetails(clientsDetailsObj);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des détails des clients:", error);
-            }
-        };
-
-        fetchClientsDetails();
-    }, [itineraire]);
 
     function handleModifierClick() {
         if(isAdmin){
@@ -82,10 +60,10 @@ function ItineraireCard({ itineraire   }) {
                     </span>
                 </p>
                 <p className="text-sm text-gray-400">
-                    {itineraire.commandes.map((commande, index) => (
+                    {itineraire.clients.map((client, index) => (
                         <div key={index} className='flex items-center justify-between flex-grow'>
                             {/* Utilisez l'ID du client pour obtenir les détails du client */}
-                            <p>{clientsDetails[commande.client]?.nom ?? 'Chargement...'}</p>
+                            <p>{client.nom ?? 'Chargement...'}</p>
                         </div>
                     ))}
                     {renderAdminActions()}
