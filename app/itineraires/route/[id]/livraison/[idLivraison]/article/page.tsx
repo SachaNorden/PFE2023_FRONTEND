@@ -24,22 +24,25 @@ export default function ArticleLivraison() {
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
 
     const [form] = Form.useForm();
-    const [commandeId, setCommandeId] = useState();
     const [isExisting, setIsExisting] = useState(false);
     const [client, setClient] = useState<Client>();
 
+
+    const [livraisonId, setLivraisonId] = useState();
+
     useEffect(() => {
-        const fetchCommandeDetails = async () => {
+        const fetchLivraisonDetails = async () => {
             try {
                 const urlSegments = window.location.href.split('/');
                 const clientId = urlSegments[urlSegments.length - 4];
 
-                let livraisonId = '';
+
                 let livraisonDetails = null;
                 let clientData = null;
-                livraisonId = await fetchLivraisonParClient(clientId);
-                livraisonDetails = await getLivraionById(livraisonId[0]);
-                console.log("livraisonDetails", livraisonDetails)
+                const livraisonIdBis = await fetchLivraisonParClient(clientId);
+                setLivraisonId(livraisonIdBis[0]);
+                if(livraisonId !== undefined) livraisonDetails = await getLivraionById(livraisonId);
+
                 if (livraisonDetails) {
                     form.setFieldsValue({
                         champ1: livraisonDetails.find((item: { article: number; }) => item.article === 1)?.quantite || 0,
@@ -57,12 +60,12 @@ export default function ArticleLivraison() {
                 if (typeof clientId === "string") clientData = await getClientById(clientId);
                 setClient(clientData);
             } catch (error) {
-                console.error("Erreur lors de la récupération des détails de la commande:", error);
+                console.error("Erreur lors de la récupération des détails de la livraison:", error);
             }
         };
 
-        fetchCommandeDetails();
-    }, [isExisting]);
+        fetchLivraisonDetails();
+    }, [isExisting, livraisonId]);
 
 
 
@@ -78,12 +81,12 @@ export default function ArticleLivraison() {
                 {article: 6, quantite: values.champ6 || 0},
             ];
             // @ts-ignore
-            await updateCommande(commandeId, articles);
-            message.success("Commande mise à jour avec succès");
+            await updateLivraison(livraisonId, articles);
+            message.success("Livraison mise à jour avec succès");
             wait(1000);
             window.location.reload();
         } catch (error) {
-            console.error("Erreur lors de la mise à jour de la commande:", error);
+            console.error("Erreur lors de la mise à jour de la livraison:", error);
         }
     }
 
@@ -100,7 +103,7 @@ export default function ArticleLivraison() {
                         className='p-8 border-2 border-gray-300 rounded-lg shadow-xl bg-white relative z-20'
                     >
                         <p className="text-4xl flex flex-col justify-center items-center">
-                            Commande {client && client.nom ? `pour ${client.nom}` : ''}
+                            Livraison {client && client.nom ? `pour ${client.nom}` : ''}
                         </p>
                         <div className='mb-6'>
                             <Form.Item

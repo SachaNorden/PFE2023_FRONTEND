@@ -437,7 +437,7 @@ export async function addLivraison(clientId: string) {
 export async function getLivraionById(livraisonId: string) {
     try {
         console.log("iiiiiiii")
-        const response = await fetch(`${BASE_URL}/livraisons/${livraisonId}/articles`);
+        const response = await fetch(`${BASE_URL}/livraisons/${livraisonId}/articles/`);
         console.log("ertyuiuytrez")
         if (!response.ok) {
             throw new Error(`Erreur lors de la récupération de la livraison du client avec l'identifiant ${livraisonId}`);
