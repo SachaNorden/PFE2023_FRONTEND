@@ -19,7 +19,6 @@ function AjoutArticle() {
 
     return (
         <div className='min-h-screen flex flex-col justify-center items-center  '>
-            <MenuDer />
             <Form
                 form={form}
                 onFinish={handleSubmit}
