@@ -343,16 +343,7 @@ export async function fetchLivraisonArticle(id: string) {
     }
 }
 
-export async function fetchLivraison() {
-    try{
-        const response = await fetch(`${BASE_URL}/livraisons/`);
-        if (!response.ok) throw new Error(`Erreur lors de la récupération des articles de la livraison`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        throw new Error('Erreur lors de la récupération des articles de la livraison');
-    }
-}
+
 
 export async function addItineraire(livraisons: Object, livreur: Object, status : String) {
     try {
@@ -388,14 +379,14 @@ export async function getArticlesByLivraisonsId(id: string) {
     }
 }
 
-export async function updateLivraison(id: string, client: string, date_livraison: string, status: string, isModified: boolean) {
+export async function updateLivraison(id: string, articles: any) {
     try {
-        const response = await fetch(`${BASE_URL}/livraisons/${id}/`, {
+        const response = await fetch(`${BASE_URL}/livraisons/${id}/articles/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({client, date_livraison, status, isModified}),
+            body: JSON.stringify({articles}),
         });
         if (!response.ok) {
             throw new Error('Erreur lors de la mise à jour de la livraison');
@@ -404,6 +395,60 @@ export async function updateLivraison(id: string, client: string, date_livraison
         throw new Error(`Erreur lors de la mise à jour de la livraison avec l'identifiant ${id}`);
     }
 }
+
+
+export async function updateLivraisonArticle(id: string, articles: any) {
+    try {
+        const response = await fetch(`${BASE_URL}/livraisons/${id}/articles/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({articles}),
+        });
+        if (!response.ok) {
+            throw new Error('Erreur lors de la mise à jour de la commande');
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la mise à jour de la commande avec l'identifiant ${id}`);
+    }
+}
+
+export async function addLivraison(clientId: string) {
+    try {
+        const response = await fetch(`${BASE_URL}/livraisons/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({client: clientId}),
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error('Erreur lors de l\'ajout de la livraison');
+        }
+    } catch (error) {
+        throw new Error('Erreur lors de l\'ajout de la livraison');
+    }
+}
+
+export async function getLivraionById(livraisonId: string) {
+    try {
+        console.log("iiiiiiii")
+        const response = await fetch(`${BASE_URL}/livraisons/${livraisonId}/articles`);
+        console.log("ertyuiuytrez")
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la récupération de la livraison du client avec l'identifiant ${livraisonId}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération de la livraison du client avec l'identifiant ${livraisonId}`);
+    }
+}
+
 
 export async function fetchLivraisonParClient(id: string) {
     try {
@@ -419,21 +464,5 @@ export async function fetchLivraisonParClient(id: string) {
         }
     } catch (error) {
         throw new Error(`Erreur lors de la récupération de l'id ${id}.`);
-    }
-}
-export async function updateLivraisonArticle(id: string, articles: any) {
-    try {
-        const response = await fetch(`${BASE_URL}/livraisons/${id}/articles/`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({articles}),
-        });
-        if (!response.ok) {
-            throw new Error('Erreur lors de la mise à jour de la commande');
-        }
-    } catch (error) {
-        throw new Error(`Erreur lors de la mise à jour de la commande avec l'identifiant ${id}`);
     }
 }
