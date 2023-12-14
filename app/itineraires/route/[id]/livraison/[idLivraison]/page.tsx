@@ -17,15 +17,16 @@ export default function ArticleLivraison() {
 
         const fetchDetails = async () => {
             try {
-                const data = await fetchLivraisonArticle(livraisonId);
-                setDetailsLivraison(data);
+                if (livraisonId) {
+                    const data = await fetchLivraisonArticle(livraisonId);
+                    setDetailsLivraison(data);
+                } else {
+                    console.error("livraisonId n'est pas défini.");
+                }
             } catch (error) {
                 console.error("Erreur lors de la récupération des détails de la livraison:", error);
-                // Gérez l'erreur comme vous le souhaitez, par exemple en affichant un message
             }
-
         };
-        // Fetch les noms des articles
         const fetchArticleNames = async () => {
             try {
                 const articlesData = await fetchArticles();
@@ -42,18 +43,13 @@ export default function ArticleLivraison() {
     }, []);
 
     const handleCloture = () => {
-        // Passer les détails de la livraison dans l'état de navigation
         navigate(`${window.location.pathname}/article`, { state: { detailsLivraison } });
         window.location.reload();
     };
 
     function handleBackClick() {
-        // Prendre l'URL actuelle et diviser en segments
         const urlSegments = window.location.pathname.split('/');
-
-        // Enlever les deux derniers segments
         const newPath = urlSegments.slice(0, -1).join('/');
-        // Rediriger vers la nouvelle URL
         navigate(newPath);
         window.location.reload()
     }
@@ -64,7 +60,7 @@ export default function ArticleLivraison() {
 
                     <FormComponent>
                         <img src={back.src} onClick={handleBackClick} alt="Back" className="w-6 h-6"/>
-                        {detailsLivraison && detailsLivraison.length > 0 ? ( // Vérifiez que 'detailsLivraison' est un tableau et qu'il contient des éléments
+                        {detailsLivraison && detailsLivraison.length > 0 ? (
                             <div>
                                 <div className="text-2xl">Livraison :</div>
                                 <div className="text-lg">Articles :</div>

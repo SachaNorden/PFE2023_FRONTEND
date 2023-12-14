@@ -3,14 +3,17 @@ import Link from "next/link";
 import { deleteClient } from '@/lib/api';
 import {redirect} from "next/navigation";
 
+// @ts-ignore
 function ClientCard({ client, onDelete }) {
     const handleDelete = async () => {
+        const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
+        const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
         try {
             await deleteClient(client.id);
             message.success("Client supprimé avec succès");
             onDelete();
         } catch (error) {
-            message.error("Erreur lors de la suppression du client");
+            console.error("Erreur lors de la suppression du client");
         }
     };
 
@@ -22,13 +25,20 @@ function ClientCard({ client, onDelete }) {
                     Modifier
                 </Button>
             </Link>
+            <Link href={`/commandes/${client.id}`}>
+                <Button>
+                    Commande
+                </Button>
+            </Link>
             <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce client?"
                 onConfirm={handleDelete}
                 okText="Oui"
                 cancelText="Non"
             >
-                <Button style={{ marginLeft: 250 }}>Supprimer</Button>
+                <Button style={{ background: 'red', borderColor: 'grey', color: 'white' }}>
+                    Supprimer
+                </Button>
             </Popconfirm>
         </Card>
     );

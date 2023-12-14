@@ -3,6 +3,19 @@ import {Button, Card, Form, message, Popconfirm} from 'antd';
 import {useEffect, useState} from "react";
 import {fetchLivraisonArticle, getClientById, getLivraisonById} from "@/lib/api";
 
+interface Commande {
+    id: string,
+    client: Client,
+    date_commande: string,
+}
+
+interface Client {
+    id: string,
+    nom: string,
+    adresse_complete: string,
+}
+
+// @ts-ignore
 const getStatusColorClass = (status) => {
     switch (status) {
         case 'En cours':
@@ -33,7 +46,7 @@ function ItineraireCard({ itineraire   }) {
     const renderAdminActions = () => {
         if (isAdmin && itineraire?.status !== 'Livré') {
             return (
-                <Button type='submit' onClick={handleModifierClick}>
+                <Button type='primary' htmlType='submit' onClick={handleModifierClick}>
                     Modifier
                 </Button>
             );
@@ -60,9 +73,8 @@ function ItineraireCard({ itineraire   }) {
                     </span>
                 </p>
                 <p className="text-sm text-gray-400">
-                    {itineraire.clients.map((client, index) => (
+                    {itineraire.clients.map((client: any, index: number) => (
                         <div key={index} className='flex items-center justify-between flex-grow'>
-                            {/* Utilisez l'ID du client pour obtenir les détails du client */}
                             <p>{client.nom ?? 'Chargement...'}</p>
                         </div>
                     ))}

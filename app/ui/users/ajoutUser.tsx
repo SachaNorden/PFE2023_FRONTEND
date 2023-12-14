@@ -12,7 +12,7 @@ function AjoutUser() {
             await addUser(values.username, values.password);
             message.success("Livreur ajouté");
         } catch (error) {
-            message.error("Erreur lors de l'ajout du livreur");
+            console.error("Erreur lors de l'ajout du livreur");
         }
     };
 
@@ -53,14 +53,14 @@ function AjoutUser() {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <Button type='submit'>
-                        Enregistrer
-                    </Button>
                     <Link href={`/users/`}>
                         <Button>
                             Retour
                         </Button>
                     </Link>
+                    <Button type='submit'>
+                        Enregistrer
+                    </Button>
                 </div>
             </Form>
         </div>

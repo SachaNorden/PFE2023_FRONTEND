@@ -2,6 +2,7 @@ import {Button, Card, message, Popconfirm} from 'antd';
 import Link from "next/link";
 import {deleteUser} from "@/lib/api";
 
+// @ts-ignore
 function UserCard({user, onDelete}) {
     const handleDelete = async () => {
         try {
@@ -9,7 +10,7 @@ function UserCard({user, onDelete}) {
             message.success("Livreur supprimé avec succès");
             onDelete();
         } catch (error) {
-            message.error("Erreur lors de la suppression du livreur");
+            console.error("Erreur lors de la suppression du livreur");
         }
     };
 

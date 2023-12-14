@@ -3,6 +3,7 @@ import {Form, Input, message} from "antd";
 import {Button} from "@/app/ui/button";
 import {addArticle} from "@/lib/api";
 import Link from "next/link";
+import MenuDer from "@/app/ui/menu/menu";
 
 function AjoutArticle() {
     const [form] = Form.useForm();
@@ -12,7 +13,7 @@ function AjoutArticle() {
             await addArticle(values.nom);
             message.success("Article ajouté");
         } catch (error) {
-            message.error("Erreur lors de l'ajout de l'article");
+            console.error("Erreur lors de l'ajout de l'article");
         }
     };
 
@@ -44,14 +45,14 @@ function AjoutArticle() {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <Button type='submit'>
-                        Enregistrer
-                    </Button>
                     <Link href={`/articles/`}>
                         <Button>
                             Retour
                         </Button>
                     </Link>
+                    <Button type='submit'>
+                        Enregistrer
+                    </Button>
                 </div>
             </Form>
         </div>

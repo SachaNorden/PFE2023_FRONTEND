@@ -1,15 +1,14 @@
 'use client'
 import {Image} from "antd";
-import AjoutItineraire from "@/app/ui/itineraires/ajoutItineraire";
+import AjoutCommande from "@/app/ui/commandes/ajoutCommande";
 import MenuDer from "@/app/ui/menu/menu";
-
-function Itineraire() {
+function Commandes() {
     return (
         <div className="min-h-screen flex flex-col">
             <MenuDer />
-            <AjoutItineraire />
+            <AjoutCommande />
         </div>
     );
 }
 
-export default Itineraire;
+export default Commandes;

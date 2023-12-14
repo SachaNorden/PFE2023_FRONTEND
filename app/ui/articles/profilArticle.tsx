@@ -4,7 +4,9 @@ import {Button} from '@/app/ui/button';
 import {updateArticle, updateClient} from '@/lib/api';
 import {useEffect} from "react";
 import {wait} from "next/dist/lib/wait";
+import Link from "next/link";
 
+// @ts-ignore
 function ProfilArticle({article}) {
     const [form] = Form.useForm();
     const handleSubmit = async () => {
@@ -15,7 +17,7 @@ function ProfilArticle({article}) {
             await wait(1000);
             window.location.href = '/articles/';
         } catch (error) {
-            message.error("Erreur lors de la mise à jour de l'article");
+            console.error("Erreur lors de la mise à jour de l'article");
         }
     };
     useEffect(() => {
@@ -48,6 +50,9 @@ function ProfilArticle({article}) {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
+                    <Link href={`/articles/`}>
+                        <Button>Retour</Button>
+                    </Link>
                     <Button type='submit'>Enregistrer</Button>
                 </div>
             </Form>

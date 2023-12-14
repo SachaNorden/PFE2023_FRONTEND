@@ -2,6 +2,7 @@ import {Button, Card, message, Popconfirm} from 'antd';
 import Link from "next/link";
 import {deleteArticle} from '@/lib/api';
 
+// @ts-ignore
 function ArticleCard({ client: article, onDelete }) {
     const handleDelete = async () => {
         try {
@@ -9,7 +10,7 @@ function ArticleCard({ client: article, onDelete }) {
             message.success("Article supprimé avec succès");
             onDelete();
         } catch (error) {
-            message.error("Erreur lors de la suppression de l'article");
+            console.error("Erreur lors de la suppression de l'article");
         }
     };
 

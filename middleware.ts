@@ -2,11 +2,11 @@ import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
     publicRoutes: [
-        "/testArticles",
         "/login",
         "/articles",
         "/articles/:id",
         "/articles/ajouterArticle",
+        "/commandes/:id",
         "/clients",
         "/clients/:id",
         "/clients/ajouterClient",

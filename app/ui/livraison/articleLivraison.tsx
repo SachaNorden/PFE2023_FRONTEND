@@ -7,6 +7,7 @@ import {updateLivraison} from "@/lib/api";
 import {wait} from "next/dist/lib/wait";
 import {useEffect} from "react";
 
+// @ts-ignore
 function ArticleLivraison({articles, livraison}) {
     console.log(articles);
     const [form] = Form.useForm();
@@ -17,7 +18,7 @@ function ArticleLivraison({articles, livraison}) {
             await wait(1000);
             window.location.href = '/itineraires/';
         } catch (error) {
-            message.error("Erreur lors de la mise à jour de la livraison");
+            console.error("Erreur lors de la mise à jour de la livraison");
         }
     };
     useEffect(() => {
@@ -36,7 +37,7 @@ function ArticleLivraison({articles, livraison}) {
         >
             <div className='flex flex-col justify-center items-center'>
                 <br/> <br/>
-                {articles.map((article) => (
+                {articles.map((article: any) => (
                     // eslint-disable-next-line react/jsx-key
                         <Article article={article}/>
 

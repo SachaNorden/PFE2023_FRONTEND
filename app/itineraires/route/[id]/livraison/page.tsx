@@ -6,6 +6,21 @@ import {message} from "antd";
 import {useNavigate} from "react-router-dom";
 import back from "@/public/arrow-left.svg";
 
+
+interface Itineraire {
+    id: string,
+    client: object,
+    livreur: string,
+    status: string,
+}
+interface Livraison {
+    id: string,
+    client: string,
+    date_livraison: string,
+    status: string,
+    isModified: boolean,
+}
+
 export default function LivraisonDetail() {
     const [itineraire, setItineraire] = useState(null);
     const [livraisonsDetail, setLivraisonsDetail] = useState([]);
@@ -19,7 +34,6 @@ export default function LivraisonDetail() {
             try {
                 const itineraireData = await getItineraireById(itineraireId);
                 setItineraire(itineraireData);
-
                 for (const client of itineraireData.clients) {
                     const livraisonsIds = await fetchLivraisonParClient(client.id);
                     for (const livraisonId of livraisonsIds) {
@@ -43,11 +57,10 @@ export default function LivraisonDetail() {
 
     return (
         <div>
-
             <FormComponent>
                 <img src={back.src} onClick={handleBackClick} alt="Back" className="w-6 h-6"/>
                 {livraisonsDetail.length > 0 ? (
-                    livraisonsDetail.map((livraison, index) => (
+                    livraisonsDetail.map((livraison: Livraison, index: number) => (
                         <div key={index} className="flex items-center justify-between">
                             <span className="text-sm font-medium">
                                 Livraison {livraison.id} pour {livraison.client.nom} :
@@ -55,7 +68,6 @@ export default function LivraisonDetail() {
                                     <img src="/bell.svg" alt="Modifiée" className="inline ml-2 w-5 h-5" />
                                 )}
                             </span>
-
                             {livraison.status !== "Livrée" && (
                                 <button
                                     onClick={() =>{

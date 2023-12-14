@@ -12,9 +12,26 @@ import {
 } from "@/lib/api";
 import {message} from "antd";
 
+interface Itineraire {
+    id: string,
+    client: object,
+    livreur: Livreur,
+    status: string,
+}
+
+interface Livreur {
+    id: string,
+    username: string,
+    isAdmin: boolean,
+}
+
+interface ArticleTotal {
+    nom: string,
+    quantite: number,
+}
 export default function Route() {
     const [itineraire, setItineraire] = useState(null);
-    const [articles, setArticles] = useState({});
+    const [articles, setArticles] = useState<{ [key: string]: ArticleTotal }>({});
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,11 +43,10 @@ export default function Route() {
                     obj[article.id] = article.nom;
                     return obj;
                 }, {});
-
+                // @ts-ignore
                 const itineraireData = await getItineraireById(itineraireId);
                 setItineraire(itineraireData);
-
-                const newTotals = {}; // Créer un nouvel objet pour les totaux
+                const newTotals = {};
                 for (const client of itineraireData.clients) {
                     const livraisonArticlesId = await fetchLivraisonParClient(client.id);
                     const livraisonArticle = await getArticlesByLivraisonsId(livraisonArticlesId);
@@ -38,12 +54,13 @@ export default function Route() {
                         if (!newTotals[articleId]) {
                             newTotals[articleId] = { quantite: 0, nom: articlesById[articleId] || 'Nom inconnu' };
                         }
+                        // @ts-ignore
                         newTotals[articleId].quantite += quantite;
                     }
                 }
-
-                setArticles(newTotals); // Mettre à jour l'état avec les nouveaux totaux
+                setArticles(newTotals);
             } catch (error) {
+                // @ts-ignore
                 console.error("Erreur lors de la récupération des données:", error);
             }
         };
@@ -55,17 +72,14 @@ export default function Route() {
     }
 
     function handleModifierClick() {
+        // @ts-ignore
         navigate(`/itineraires/route/${itineraire.id}/livraison`, { state: { itineraire } });
         window.location.reload();
     }
 
     function handleBackClick() {
-        // Prendre l'URL actuelle et diviser en segments
         const urlSegments = window.location.pathname.split('/');
-
-        // Enlever les deux derniers segments
         const newPath = urlSegments.slice(0, -2).join('/');
-        // Rediriger vers la nouvelle URL
         navigate(newPath);
         window.location.reload()
     }

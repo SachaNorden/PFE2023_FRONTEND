@@ -1,30 +1,38 @@
 'use client'
 
 import {Button, Form, Image, Input, message} from 'antd';
-//import {Button} from '@/app/ui/button'
 import {decodeJWT, getUserById, login} from "@/lib/api";
 import {wait} from "next/dist/lib/wait";
 import {useState} from "react";
 
+interface JwtPayload {
+    user_id: string;
+}
 
 export default function LoginPage() {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
+    // @ts-ignore
     const handleSubmit = async (values) => {
         setLoading(true);
         try {
             const token = await login(values.username, values.password);
-            const decodedToken = decodeJWT(token);
+            // @ts-ignore
+            const decodedToken: JwtPayload = decodeJWT(token);
             const user = await getUserById(decodedToken.user_id);
             message.success('Connexion réussie');
-            localStorage.setItem('token', token);
-            localStorage.setItem('isAdmin', user.isAdmin);
+            const isAdmin = user.isAdmin;
+            localStorage.setItem('isAdmin', isAdmin);
             localStorage.setItem('userId', user.id);
             await wait(1000)
-            window.location.href = '/clients/';
+            if(isAdmin) {
+                window.location.href = '/clients/';
+            } else {
+                window.location.href = '/itineraires/';
+            }
         } catch (error) {
-            message.error(error);
+            console.error(error);
         } finally {
             setLoading(false);
         }

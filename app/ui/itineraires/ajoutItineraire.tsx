@@ -1,10 +1,29 @@
 'use client';
 import {Button} from "@/app/ui/button";
-import {addItineraire, fetchLivraisons, fetchItineraires, fetchUsers} from "@/lib/api";
+import {addItineraire, fetchLivraisons, fetchUsers} from "@/lib/api";
 import Link from "next/link";
-import { Form, Select, message } from "antd";
+import {Form, message, Select} from "antd";
 import {useEffect, useState} from "react";
-const { Option } = Select;
+
+const {Option} = Select;
+
+interface Commande {
+    id: string,
+    client: Client,
+    date_commande: string,
+}
+
+interface Client {
+    id: string,
+    nom: string,
+    adresse_complete: string;
+}
+
+interface User {
+    id: string,
+    username: string,
+    isAdmin: boolean,
+}
 
 function AjoutItineraire() {
     const [form] = Form.useForm();
@@ -14,35 +33,37 @@ function AjoutItineraire() {
             await addItineraire(values.commandes, values.users, values.status);
             message.success("Iitneraire ajouté");
         } catch (error) {
-            message.error("Erreur lors de l'ajout de l'itinéraire");
+            console.error("Erreur lors de l'ajout de l'itinéraire");
         }
     };
 
-    const [commandes, setCommandes] = useState([]);
+    const [commandes, setCommandes] = useState<Commande[]>([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await fetchLivraisons();
                 setCommandes(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
         fetchData();
-    }, );
+    },);
 
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<User[]>([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await fetchUsers();
                 setUsers(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
         fetchData();
-    }, );
+    },);
 
 
     return (
