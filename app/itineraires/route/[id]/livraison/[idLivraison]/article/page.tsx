@@ -11,13 +11,12 @@ import {
     updateLivraisonArticle
 } from "@/lib/api";
 import {wait} from "next/dist/lib/wait";
-import {Form} from "antd"; // Assurez-vous que cette fonction est correctement importée
+import {Form, Input, message} from "antd"; // Assurez-vous que cette fonction est correctement importée
 
 export default function ArticleLivraison() {
-    const { state } = useLocation();
     const [articles, setArticles] = useState([]);
     const [articlesDetails, setArticlesDetails] = useState({});
-
+    const [livraison,setLivraison]= useState();
     const [form] = Form.useForm();
 
     const urlSegments = window.location.href.split('/');
@@ -32,6 +31,17 @@ export default function ArticleLivraison() {
             }
         };
 
+        if(articles){
+            form.setFieldValue({
+                champ1:articles.find(item => item.article === 1)?.quantite || 0,
+                champ2:articles.find(item => item.article === 2)?.quantite || 0,
+                champ3:articles.find(item => item.article === 3)?.quantite || 0,
+                champ4:articles.find(item => item.article === 4)?.quantite || 0,
+                champ5:articles.find(item => item.article === 5)?.quantite || 0,
+                champ6:articles.find(item => item.article === 6)?.quantite || 0,
+            });
+        }
+
         const fetchArticleNames = async () => {
             try {
                 const articlesData = await fetchArticles();
@@ -43,37 +53,52 @@ export default function ArticleLivraison() {
                 console.error("Erreur lors de la récupération des noms des articles:", error);
             }
         }
+
+        const fetchlivraisonID =async ()=>{
+            try {
+                const currentLivraison = await getLivraisonById(livraisonId);
+                setLivraison(currentLivraison);
+            }catch (error){
+                console.error("Erreur lors de la récupération des noms des articles:", error);
+            }
+        }
+
+        if(articles.length > 0) {
+            const initialValues = {};
+            articles.forEach((article, index) => {
+                initialValues[`champ${index}`] = article.quantite;
+            });
+            form.setFieldsValue(initialValues);
+        }
+
+        fetchlivraisonID()
         fetchArticleNames();
         fetchDetails();
-    }, []);
+    }, [articles, form]);
     const updateQuantity = (articleId, newQuantity) => {
-        setArticles((currentArticles) =>
-            currentArticles.map((art) =>
-                art.article.id === articleId ? { ...art, quantite: newQuantity } : art
-            )
+        setArticles(currentArticles =>
+            currentArticles.map(art => {
+                if (art.article === articleId) {
+                    return { ...art, quantite: parseInt(newQuantity, 10) };
+                }
+                return art;
+            })
         );
     };
 
+
+
     const handleSubmit = async () => {
            try {
-            const currentLivraison = await getLivraisonById(livraisonId);
-            //console.log('currentLivraison à soumettre:', currentLivraison);
-
-               const clientData = {
-                   id: currentLivraison.client.id,
-                   nom: currentLivraison.client.nom,
-                   adresse_complete: currentLivraison.client.adresse_complete,
-                   // ... autres propriétés du client si nécessaires
-               };
-            await updateLivraison(
-                livraisonId,
-                currentLivraison.client,
-                currentLivraison.date_livraison,
-                "Livrée",
-                currentLivraison.isModified
-            );
-
-            // Si la mise à jour est réussie, vous pouvez faire autre chose ici, comme rediriger ou afficher un message
+            if(livraison){
+                await updateLivraison(
+                    livraisonId,
+                    livraison.client,
+                    livraison.date_livraison,
+                    "Livrée",
+                    livraison.isModified
+                );
+            }
             console.log('Mise à jour réussie');
         } catch (error) {
             console.error("Erreur lors de la mise à jour de la livraison:", error);
@@ -81,15 +106,11 @@ export default function ArticleLivraison() {
 
         try {
             const values = await form.validateFields();
-            const articles = [
-                {article: 1, quantite: values.champ1 || 0},
-                {article: 2, quantite: values.champ2 || 0},
-                {article: 3, quantite: values.champ3 || 0},
-                {article: 4, quantite: values.champ4 || 0},
-                {article: 5, quantite: values.champ5 || 0},
-                {article: 6, quantite: values.champ6 || 0},
-            ];
-            await updateLivraisonArticle(commandeId, articles);
+            const articlesToUpdate = articles.map((article, index) => ({
+                article: article.article,
+                quantite: values[`champ${index}`]
+            }));
+            await updateLivraisonArticle(livraisonId, articlesToUpdate);
             message.success("Commande mise à jour avec succès");
             wait(1000);
             window.location.reload();
@@ -101,31 +122,32 @@ export default function ArticleLivraison() {
     return (
         <div className="flex justify-center items-center min-h-screen">
             <div className="w-full max-w-xs">
-                <FormComponent>
                     <Form form={form} onFinish={handleSubmit} autoComplete="off">
-                        {articles.map((article, index) => (
+                        {articles.map((article, index) =>{
+                            return(
                             <Form.Item
                                 key={article.article}
-                                label={articlesDetails[article.article]}
                                 name={`champ${index}`}
                                 rules={[{ required: true, message: "Veuillez saisir la quantité" }]}
                             >
                                 <Article
-                                    article={article}
+                                    article={articlesDetails[article.article]}
+                                    articleID={article.article}
                                     quantite={article.quantite}
                                     updateQuantity={updateQuantity}
                                 />
                             </Form.Item>
-                        ))}
-                    </Form>
+                            )
+                        })}
+
                         <button
                             type="submit"
                             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                         >
                             Valider
                         </button>
+                    </Form>
 
-                </FormComponent>
             </div>
         </div>
     );
