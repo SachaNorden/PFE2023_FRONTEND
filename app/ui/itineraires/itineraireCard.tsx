@@ -1,5 +1,7 @@
 'use client';
 import {Button, Card, Form, message, Popconfirm} from 'antd';
+import {useEffect, useState} from "react";
+import {fetchLivraisonArticle, getClientById, getLivraisonById} from "@/lib/api";
 
 interface Commande {
     id: string,
@@ -31,6 +33,8 @@ const getStatusColorClass = (status) => {
 function ItineraireCard({ itineraire   }) {
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
+    const [clientsDetails, setClientsDetails] = useState({});
+
     function handleModifierClick() {
         if(isAdmin){
             window.location.href=`/itineraires/${itineraire.id}`
@@ -69,12 +73,10 @@ function ItineraireCard({ itineraire   }) {
                     </span>
                 </p>
                 <p className="text-sm text-gray-400">
-                    {itineraire.commandes.map((commande: any, index: number) => (
+                    {itineraire.clients.map((client: any, index: number) => (
                         <div key={index} className='flex items-center justify-between flex-grow'>
-                            <p>{commande.client.nom}</p>
-
+                            <p>{client.nom ?? 'Chargement...'}</p>
                         </div>
-
                     ))}
                     {renderAdminActions()}
                 </p>

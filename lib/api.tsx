@@ -344,17 +344,6 @@ export async function fetchLivraisonArticle(id: string) {
     }
 }
 
-export async function fetchLivraison() {
-    try{
-        const response = await fetch(`${BASE_URL}/livraisons/`);
-        if (!response.ok) throw new Error(`Erreur lors de la récupération des articles de la livraison`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        throw new Error('Erreur lors de la récupération des articles de la livraison');
-    }
-}
-
 export async function addItineraire(livraisons: Object, livreur: Object, status : String) {
     try {
         const response = await fetch(`${BASE_URL}/itineraires/`, {
@@ -488,23 +477,62 @@ export async function getArticlesByLivraisonsId(id: string) {
         const response = await fetch(`${BASE_URL}/livraisons/${id}/articles/`);
         if (!response) {
             throw new Error(`Articles de la livraison avec l'identifiant ${id} non trouvé.`);
-            //throw new Error(`Erreur lors de la récupération des articles`);
         }
     } catch (error) {
         throw new Error(`Erreur lors de la récupération des articles de la livraison avec l'identifiant ${id}.`);
     }
 }
 
-export async function updateLivraison(id: string, client: Object, date_livraison: string, status: string, isModified: boolean) {
+interface Article {
+    article: number;
+    quantite: number;
+}
+
+export async function updateLivraison(id: string, articles: Article[]) {
     try {
-        const response = await fetch(`${BASE_URL}/livraisons/${id}/`, {
-            body: JSON.stringify({client, date_livraison, status, isModified}),
+        const response = await fetch(`${BASE_URL}/livraisons/${id}/articles/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(articles),
         });
+
         if (!response.ok) {
             throw new Error('Erreur lors de la mise à jour de la livraison');
         }
     } catch (error) {
         throw new Error(`Erreur lors de la mise à jour de la livraison avec l'identifiant ${id}`);
+    }
+}
+
+export async function getLivraionById(livraisonId: string) {
+    try {
+        const response = await fetch(`${BASE_URL}/livraisons/${livraisonId}/articles/`);
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la récupération de la livraison du client avec l'identifiant ${livraisonId}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération de l'id de la commande du client avec l'identifiant du client : ${clientId}`);
+    }
+}
+
+export async function fetchLivraisonParClient(id: string) {
+    try {
+        const response = await fetch(`${BASE_URL}/livraisons/livraison-par-client/${id}/`);
+        if (!response) {
+            throw new Error(`Articles de la livraison avec l'identifiant ${id} non trouvé.`);
+        }
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Erreur lors de la récupération de l'id`);
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la récupération de l'id ${id}.`);
     }
 }
 
