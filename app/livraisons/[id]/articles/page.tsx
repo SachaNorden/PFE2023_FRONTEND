@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import FormComponent from "@/app/ui/Form.component";
-import MenuDer from "@/app/ui/menu/menuAdmin";
+import MenuDer from "@/app/ui/menu/menu";
 import ArticleLivraison from "@/app/ui/livraison/articleLivraison";
 import {getArticlesByLivraisonsId, getItineraireById, getLivraisonById} from "@/lib/api";
 import {message} from "antd";
@@ -49,7 +49,7 @@ export default function Livraison() {
 
     return (
         <div className='min-h-screen flex flex-col'>
-            <MenuDer></MenuDer>
+            <MenuDer />
             <p className="text-4xl flex flex-col justify-center items-center">Modfication Livraison</p>
 
                 <p className="text-2xl flex flex-col justify-center items-center">Livaison n°{livraison.id}</p>

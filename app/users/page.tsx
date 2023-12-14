@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import AddButton from "@/app/ui/addButton";
 import ListeUsers from "@/app/ui/users/listeUsers";
 import LogOutButton from "@/app/ui/logOutButton";
+import MenuDer from "@/app/ui/menu/menu";
 
 function Users() {
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
@@ -28,7 +29,7 @@ function Users() {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
+            <MenuDer />
             {isAdmin ? (
                 <div>
                     <ListeUsers users={users} onDelete={handleDelete()}/>

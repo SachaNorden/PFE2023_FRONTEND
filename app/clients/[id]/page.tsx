@@ -4,6 +4,7 @@ import ProfilClient from "@/app/ui/clients/profilClient";
 import {getClientById} from "@/lib/api";
 import {useEffect, useState} from "react";
 import LogOutButton from "@/app/ui/logOutButton";
+import MenuDer from "@/app/ui/menu/menu";
 
 function Profil() {
     const [client, setclient] = useState([]);
@@ -26,7 +27,7 @@ function Profil() {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
+            <MenuDer />
             {isAdmin ? (
                 <ProfilClient client={client}/>
             ) : (
