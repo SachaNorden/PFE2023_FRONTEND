@@ -3,6 +3,7 @@ import {Form, Input, message} from "antd";
 import {Button} from "@/app/ui/button";
 import {addClient} from "@/lib/api";
 import Link from "next/link";
+import MenuDer from "@/app/ui/menu/menu";
 
 function AjoutClient() {
     const [form] = Form.useForm();
@@ -12,7 +13,7 @@ function AjoutClient() {
             await addClient(values.nom, values.adresse_complete);
             message.success("Client ajouté");
         } catch (error) {
-            message.error("Erreur lors de l'ajout du client");
+            console.error("Erreur lors de l'ajout du client");
         }
     };
 

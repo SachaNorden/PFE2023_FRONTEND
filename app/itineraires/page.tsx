@@ -4,10 +4,11 @@ import FormComponent from '@/app/ui/Form.component'
 import ListItineraires from '@/app/ui/itineraires/listeItineraire'
 import {useEffect, useState} from "react";
 import { fetchItineraires} from "@/lib/api";
-import MenuDer from '@/app/ui/menu/menuAdmin'
+import MenuDer from '@/app/ui/menu/menu'
 import AddButton from "@/app/ui/addButton";
 
 import Itineraire from "@/app/ui/itineraires/Itineraire";
+import LogOutButton from "@/app/ui/logOutButton";
 
 
 
@@ -28,6 +29,7 @@ function Itineraires() {
                 const data = await fetchItineraires();
                 setItineraires(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
@@ -38,19 +40,19 @@ function Itineraires() {
     return (
         <div className='min-h-screen flex flex-col'>
 
-            <MenuDer></MenuDer>
+            <MenuDer />
 
             <p className="text-4xl flex flex-col justify-center items-center">Feuilles de routes</p>
 
 
             <FormComponent>
                 <ListItineraires itineraires={itineraires}></ListItineraires>
-                {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 {isAdmin &&(
                 <AddButton link="/itineraires/creation" />
                 )}
             </FormComponent>
 
+            <LogOutButton />
         </div>
     )
 }

@@ -2,7 +2,9 @@
 import {Form, Input, message} from "antd";
 import {Button} from "@/app/ui/button";
 import {updateUser} from "@/lib/api";
+import Link from "next/link";
 
+// @ts-ignore
 function ProfilUser({user}) {
     const [form] = Form.useForm();
     const handleSubmit = async () => {
@@ -11,7 +13,7 @@ function ProfilUser({user}) {
             await updateUser(user.id, values.username, values.password);
             message.success("Profil mis à jour avec succès");
         } catch (error) {
-            message.error("Erreur lors de la mise à jour du profil");
+            console.error("Erreur lors de la mise à jour du profil");
         }
     };
 
@@ -53,6 +55,9 @@ function ProfilUser({user}) {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
+                    <Link href={`/users/`}>
+                        <Button>Retour</Button>
+                    </Link>
                     <Button type='submit'>
                         Enregistrer
                     </Button>

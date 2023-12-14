@@ -4,7 +4,9 @@ import {Button} from '@/app/ui/button';
 import {updateClient} from '@/lib/api';
 import {useEffect} from "react";
 import {wait} from "next/dist/lib/wait";
+import Link from "next/link";
 
+// @ts-ignore
 function ProfilClient({client}) {
     const [form] = Form.useForm();
     const handleSubmit = async () => {
@@ -15,7 +17,7 @@ function ProfilClient({client}) {
             await wait(1000);
             window.location.href = '/clients/';
         } catch (error) {
-            message.error("Erreur lors de la mise à jour du profil");
+            console.error("Erreur lors de la mise à jour du profil");
         }
     };
     useEffect(() => {
@@ -59,6 +61,9 @@ function ProfilClient({client}) {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
+                    <Link href={`/clients/`}>
+                        <Button>Retour</Button>
+                    </Link>
                     <Button type='submit'>Enregistrer</Button>
                 </div>
             </Form>

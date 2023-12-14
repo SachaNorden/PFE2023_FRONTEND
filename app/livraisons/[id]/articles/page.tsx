@@ -1,10 +1,24 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import FormComponent from "@/app/ui/Form.component";
-import MenuDer from "@/app/ui/menu/menuAdmin";
+import MenuDer from "@/app/ui/menu/menu";
 import ArticleLivraison from "@/app/ui/livraison/articleLivraison";
 import {getArticlesByLivraisonsId, getItineraireById, getLivraisonById} from "@/lib/api";
 import {message} from "antd";
+
+interface Livraison {
+    id: string,
+    client: Client,
+    date_livraison: string,
+    status: string,
+    isModified: boolean,
+}
+
+interface Client {
+    id: string,
+    nom: string,
+    adresse_complete: string,
+}
 
 export default function Livraison() {
     const [articles, setArticles] = useState([]);
@@ -17,18 +31,19 @@ export default function Livraison() {
         const fetchData = async () => {
             try {
                 const data = await getArticlesByLivraisonsId(livraisonId);
+                // @ts-ignore
                 setArticles(data);
             } catch (error) {
-                message.error(error.message);
+                // @ts-ignore
+                console.error(error.message);
             }
         };
         fetchData();
     }, []); // Dépendance vide pour exécuter une seule fois au montage
 
-    const [livraison, setLivraison] = useState([]);
+    const [livraison, setLivraison] = useState<Livraison>();
 
     useEffect(() => {
-        // Utilisation de la méthode 'location.pathname' pour obtenir le chemin de l'URL
         const currentPath = window.location.pathname;
         const parts = currentPath.split('/');
         const livraisonId = parts[parts.length - 2];
@@ -37,7 +52,8 @@ export default function Livraison() {
                 const data = await getLivraisonById(livraisonId);
                 setLivraison(data);
             } catch (error) {
-                message.error(error.message);
+                // @ts-ignore
+                console.error(error.message);
             }
         };
         fetchData();
@@ -49,7 +65,7 @@ export default function Livraison() {
 
     return (
         <div className='min-h-screen flex flex-col'>
-            <MenuDer></MenuDer>
+            <MenuDer />
             <p className="text-4xl flex flex-col justify-center items-center">Modfication Livraison</p>
 
                 <p className="text-2xl flex flex-col justify-center items-center">Livaison n°{livraison.id}</p>
