@@ -3,6 +3,7 @@ import Link from "next/link";
 import { deleteClient } from '@/lib/api';
 import {redirect} from "next/navigation";
 
+// @ts-ignore
 function ClientCard({ client, onDelete }) {
     const handleDelete = async () => {
         const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');

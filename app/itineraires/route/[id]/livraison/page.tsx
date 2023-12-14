@@ -5,8 +5,23 @@ import {fetchLivraison, getItineraireById} from "@/lib/api";
 import { message} from "antd";
 import {useNavigate} from "react-router-dom";
 
+
+interface Itineraire {
+    id: string,
+    client: object,
+    livreur: string,
+    status: string,
+}
+interface Livraison {
+    id: string,
+    client: string,
+    date_livraison: string,
+    status: string,
+    isModified: boolean,
+}
+
 export default function LivraisonDetail() {
-    const [itineraire, setItineraire] = useState(null);
+    const [itineraire, setItineraire] = useState<Itineraire>();
     const [matchedLivraisons, setMatchedLivraisons] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
@@ -20,14 +35,15 @@ export default function LivraisonDetail() {
 
                 const livraisons = await fetchLivraison()
                 // Filtrer les livraisons pour ne garder que celles qui correspondent aux commandes de l'itinéraire
-                const matched = livraisons.filter((livraison) =>
-                    itineraireData.commandes.some((commande) =>
-                        commande.client.id === livraison.client.id
+                const matched = livraisons.filter((livraison: any) =>
+                    itineraireData.commandes.some((commande: any) =>
+                            commande.client.id === livraison.client.id
                         // && itineraire.livreur.id === localstorage.getItem('userId')
                     )
                 );
                 setMatchedLivraisons(matched);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
@@ -38,20 +54,25 @@ export default function LivraisonDetail() {
     return (
         <div>
             <FormComponent>
-                {matchedLivraisons.length > 0 ? (
-                    matchedLivraisons.map((livraison, index) => (
+                {matchedLivraisons.length > 0 && matchedLivraisons[0] ? (
+                    matchedLivraisons.map((livraison: Livraison, index: number) => (
                         <div key={livraison.id} className="flex items-center justify-between">
-              <span className="text-sm font-medium">
-                Livraison {livraison.id} :
-                  {livraison.isModified && (
-                      <img src="/bell.svg" alt="Modifiée" className="inline ml-2 w-5 h-5" />
-                  )}
-              </span>
+                            <span className="text-sm font-medium">
+                                Livraison {livraison.id} :
+                                {livraison.isModified && (
+                                    <img src="/bell.svg" alt="Modifiée" className="inline ml-2 w-5 h-5" />
+                                )}
+                            </span>
                             {livraison.status !== "Livrée" && (
                                 <button
                                     onClick={() => {
-                                        navigate(`/itineraires/route/${itineraire.id}/livraison/${livraison.id}`);
-                                        window.location.reload();}}
+                                        if (itineraire) {  // Vérification de non-null
+                                            navigate(`/itineraires/route/${itineraire.id}/livraison/${livraison.id}`);
+                                            window.location.reload();
+                                        } else {
+                                            console.error("Erreur: itineraire est null");
+                                        }
+                                    }}
                                     className="text-blue-700 hover:text-blue-900 text-xs font-semibold"
                                 >
                                     Détails

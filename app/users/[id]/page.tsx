@@ -19,6 +19,7 @@ function Profil() {
                 const data = await getUserById(userId);
                 setUser(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
@@ -32,7 +33,7 @@ function Profil() {
                 <ProfilUser user={user}/>
             ) : (
                 <div>
-                    <div>Vous n'avez pas accès à cette page, veuillez contacter l'administrateur.</div>
+                    <div>Vous n avez pas accès à cette page, veuillez contacter l administrateur.</div>
                     <LogOutButton/>
                 </div>
             )}

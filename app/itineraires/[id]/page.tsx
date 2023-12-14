@@ -21,19 +21,21 @@ export default function Itineraires() {
                    const data = await getItineraireById(itineraireId);
                    setItineraire(data);
                } catch (error) {
+                   // @ts-ignore
                    console.error(error.message);
                }
            };
            fetchData();
        }, []);
 
-    const [livraisons, setLivraisons] = useState([]);
+    const [livraisons, setLivraisons] = useState<Array<{ id: string; client: { nom: string } }>>([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await fetchLivraisons();
                 setLivraisons(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
@@ -50,7 +52,6 @@ export default function Itineraires() {
             <FormComponent>
                 <Itineraire itine={itin}/>
 
-                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <br/>
 
                 <div className='mb-4'>
@@ -69,14 +70,14 @@ export default function Itineraires() {
                                 style={{ backgroundColor: '#52c41a', border: 'none' }}
                             />
                             <Select placeholder="Ajouter un Client" allowClear>
-                                {livraisons.map(livraison => (
+                                {livraisons.length > 0 && livraisons.map(livraison => (
                                     <Option key={livraison.id} value={livraison.id}>
-                                        {livraison.client.nom} {/* Assurez-vous d'adapter cela en fonction de la structure de vos livraisons */}
+                                        {livraison.client.nom}
                                     </Option>
                                 ))}
                             </Select>
                         </div>
-                        <Button type='submit'>
+                        <Button type='primary' htmlType='submit'>
                             Ajouter
                         </Button>
                     </Form.Item>

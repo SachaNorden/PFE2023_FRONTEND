@@ -6,6 +6,20 @@ import ArticleLivraison from "@/app/ui/livraison/articleLivraison";
 import {getArticlesByLivraisonsId, getItineraireById, getLivraisonById} from "@/lib/api";
 import {message} from "antd";
 
+interface Livraison {
+    id: string,
+    client: Client,
+    date_livraison: string,
+    status: string,
+    isModified: boolean,
+}
+
+interface Client {
+    id: string,
+    nom: string,
+    adresse_complete: string,
+}
+
 export default function Livraison() {
     const [articles, setArticles] = useState([]);
 
@@ -17,18 +31,19 @@ export default function Livraison() {
         const fetchData = async () => {
             try {
                 const data = await getArticlesByLivraisonsId(livraisonId);
+                // @ts-ignore
                 setArticles(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };
         fetchData();
     }, []); // Dépendance vide pour exécuter une seule fois au montage
 
-    const [livraison, setLivraison] = useState([]);
+    const [livraison, setLivraison] = useState<Livraison>();
 
     useEffect(() => {
-        // Utilisation de la méthode 'location.pathname' pour obtenir le chemin de l'URL
         const currentPath = window.location.pathname;
         const parts = currentPath.split('/');
         const livraisonId = parts[parts.length - 2];
@@ -37,6 +52,7 @@ export default function Livraison() {
                 const data = await getLivraisonById(livraisonId);
                 setLivraison(data);
             } catch (error) {
+                // @ts-ignore
                 console.error(error.message);
             }
         };

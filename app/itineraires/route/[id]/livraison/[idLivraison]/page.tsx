@@ -1,25 +1,29 @@
 'use client'
 import FormComponent from "@/app/ui/Form.component";
-import {useEffect, useState} from "react";
+import {JSXElementConstructor, Key, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal,
+    useEffect,
+    useState
+} from "react";
 import {fetchLivraisonArticle} from "@/lib/api";
 
 
 export default function ArticleLivraison() {
-    const [detailsLivraison, setDetailsLivraison] = useState(null);
-
+    const [detailsLivraison, setDetailsLivraison] = useState([]);
 
     useEffect(() => {
         const livraisonId = window.location.href.split('/').pop();
 
         const fetchDetails = async () => {
             try {
-                const data = await fetchLivraisonArticle(livraisonId);
-                setDetailsLivraison(data);
+                if (livraisonId) {
+                    const data = await fetchLivraisonArticle(livraisonId);
+                    setDetailsLivraison(data);
+                } else {
+                    console.error("livraisonId n'est pas défini.");
+                }
             } catch (error) {
                 console.error("Erreur lors de la récupération des détails de la livraison:", error);
-                // Gérez l'erreur comme vous le souhaitez, par exemple en affichant un message
             }
-
         };
 
         fetchDetails();
@@ -33,7 +37,7 @@ export default function ArticleLivraison() {
                         <h2>Livraison :</h2>
                         <h3>Articles :</h3>
                         <ul>
-                            {detailsLivraison.map((item) => (
+                            {detailsLivraison.map((item: { article: { id: Key | null | undefined; nom: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; }; quantite: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; }) => (
                                 <li key={item.article.id}>
                                     {item.article.nom} : {item.quantite}
                                 </li>
