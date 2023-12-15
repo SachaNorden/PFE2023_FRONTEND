@@ -2,19 +2,12 @@
 import FormComponent from "@/app/ui/Form.component";
 import back from "@/public/arrow-left.svg";
 import {useEffect, useState} from "react";
-import { useNavigate } from 'react-router-dom';
-import {
-    fetchArticles,
-    fetchLivraisonArticle,
-    fetchLivraisonParClient,
-    getArticlesByLivraisonsId,
-    getItineraireById, updateItineraire
-} from "@/lib/api";
-import {message} from "antd";
+import {useNavigate} from 'react-router-dom';
+import {fetchArticles, fetchLivraisonParClient, getArticlesByLivraisonsId, getItineraireById} from "@/lib/api";
 
 interface Itineraire {
     id: string,
-    client: object[],
+    client: object,
     livreur: {
         id: string,
         username: string,
@@ -50,13 +43,20 @@ export default function Route() {
                 for (const client of itineraireData.clients) {
                     const livraisonArticlesId = await fetchLivraisonParClient(client.id);
                     const livraisonArticle = await getArticlesByLivraisonsId(livraisonArticlesId);
-                    // @ts-ignore
-                    for (const { article: articleId, quantite } of livraisonArticle) {
 
+                    // @ts-ignore
+                    if (!livraisonArticle || !Array.isArray(livraisonArticle)) {
+                        // Gérer le cas où livraisonArticle n'est pas itérable
+                        console.error("Les données de livraisonArticle ne sont pas valides:", livraisonArticle);
+                        continue; // Passe à l'itération suivante
+                    }
+
+                    // @ts-ignore
+                    for await (const {article: articleId, quantite} of livraisonArticle) {
                         // @ts-ignore
                         if (!newTotals[articleId]) {
                             // @ts-ignore
-                            newTotals[articleId] = { quantite: 0, nom: articlesById[articleId] || 'Nom inconnu' };
+                            newTotals[articleId] = {quantite: 0, nom: articlesById[articleId] || 'Nom inconnu'};
                         }
                         // @ts-ignore
                         newTotals[articleId].quantite += quantite;
@@ -64,10 +64,10 @@ export default function Route() {
                 }
                 setArticles(newTotals);
             } catch (error) {
-                // @ts-ignore
                 console.error("Erreur lors de la récupération des données:", error);
             }
         };
+
         fetchArticlesData();
     }, []);
     if (!itineraire) {
@@ -76,9 +76,7 @@ export default function Route() {
 
     function handleModifierClick() {
         // @ts-ignore
-        updateItineraire(itineraire?.id, itineraire?.clients, itineraire?.livreur, 'En cours' )
-        // @ts-ignore
-        navigate(`/itineraires/route/${itineraire.id}/livraison`, { state: { itineraire } });
+        navigate(`/itineraires/route/${itineraire.id}/livraison`, {state: {itineraire}});
         window.location.reload();
     }
 
@@ -104,7 +102,7 @@ export default function Route() {
                     <img src={back.src} onClick={handleBackClick} alt="Back" className="w-6 h-6"/>
                     <div className="font-bold text-lg mb-4">Itinéraire {itineraire.id}:</div>
                     <p>Article totaux:</p>
-                    {Object.entries(articles).map(([articleId, { quantite, nom }]) => {
+                    {Object.entries(articles).map(([articleId, {quantite, nom}]) => {
                         return (
                             <div key={articleId}>
                                 <p>Article: {nom}</p>
@@ -112,7 +110,9 @@ export default function Route() {
                             </div>
                         );
                     })}
-                    <button onClick={handleModifierClick} className="mt-4 bg-blue-500 text-white p-2 rounded">Sélectionner</button>
+                    <button onClick={handleModifierClick}
+                            className="mt-4 bg-blue-500 text-white p-2 rounded">Sélectionner
+                    </button>
                 </div>
             </FormComponent>
 
