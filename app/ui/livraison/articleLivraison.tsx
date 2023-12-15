@@ -9,7 +9,6 @@ import {useEffect} from "react";
 
 // @ts-ignore
 function ArticleLivraison({articles, livraison}) {
-    console.log(articles);
     const [form] = Form.useForm();
     const handleSubmit = async () => {
         try {

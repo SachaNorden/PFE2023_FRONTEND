@@ -1,7 +1,6 @@
 'use client';
-import {Form, Input, message} from "antd";
+import {Form} from "antd";
 import {Button} from "@/app/ui/button";
-import {updateUser} from "@/lib/api";
 
 // @ts-ignore
 const getStatusColorClass = (status) => {
@@ -21,13 +20,7 @@ const getStatusColorClass = (status) => {
 function CommandeInItineraire({commande}) {
     const [form] = Form.useForm();
 
-    function handleModifierClick() {
-        console.log("cliqué (rajouter 'commandeId: any' en param");
-    }
-
     return (
-
-
         <div className='flex items-center mb-4'>
             <div>
                 <p>

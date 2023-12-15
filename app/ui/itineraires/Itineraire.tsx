@@ -1,9 +1,7 @@
 'use client';
-import {Form} from "antd";
 import CommandeItineraire from "@/app/ui/commandes/commandeItineraire";
 import {useEffect, useState} from "react";
 import {getUserById} from "@/lib/api";
-
 
 
 interface Livreur {
@@ -14,8 +12,6 @@ interface Livreur {
 
 // @ts-ignore
 function Itineraire({itine}) {
-    const [form] = Form.useForm();
-
     const [livreur, setUser] = useState<Livreur>();
 
     useEffect(() => {
@@ -32,12 +28,7 @@ function Itineraire({itine}) {
         };
 
         fetchData();
-    }, []);
-
-
-    function handleModifierClick() {
-        console.log("cliqué (rajouter 'commandeId: any' en param");
-    }
+    }, [itine.livreur]);
 
     // Vérification de la nullité de itine
     if (!itine) {

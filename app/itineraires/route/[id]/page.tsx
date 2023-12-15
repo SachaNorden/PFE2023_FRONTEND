@@ -2,15 +2,8 @@
 import FormComponent from "@/app/ui/Form.component";
 import back from "@/public/arrow-left.svg";
 import {useEffect, useState} from "react";
-import { useNavigate } from 'react-router-dom';
-import {
-    fetchArticles,
-    fetchLivraisonArticle,
-    fetchLivraisonParClient,
-    getArticlesByLivraisonsId,
-    getItineraireById
-} from "@/lib/api";
-import {message} from "antd";
+import {useNavigate} from 'react-router-dom';
+import {fetchArticles, fetchLivraisonParClient, getArticlesByLivraisonsId, getItineraireById} from "@/lib/api";
 
 interface Itineraire {
     id: string,
@@ -54,7 +47,6 @@ export default function Route() {
                     // @ts-ignore
                     if (!livraisonArticle || !Array.isArray(livraisonArticle)) {
                         // Gérer le cas où livraisonArticle n'est pas itérable
-                        console.log(livraisonArticle)
                         console.error("Les données de livraisonArticle ne sont pas valides:", livraisonArticle);
                         continue; // Passe à l'itération suivante
                     }
@@ -84,7 +76,7 @@ export default function Route() {
 
     function handleModifierClick() {
         // @ts-ignore
-        navigate(`/itineraires/route/${itineraire.id}/livraison`, { state: { itineraire } });
+        navigate(`/itineraires/route/${itineraire.id}/livraison`, {state: {itineraire}});
         window.location.reload();
     }
 
@@ -110,7 +102,7 @@ export default function Route() {
                     <img src={back.src} onClick={handleBackClick} alt="Back" className="w-6 h-6"/>
                     <div className="font-bold text-lg mb-4">Itinéraire {itineraire.id}:</div>
                     <p>Article totaux:</p>
-                    {Object.entries(articles).map(([articleId, { quantite, nom }]) => {
+                    {Object.entries(articles).map(([articleId, {quantite, nom}]) => {
                         return (
                             <div key={articleId}>
                                 <p>Article: {nom}</p>
@@ -118,7 +110,9 @@ export default function Route() {
                             </div>
                         );
                     })}
-                    <button onClick={handleModifierClick} className="mt-4 bg-blue-500 text-white p-2 rounded">Sélectionner</button>
+                    <button onClick={handleModifierClick}
+                            className="mt-4 bg-blue-500 text-white p-2 rounded">Sélectionner
+                    </button>
                 </div>
             </FormComponent>
 
