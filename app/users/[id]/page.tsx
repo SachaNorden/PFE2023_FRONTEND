@@ -29,14 +29,11 @@ function Profil() {
     return (
         <div className="min-h-screen flex flex-col">
             <MenuDer />
-            {isAdmin ? (
                 <ProfilUser user={user}/>
-            ) : (
                 <div>
-                    <div>Vous n avez pas accès à cette page, veuillez contacter l administrateur.</div>
                     <LogOutButton/>
                 </div>
-            )}
+
         </div>
     );
 }
