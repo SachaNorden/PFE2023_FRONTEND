@@ -1,11 +1,10 @@
 'use client'
-import {Menu, Form, Input, Image, Button, Select} from 'antd';// npm install antd
+import {Button, Form, Select} from 'antd';
 import FormComponent from "@/app/ui/Form.component";
-import {fetchClients, fetchLivraisons, getLivraisonById, getItineraireById} from "@/lib/api";
+import {fetchLivraisons, getItineraireById} from "@/lib/api";
 import {useEffect, useState} from "react";
 import Itineraire from "@/app/ui/itineraires/Itineraire";
 import MenuDer from "@/app/ui/menu/menu";
-import Link from "next/link";
 import {PlusOutlined} from "@ant-design/icons";
 
 const {Option} = Select;

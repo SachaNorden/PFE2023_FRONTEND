@@ -3,6 +3,12 @@ import CommandeItineraire from "@/app/ui/commandes/commandeItineraire";
 import {useEffect, useState} from "react";
 import {getUserById} from "@/lib/api";
 
+interface Livreur {
+    id: string,
+    username: string,
+    isAdmin: boolean,
+}
+
 const getStatusColorClass = (status:string) => {
     switch (status) {
         case 'En cours':
@@ -15,10 +21,10 @@ const getStatusColorClass = (status:string) => {
             return 'text-xl text-gray-400 font-bold';
     }
 };
+
 // @ts-ignore
 function Itineraire({itine}) {
-    const [livreur, setUser] = useState<Array<{ id: string; client: { nom: string } }>>([]);
-
+    const [livreur, setUser] = useState<Livreur>();
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,32 +36,19 @@ function Itineraire({itine}) {
                 console.error(error.message);
             }
         };
-
         fetchData();
-    }, []);
+    }, [itine.livreur]);
 
-
-    function handleModifierClick() {
-        console.log("cliqué (rajouter 'commandeId: any' en param");
-    }
-
-    // Vérification de la nullité de itine
     if (!itine) {
-        return null; // Ou vous pouvez afficher un message de chargement, etc.
+        return null;
     }
 
     return (
-
         <div className='fmb-4'>
-
-            <p className="text-base"><b className="text-xl">Itinéraire {itine.id}  </b>
+            <p className="text-base"><b className="text-xl">Itinéraire {itine.id}  </
                 <span className={getStatusColorClass(itine.status)}>{itine.status}</span></p>
-
             <p className="text-base">{livreur.username}</p>
-
             <br/>
-
-            {/* Vérification de la nullité de itine.commandes */}
             {itine.clients && (
                 itine.clients.map((client: any) => (
                     // eslint-disable-next-line react/jsx-key

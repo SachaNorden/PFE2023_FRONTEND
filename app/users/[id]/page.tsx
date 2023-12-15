@@ -7,8 +7,7 @@ import LogOutButton from "@/app/ui/logOutButton";
 import MenuDer from "@/app/ui/menu/menu";
 
 function Profil() {
-    const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
-    const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
+
     const [user, setUser] = useState([]);
     useEffect(() => {
         const currentUrl = window.location.href;
@@ -33,7 +32,6 @@ function Profil() {
                 <div>
                     <LogOutButton/>
                 </div>
-
         </div>
     );
 }

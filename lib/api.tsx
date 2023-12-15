@@ -478,6 +478,10 @@ export async function getArticlesByLivraisonsId(id: string) {
         if (!response) {
             throw new Error(`Articles de la livraison avec l'identifiant ${id} non trouvé.`);
         }
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
     } catch (error) {
         throw new Error(`Erreur lors de la récupération des articles de la livraison avec l'identifiant ${id}.`);
     }
