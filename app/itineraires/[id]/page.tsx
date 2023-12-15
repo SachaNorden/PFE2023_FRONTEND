@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import Itineraire from "@/app/ui/itineraires/Itineraire";
 import MenuDer from "@/app/ui/menu/menu";
 import {PlusOutlined} from "@ant-design/icons";
+import LogOutButton from "@/app/ui/logOutButton";
 
 const {Option} = Select;
 
@@ -69,7 +70,7 @@ export default function Itineraires() {
                     </Form.Item>
                 </div>
             </FormComponent>
-
+            <LogOutButton/>
         </div>
     )
 }
