@@ -561,3 +561,21 @@ export async function getCommandeIdDuClientId(clientId: string) {
         throw new Error(`Erreur lors de la récupération de l'id de la commande du client avec l'identifiant du client : ${clientId}`);
     }
 }
+
+export async function updateItineraire(id: string, clients: Object[], livreur: String, status: String ) {
+    try {
+        const response = await fetch(`${BASE_URL}/itineraires/${id}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({clients, livreur, status}),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la mise à jour de l'itinéraire`);
+        }
+    } catch (error) {
+        throw new Error(`Erreur lors de la mise à jour de l'itinéraire avec l'identifiant ${id}`);
+    }
+}
