@@ -5,6 +5,8 @@ import {fetchArticles, fetchLivraisonArticle} from "@/lib/api";
 import {useNavigate} from "react-router-dom";
 import back from "@/public/arrow-left.svg";
 import {Button} from "antd";
+import MenuDer from "@/app/ui/menu/menu";
+import LogOutButton from "@/app/ui/logOutButton";
 
 interface Livraison {
     id: string,
@@ -67,31 +69,36 @@ export default function ArticleLivraison() {
 
     // @ts-ignore
     return (
-        <div>
+        <>
+            <MenuDer/>
             <div className="flex justify-center items-center min-h-screen">
                 <div className="w-full max-w-xs">
                     <FormComponent>
-                        <img src={back.src} onClick={handleBackClick} alt="Back" className="w-6 h-6"/>
+                        <img src={back.src} onClick={handleBackClick} alt="Back" className="w-6 h-6 mb-4"/>
                         {detailsLivraison && detailsLivraison.length > 0 ? (
                             <div>
-                                <div className="text-2xl">Livraison :</div>
-                                <div className="text-lg">Articles :</div>
-                                <ul>
+                                <div className="text-2xl font-bold mb-2">Livraison :</div>
+                                <div className="text-lg font-bold mb-2">Articles :</div>
+                                <ul className="list-disc pl-6 mb-4">
                                     {detailsLivraison.map((item: Item) => (
-                                        <li key={item.article}>
-                                            <div className="font-bold">{articlesDetails[item.article]}</div>
-                                            : {item.quantite}
+                                        <li key={item.article} className="mb-2">
+                                            <div
+                                                className="font-bold">{articlesDetails[item.article]} : {item.quantite}</div>
                                         </li>
                                     ))}
                                 </ul>
-                                <Button className="text-lg" onClick={handleCloture}>Clôturer</Button>
+                                <Button className="text-lg" onClick={handleCloture}>
+                                    Clôturer
+                                </Button>
                             </div>
                         ) : (
-                            <p>Chargement des détails de la livraison...</p>
+                            <p className="text-center">Chargement des détails de la livraison...</p>
                         )}
                     </FormComponent>
                 </div>
             </div>
-        </div>
+            <LogOutButton/>
+        </>
     );
+
 }

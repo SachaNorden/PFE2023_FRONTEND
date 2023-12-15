@@ -1,3 +1,4 @@
+//[id]/livraison/page.tsx
 'use client'
 import FormComponent from "@/app/ui/Form.component";
 import {useEffect, useState} from "react";
@@ -5,6 +6,8 @@ import {fetchLivraisonParClient, getItineraireById, getLivraisonById} from "@/li
 import {message} from "antd";
 import {useNavigate} from "react-router-dom";
 import back from "@/public/arrow-left.svg";
+import MenuDer from "@/app/ui/menu/menu";
+import LogOutButton from "@/app/ui/logOutButton";
 
 
 interface Itineraire {
@@ -82,6 +85,7 @@ export default function LivraisonDetail() {
 
     return (
         <div>
+            <MenuDer/>
             <br></br>
             <div className="w-full flex items-center justify-between px-4 py-4">
                 <div className="flex-grow text-center text-lg font-bold">
@@ -89,40 +93,45 @@ export default function LivraisonDetail() {
                 </div>
             </div>
             <FormComponent>
-                <img src={back.src} onClick={handleBackClick} alt="Back" className="w-6 h-6"/>
+                <img src={back.src} onClick={handleBackClick} alt="Back" className="w-6 h-6"/><br/>
                 {livraisonsDetail && livraisonsDetail.length > 0 ? (
                     livraisonsDetail.map((livraison: Livraison, index: number) => (
-                        <div key={index} className="flex items-center justify-between">
-                        <span className="text-sm font-medium">
-                            Livraison {livraison.id} <p>pour {livraison.client.nom} </p>
-                            {livraison.isModified && (
-                                <img src="/bell.svg" alt="Modifiée" className="inline ml-2 w-5 h-5"/>
-                            )}
-                        </span>
-                            {livraison.status !== "Livrée" ? (
-                                <button
-                                    onClick={() => {
-                                        // @ts-ignore
-                                        navigate(`/itineraires/route/${itineraire.id}/livraison/${livraison.id}`);
-                                        window.location.reload();
-                                    }}
-                                    className="text-blue-700 hover:text-blue-900 text-xs font-semibold"
-                                >
-                                    Détails
-                                </button>
-                            ) : (
-                                <span
-                                    className="text-red-500 hover:text-red-900 text-xs font-semibold"
-                                >
-                            Finie
-                        </span>
-                            )}
+                        <div key={index} className="bg-white rounded-md p-4 mb-4">
+                            <div className="flex items-center justify-between">
+        <span className="text-sm font-medium">
+          <p className="mb-1">
+            Livraison {livraison.id} pour {livraison.client.nom}
+          </p>
+          <p className="text-gray-500">{livraison.client.adresse_complete}</p>
+            {livraison.isModified && (
+                <img src="/bell.svg" alt="Modifiée" className="inline ml-2 w-5 h-5"/>
+            )}
+        </span>
+                                {livraison.status !== "Livrée" ? (
+                                    <button
+                                        onClick={() => {
+                                            // @ts-ignore
+                                            navigate(`/itineraires/route/${itineraire.id}/livraison/${livraison.id}`);
+                                            window.location.reload();
+                                        }}
+                                        className="text-blue-700 hover:text-blue-900 text-xs font-semibold"
+                                    >
+                                        Détails
+                                    </button>
+                                ) : (
+                                    <span className="text-red-500 hover:text-red-900 text-xs font-semibold">
+            Finie
+          </span>
+                                )}
+                            </div>
                         </div>
                     ))
                 ) : (
-                    <p>Chargement des détails de livraison...</p>
+                    <p className="text-center">Chargement des détails de livraison...</p>
                 )}
+
             </FormComponent>
+            <LogOutButton/>
         </div>
     )
 }

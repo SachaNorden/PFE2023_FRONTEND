@@ -14,9 +14,9 @@ function Users() {
             ) : (
                 <div>
                     <div>Vous n avez pas accès à cette page, veuillez contacter l administrateur.</div>
-                    <LogOutButton/>
                 </div>
             )}
+            <LogOutButton/>
         </div>
     );
 }

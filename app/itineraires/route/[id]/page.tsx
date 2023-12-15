@@ -4,6 +4,8 @@ import back from "@/public/arrow-left.svg";
 import {useEffect, useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import {fetchArticles, fetchLivraisonParClient, getArticlesByLivraisonsId, getItineraireById} from "@/lib/api";
+import MenuDer from "@/app/ui/menu/menu";
+import LogOutButton from "@/app/ui/logOutButton";
 
 interface Itineraire {
     id: string,
@@ -88,34 +90,52 @@ export default function Route() {
     }
 
     return (
-        <div className="items-center justify-center h-1/3">
-            <br></br>
-            <div className="w-full flex items-center justify-between px-4 py-4">
-                <div className="flex-grow text-center text-lg font-bold">
-                    {itineraire && itineraire.livreur && (
-                        <div>Ma route: {itineraire.livreur.username}</div>
-                    )}
+        <>
+            <MenuDer/>
+            <div className="flex justify-center items-center h-screen">
+                <div className="w-full max-w-md">
+                    <FormComponent>
+                        <div className="text-center text-lg font-bold mb-4">
+                            {itineraire && itineraire.livreur && (
+                                <div>Ma route: {itineraire.livreur.username}</div>
+                            )}
+                        </div>
+                        <div>
+                            <img
+                                src={back.src}
+                                onClick={handleBackClick}
+                                alt="Back"
+                                className="w-6 h-6 mb-4 cursor-pointer"
+                            />
+                            <div className="font-bold text-lg mb-4">Itinéraire {itineraire.id}:</div>
+                            <table className="w-full border-collapse">
+                                <thead>
+                                <tr className="border-b">
+                                    <th className="py-2">Article</th>
+                                    <th className="py-2">Quantité totale</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {Object.entries(articles).map(([articleId, {quantite, nom}]) => (
+                                    <tr key={articleId} className="border-b">
+                                        <td className="py-2">{nom}</td>
+                                        <td className="py-2">{quantite}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                            <button
+                                onClick={handleModifierClick}
+                                className="mt-4 bg-blue-500 text-white p-2 rounded"
+                            >
+                                Sélectionner
+                            </button>
+                        </div>
+                    </FormComponent>
                 </div>
             </div>
-            <FormComponent>
-                <div>
-                    <img src={back.src} onClick={handleBackClick} alt="Back" className="w-6 h-6"/>
-                    <div className="font-bold text-lg mb-4">Itinéraire {itineraire.id}:</div>
-                    <p>Article totaux:</p>
-                    {Object.entries(articles).map(([articleId, {quantite, nom}]) => {
-                        return (
-                            <div key={articleId}>
-                                <p>Article: {nom}</p>
-                                <p>Quantité totale: {quantite}</p>
-                            </div>
-                        );
-                    })}
-                    <button onClick={handleModifierClick}
-                            className="mt-4 bg-blue-500 text-white p-2 rounded">Sélectionner
-                    </button>
-                </div>
-            </FormComponent>
+            <LogOutButton/>
+        </>
+    );
 
-        </div>
-    )
 }
