@@ -4,14 +4,13 @@ import { deleteClient } from '@/lib/api';
 import {redirect} from "next/navigation";
 
 // @ts-ignore
-function ClientCard({ client, onDelete }) {
+function ClientCard({ client }) {
     const handleDelete = async () => {
         const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
         const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
         try {
             await deleteClient(client.id);
             message.success("Client supprimé avec succès");
-            onDelete();
         } catch (error) {
             console.error("Erreur lors de la suppression du client");
         }

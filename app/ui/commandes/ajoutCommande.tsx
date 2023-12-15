@@ -28,6 +28,17 @@ function AjoutCommande() {
     const [commandeId, setCommandeId] = useState();
     const [isExisting, setIsExisting] = useState(false);
     const [client, setClient] = useState<Client>();
+    const [clientId, setClientId] = useState('');
+
+    useEffect(() => {
+        if (clientId !== '' && client == null) {
+            getClientById(clientId).then(cli => {
+                setClient(cli)
+            }, reason => {
+                console.error(reason);
+            }).catch(reason => console.error(reason));
+        }
+    }, [client, clientId]);
 
     useEffect(() => {
         const fetchCommandeDetails = async () => {
@@ -46,7 +57,9 @@ function AjoutCommande() {
                     // @ts-ignore
                     setCommandeId(idComm);
                 }
-                if (typeof clientId === "string") commandeDetails = await getCommandeByClientId(clientId);
+                if (typeof clientId === "string") {
+                    commandeDetails = await getCommandeByClientId(clientId);
+                }
 
                 if (commandeDetails) {
                     form.setFieldsValue({
@@ -68,14 +81,14 @@ function AjoutCommande() {
         };
 
         fetchCommandeDetails();
-    }, [isExisting]);
+    }, [form, isExisting]);
 
     const handleDelete = async () => {
         try {
             // @ts-ignore
             await deleteCommande(commandeId);
             message.success("Commande supprimé avec succès");
-            wait(1000);
+            await wait(1000);
             window.location.reload();
         } catch (error) {
             console.error("Erreur lors de la suppression de la commande");
@@ -94,7 +107,7 @@ function AjoutCommande() {
                 {article: 6, quantite: values.champ6 || 0},
             ];
             // @ts-ignore
-            await updateCommande(commandeId, articles);
+            await updateCommande(clientId, articles);
             message.success("Commande mise à jour avec succès");
             wait(1000);
             window.location.reload();

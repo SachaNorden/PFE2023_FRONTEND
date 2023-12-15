@@ -52,6 +52,7 @@ export default function Route() {
                     const livraisonArticle = await getArticlesByLivraisonsId(livraisonArticlesId);
                     // @ts-ignore
                     for (const { article: articleId, quantite } of livraisonArticle) {
+
                         // @ts-ignore
                         if (!newTotals[articleId]) {
                             // @ts-ignore
