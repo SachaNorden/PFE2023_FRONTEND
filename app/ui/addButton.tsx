@@ -9,13 +9,13 @@ interface AddButtonProps {
 function AddButton({ link }: AddButtonProps) {
     return (
         <Link href={link}>
-            <span style={{ position: 'fixed', bottom: 20, left: 20, zIndex: 1000 }}>
+            <span className="fixed bottom-4 left-4 z-50">
                 <Button
                     type="primary"
                     shape="circle"
                     size="large"
                     icon={<PlusOutlined />}
-                    style={{ backgroundColor: '#52c41a', border: 'none' }}
+                    className="bg-green-600 border-none"
                 />
             </span>
         </Link>

@@ -15,16 +15,16 @@ const LogoutButton = () => {
 
     return (
         <Link href='/login/'>
-                <span style={{ position: 'fixed', bottom: 20, right: 20, zIndex: 1000 }}>
-                    <Button
-                        type="primary"
-                        shape="circle"
-                        size="large"
-                        icon={<LogoutOutlined className="h-5 w-5" />}
-                        onClick={handleLogout}
-                        style={{ backgroundColor: 'red', border: 'none' }}
-                    />
-                </span>
+            <span className="fixed bottom-4 right-4 z-50">
+                <Button
+                    type="primary"
+                    shape="circle"
+                    size="large"
+                    icon={<LogoutOutlined />}
+                    onClick={handleLogout}
+                    className="bg-red-600 border-none"
+                />
+            </span>
         </Link>
     );
 };
