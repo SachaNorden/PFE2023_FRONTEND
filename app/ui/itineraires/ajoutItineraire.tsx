@@ -131,14 +131,15 @@ function AjoutItineraire() {
                     </Form.Item>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <Button type='submit'>
-                        Enregistrer
-                    </Button>
                     <Link href={`/itineraires/`}>
-                        <Button>
+                        <Button variant={"gray"}>
                             Retour
                         </Button>
                     </Link>
+                    <Button type='submit'>
+                        Enregistrer
+                    </Button>
+
                 </div>
             </Form>
         </div>

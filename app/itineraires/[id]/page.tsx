@@ -70,11 +70,10 @@ export default function Itineraires() {
                                 ))}
                             </Select>
                         </div>
-                        <Button type='primary' htmlType='submit'>
+                        <Button htmlType='submit'>
                             Ajouter
                         </Button>
                     </Form.Item>
-
                 </div>
             </FormComponent>
 

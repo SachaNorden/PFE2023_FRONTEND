@@ -4,24 +4,23 @@ import { deleteClient } from '@/lib/api';
 import {redirect} from "next/navigation";
 
 // @ts-ignore
-function ClientCard({ client, onDelete }) {
+function ClientCard({ client }) {
     const handleDelete = async () => {
         const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
         const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
         try {
             await deleteClient(client.id);
             message.success("Client supprimé avec succès");
-            onDelete();
         } catch (error) {
             console.error("Erreur lors de la suppression du client");
         }
     };
 
     return (
-        <Card title={client.nom} style={{ width: 500, margin: '16px', textAlign: "center" }}>
+        <Card title={client.nom} className="m-6" style={{  textAlign: "center" }}>
             <p>Adresse : {client.adresse_complete}</p>
             <Link href={`/clients/${client.id}`}>
-                <Button>
+                <Button className=" m-4 bottom-0 left-0">
                     Modifier
                 </Button>
             </Link>
@@ -36,9 +35,7 @@ function ClientCard({ client, onDelete }) {
                 okText="Oui"
                 cancelText="Non"
             >
-                <Button style={{ background: 'red', borderColor: 'grey', color: 'white' }}>
-                    Supprimer
-                </Button>
+                <Button className=" bottom-0 right-0 m-4">Supprimer</Button>
             </Popconfirm>
         </Card>
     );

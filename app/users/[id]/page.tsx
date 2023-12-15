@@ -28,9 +28,10 @@ function Profil() {
     return (
         <div className="min-h-screen flex flex-col">
             <MenuDer />
-
-            <ProfilUser user={user}/>
-
+                <ProfilUser user={user}/>
+                <div>
+                    <LogOutButton/>
+                </div>
         </div>
     );
 }

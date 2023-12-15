@@ -56,13 +56,14 @@ function AjoutClient() {
                 </div>
                 <div className='flex items-center justify-between'>
                     <Link href={`/clients/`}>
-                        <Button>
+                        <Button variant={"gray"} >
                             Retour
                         </Button>
                     </Link>
                     <Button type='submit'>
                         Enregistrer
                     </Button>
+
                 </div>
             </Form>
         </div>

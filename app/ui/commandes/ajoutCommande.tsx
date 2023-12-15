@@ -10,7 +10,7 @@ interface Client {
     nom: string,
     adresse_complete: string,
 }
-
+/*
 interface Article {
     article: string,
     quantite: number,
@@ -33,13 +33,12 @@ const articlesIds = new Map<number, string>([
     [5, "poubelles"],
     [6, "gants"],
 ]);
+*/
 
 function AjoutCommande() {
-
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
-
-    const [form] = Form.useForm<Commande>();
+    /*const [form] = Form.useForm<Commande>();
     const [commandeId, setCommandeId] = useState('');
     const [commandExists, setCommandExists] = useState(false);
     const [clientId, setClientId] = useState('');
@@ -53,6 +52,13 @@ function AjoutCommande() {
     }, []);
 
     /*
+    useEffect(() => {*/
+    const [form] = Form.useForm();
+    const [commandeId, setCommandeId] = useState();
+    const [isExisting, setIsExisting] = useState(false);
+    const [client, setClient] = useState<Client>();
+    const [clientId, setClientId] = useState('');
+
     useEffect(() => {
         if (clientId !== '' && client == null) {
             getClientById(clientId).then(cli => {
@@ -62,7 +68,7 @@ function AjoutCommande() {
             }).catch(reason => console.error(reason));
         }
     }, [client, clientId]);
-*/
+/*
 
     useEffect(() => {
         if (clientId !== '' && commandeId === '') {
@@ -74,10 +80,25 @@ function AjoutCommande() {
                 console.error(err);
             });
         }
-    }, [commandeId, clientId]);
-
+    }, [commandeId, clientId]);*/
     useEffect(() => {
-        if (clientId !== '' && commandeId !== '' && commande === null && !commandExists)
+        const fetchCommandeDetails = async () => {
+      try {
+                const clientId = window.location.href.split('/').pop();
+                let result = '';
+                let idComm = '';
+                let commandeDetails = null;
+                let clientData = null;
+                if (typeof clientId === "string") result = await getCommandeIdDuClientId(clientId);
+                if (result[0] !== undefined) {
+                    // @ts-ignore
+                    setCommandeId(result[0]);
+                } else {
+                    if (typeof clientId === "string") idComm = await addCommande(clientId);
+                    // @ts-ignore
+                    setCommandeId(idComm);
+                }
+        /*if (clientId !== '' && commandeId !== '' && commande === null && !commandExists)
             getCommandeByClientId(clientId).then(data => {
                 if (data !== null && data.length != 0) {
                     setCommande(data);
@@ -138,7 +159,43 @@ function AjoutCommande() {
             setCommande(null);
         }, err => {
             console.error(err);
-        });
+        });*/
+                if (typeof clientId === "string") {
+                    commandeDetails = await getCommandeByClientId(clientId);
+                }
+
+                if (commandeDetails) {
+                    form.setFieldsValue({
+                        champ1: commandeDetails.find((item: { article: number; }) => item.article === 1)?.quantite || 0,
+                        champ2: commandeDetails.find((item: { article: number; }) => item.article === 2)?.quantite || 0,
+                        champ3: commandeDetails.find((item: { article: number; }) => item.article === 3)?.quantite || 0,
+                        champ4: commandeDetails.find((item: { article: number; }) => item.article === 4)?.quantite || 0,
+                        champ5: commandeDetails.find((item: { article: number; }) => item.article === 5)?.quantite || 0,
+                        champ6: commandeDetails.find((item: { article: number; }) => item.article === 6)?.quantite || 0,
+                    });
+                    const sum = commandeDetails.reduce((total: any, item: { quantite: any; }) => total + item.quantite, 0);
+                    setIsExisting(sum !== 0);
+                }
+                if (typeof clientId === "string") clientData = await getClientById(clientId);
+                setClient(clientData);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des détails de la commande:", error);
+            }
+        };
+
+        fetchCommandeDetails();
+    }, [form, isExisting]);
+
+    const handleDelete = async () => {
+        try {
+            // @ts-ignore
+            await deleteCommande(commandeId);
+            message.success("Commande supprimé avec succès");
+            await wait(1000);
+            window.location.reload();
+        } catch (error) {
+            console.error("Erreur lors de la suppression de la commande");
+        }
     };
 
     const handleUpdate = async () => {
@@ -151,21 +208,49 @@ function AjoutCommande() {
                 {article: 5, quantite: values.poubelles},
                 {article: 6, quantite: values.gants},
             ];
-            // @ts-ignore
+          // @ts-ignore
+            /*
             updateCommande(clientId, articles).then(value => {
                 message.success("Commande mise à jour avec succès");
                 setCommandExists(false);
             }, err => {
                 console.error(err);
             });
-        });
+        });*/
+            await updateCommande(clientId, articles);
+            message.success("Commande mise à jour avec succès");
+            wait(1000);
+            window.location.reload();
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de la commande:", error);
+        }
     }
+    
+    const handleSubmit = async () => {
+        try {
+            const values = await form.validateFields();
+            const articles = [
+                {article: 1, quantite: values.champ1 || 0,},
+                {article: 2, quantite: values.champ2 || 0,},
+                {article: 3, quantite: values.champ3 || 0,},
+                {article: 4, quantite: values.champ4 || 0,},
+                {article: 5, quantite: values.champ5 || 0,},
+                {article: 6, quantite: values.champ6 || 0,},
+            ];
+            // @ts-ignore
+            await addLigneCommande(commandeId, articles);
+            message.success("Commande ajoutée");
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de la commande");
+        }
+    };
 
     return (
         <div className='min-h-screen flex flex-col justify-center items-center'>
             {isAdmin ? (
                 <Form
                     form={form}
+                    onFinish={handleSubmit}
                     initialValues={{remember: true}}
                     autoComplete="off"
                     className='p-8 border-2 border-gray-300 rounded-lg shadow-xl bg-white relative z-20'
@@ -175,9 +260,8 @@ function AjoutCommande() {
                     </p>
                     <div className='mb-6'>
                         <Form.Item
-                            initialValue={0}
                             label="Langes S"
-                            name="langesS"
+                            name="champ1"
                             rules={[{required: true, message: "Veuillez saisir la quantité pour Langes S"}]}
                             required
                         >
@@ -186,9 +270,8 @@ function AjoutCommande() {
                     </div>
                     <div className='mb-6'>
                         <Form.Item
-                            initialValue={0}
                             label="Langes M"
-                            name="langesM"
+                            name="champ2"
                             rules={[{required: true, message: "Veuillez saisir la quantité pour Langes M"}]}
                             required
                         >
@@ -197,9 +280,8 @@ function AjoutCommande() {
                     </div>
                     <div className='mb-6'>
                         <Form.Item
-                            initialValue={0}
                             label="Langes L"
-                            name="langesL"
+                            name="champ3"
                             rules={[{required: true, message: "Veuillez saisir la quantité pour Langes L"}]}
                             required
                         >
@@ -208,35 +290,32 @@ function AjoutCommande() {
                     </div>
                     <div className='mb-6'>
                         <Form.Item
-                            initialValue={0}
                             label="Inserts"
-                            name="inserts"
-                            rules={[{required: true, message: "Veuillez saisir la quantité pour Inserts"}]}
+                            name="champ4"
+                            rules={[{ required: true, message: "Veuillez saisir la quantité pour Inserts" }]}
                             required
                         >
-                            <Input/>
+                            <Input />
                         </Form.Item>
                     </div>
                     <div className='mb-6'>
                         <Form.Item
-                            initialValue={0}
                             label="Sac-poubelles"
-                            name="poubelles"
-                            rules={[{required: true, message: "Veuillez saisir la quantité pour Sac-poubelles"}]}
+                            name="champ5"
+                            rules={[{ required: true, message: "Veuillez saisir la quantité pour Sac-poubelles" }]}
                             required
                         >
-                            <Input/>
+                            <Input />
                         </Form.Item>
                     </div>
                     <div className='mb-6'>
                         <Form.Item
-                            initialValue={0}
                             label="Gants de toilette"
-                            name="gants"
-                            rules={[{required: true, message: "Veuillez saisir la quantité pour Gants de toilette"}]}
+                            name="champ6"
+                            rules={[{ required: true, message: "Veuillez saisir la quantité pour Gants de toilette" }]}
                             required
                         >
-                            <Input/>
+                            <Input />
                         </Form.Item>
                     </div>
                     <div className='flex items-center justify-between'>
