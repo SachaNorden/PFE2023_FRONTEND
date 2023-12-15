@@ -36,7 +36,6 @@ function AjoutItineraire() {
             console.error("Erreur lors de l'ajout de l'itinéraire");
         }
     };
-
     const [commandes, setCommandes] = useState<Commande[]>([]);
     useEffect(() => {
         const fetchData = async () => {
@@ -50,7 +49,6 @@ function AjoutItineraire() {
         };
         fetchData();
     },);
-
     const [users, setUsers] = useState<User[]>([]);
     useEffect(() => {
         const fetchData = async () => {
@@ -64,7 +62,6 @@ function AjoutItineraire() {
         };
         fetchData();
     },);
-
 
     return (
         <div className='min-h-screen flex flex-col justify-center items-center  '>

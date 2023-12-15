@@ -9,7 +9,6 @@ import {PlusOutlined} from "@ant-design/icons";
 
 const {Option} = Select;
 
-
 export default function Itineraires() {
     const [itin, setItineraire] = useState([]);
     const [livraisons, setLivraisons] = useState<Array<{ id: string; client: { nom: string } }>>([]);
@@ -18,7 +17,6 @@ export default function Itineraires() {
         const currentUrl = window.location.href;
         const parts = currentUrl.split('/');
         const itineraireId = parts[parts.length - 1];
-
         const fetchData = async () => {
             try {
                 const data = await getItineraireById(itineraireId);
@@ -31,22 +29,17 @@ export default function Itineraires() {
                 console.error(error.message);
             }
         };
-
         fetchData();
     }, []);
 
 
     return (
         <div className='min-h-screen flex flex-col '>
-
             <MenuDer/>
-
             <p className="text-3xl flex flex-col justify-center items-center">Détails Itineraire</p>
             <FormComponent>
                 <Itineraire itine={itin}/>
-
                 <br/>
-
                 <div className='mb-4'>
                     <Form.Item
                         label="Commandes"

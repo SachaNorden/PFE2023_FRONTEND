@@ -1,5 +1,4 @@
 'use client'
-import {Image} from "antd";
 import {fetchUsers} from "@/lib/api";
 import {useEffect, useState} from "react";
 import AddButton from "@/app/ui/addButton";
@@ -11,10 +10,7 @@ function Users() {
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     const [users, setUsers] = useState([]);
-    const handleDelete = async () => {
-        //const updatedClients = await fetchClients();
-        //setClients(updatedClients);
-    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,10 +26,10 @@ function Users() {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <MenuDer />
+            <MenuDer/>
             {isAdmin ? (
                 <div>
-                    <ListeUsers users={users} onDelete={handleDelete()}/>
+                    <ListeUsers users={users}/>
                     <AddButton link="/users/ajouterUser"/>
                     <LogOutButton/>
                 </div>

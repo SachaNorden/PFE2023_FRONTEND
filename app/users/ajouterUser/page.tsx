@@ -1,5 +1,4 @@
 'use client'
-import {Image} from "antd";
 import AjoutUser from "@/app/ui/users/ajoutUser";
 import LogOutButton from "@/app/ui/logOutButton";
 import MenuDer from "@/app/ui/menu/menu";
@@ -9,7 +8,7 @@ function Users() {
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     return (
         <div className="min-h-screen flex flex-col">
-            <MenuDer />
+            <MenuDer/>
             {isAdmin ? (
                 <AjoutUser/>
             ) : (

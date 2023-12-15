@@ -26,7 +26,7 @@ export default function LoginPage() {
             localStorage.setItem('isAdmin', isAdmin);
             localStorage.setItem('userId', user.id);
             await wait(1000)
-            if(isAdmin) {
+            if (isAdmin) {
                 window.location.href = '/clients/';
             } else {
                 window.location.href = '/itineraires/';

@@ -6,8 +6,6 @@ import Link from "next/link";
 
 // @ts-ignore
 function ProfilUser({user}) {
-    const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
-    const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     const [form] = Form.useForm();
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;

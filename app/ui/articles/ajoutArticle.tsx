@@ -4,6 +4,7 @@ import {Button} from "@/app/ui/button";
 import {addArticle} from "@/lib/api";
 import Link from "next/link";
 import MenuDer from "@/app/ui/menu/menu";
+import LogOutButton from "@/app/ui/logOutButton";
 
 function AjoutArticle() {
     const [form] = Form.useForm();
@@ -55,6 +56,7 @@ function AjoutArticle() {
                     </Button>
                 </div>
             </Form>
+            <LogOutButton/>
         </div>
     );
 }

@@ -1,15 +1,21 @@
-'use client';
 import CommandeItineraire from "@/app/ui/commandes/commandeItineraire";
 import {useEffect, useState} from "react";
 import {getUserById} from "@/lib/api";
 
 interface Livreur {
-    id: string,
-    username: string,
-    isAdmin: boolean,
+    id: string;
+    username: string;
+    isAdmin: boolean;
 }
 
-const getStatusColorClass = (status:string) => {
+interface Itineraire {
+    id: string;
+    status: string;
+    livreur: string;
+    clients: any[];
+}
+
+const getStatusColorClass = (status: string) => {
     switch (status) {
         case 'En cours':
             return 'text-xl text-green-500 font-bold';
@@ -22,18 +28,16 @@ const getStatusColorClass = (status:string) => {
     }
 };
 
-// @ts-ignore
-function Itineraire({itine}) {
-    const [livreur, setUser] = useState<Livreur>();
+function Itineraire({itine}: { itine: Itineraire }) {
+    const [livreur, setUser] = useState<Livreur | null>(null);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-
                 const data = await getUserById(itine.livreur);
                 setUser(data);
             } catch (error) {
-                // @ts-ignore
-                console.error(error.message);
+                console.error(error);
             }
         };
         fetchData();
@@ -45,21 +49,20 @@ function Itineraire({itine}) {
 
     return (
         <div className='fmb-4'>
-            <p className="text-base"><b className="text-xl">Itinéraire {itine.id}  </
-                <span className={getStatusColorClass(itine.status)}>{itine.status}</span></p>
-            <p className="text-base">{livreur.username}</p>
+            <p className="text-base">
+                <b className="text-xl">Itinéraire {itine.id}</b>
+                <span className={getStatusColorClass(itine.status)}>{itine.status}</span>
+            </p>
+            {livreur && <p className="text-base">{livreur.username}</p>}
             <br/>
             {itine.clients && (
                 itine.clients.map((client: any) => (
-                    // eslint-disable-next-line react/jsx-key
-                    <div className='flex items-center justify-between flex-grow'>
+                    <div className='flex items-center justify-between flex-grow' key={client.id}>
                         <CommandeItineraire client={client} itine={itine}/>
                     </div>
                 ))
             )}
-
         </div>
-
     );
 }
 
