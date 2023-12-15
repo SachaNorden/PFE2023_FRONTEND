@@ -8,13 +8,13 @@ import {
     fetchLivraisonArticle,
     fetchLivraisonParClient,
     getArticlesByLivraisonsId,
-    getItineraireById
+    getItineraireById, updateItineraire
 } from "@/lib/api";
 import {message} from "antd";
 
 interface Itineraire {
     id: string,
-    client: object,
+    client: object[],
     livreur: {
         id: string,
         username: string,
@@ -67,7 +67,6 @@ export default function Route() {
                 console.error("Erreur lors de la récupération des données:", error);
             }
         };
-
         fetchArticlesData();
     }, []);
     if (!itineraire) {
@@ -75,6 +74,8 @@ export default function Route() {
     }
 
     function handleModifierClick() {
+        // @ts-ignore
+        updateItineraire(itineraire?.id, itineraire?.clients, itineraire?.livreur, 'En cours' )
         // @ts-ignore
         navigate(`/itineraires/route/${itineraire.id}/livraison`, { state: { itineraire } });
         window.location.reload();
