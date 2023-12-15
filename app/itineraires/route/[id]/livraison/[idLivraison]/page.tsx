@@ -26,7 +26,6 @@ export default function ArticleLivraison() {
 
     useEffect(() => {
         const livraisonId = window.location.href.split('/').pop();
-
         const fetchDetails = async () => {
             try {
                 if (livraisonId) {
@@ -55,7 +54,7 @@ export default function ArticleLivraison() {
     }, []);
 
     const handleCloture = () => {
-        navigate(`${window.location.pathname}/article`, { state: { detailsLivraison } });
+        navigate(`${window.location.pathname}/article`, {state: {detailsLivraison}});
         window.location.reload();
     };
 
@@ -65,12 +64,12 @@ export default function ArticleLivraison() {
         navigate(newPath);
         window.location.reload()
     }
+
     // @ts-ignore
     return (
         <div>
             <div className="flex justify-center items-center min-h-screen">
                 <div className="w-full max-w-xs">
-
                     <FormComponent>
                         <img src={back.src} onClick={handleBackClick} alt="Back" className="w-6 h-6"/>
                         {detailsLivraison && detailsLivraison.length > 0 ? (
@@ -80,11 +79,12 @@ export default function ArticleLivraison() {
                                 <ul>
                                     {detailsLivraison.map((item: Item) => (
                                         <li key={item.article}>
-                                            <div className="font-bold">{articlesDetails[item.article]}</div> : {item.quantite}
+                                            <div className="font-bold">{articlesDetails[item.article]}</div>
+                                            : {item.quantite}
                                         </li>
                                     ))}
                                 </ul>
-                                <Button className="text-lg" onClick={handleCloture }>Clôturer</Button>
+                                <Button className="text-lg" onClick={handleCloture}>Clôturer</Button>
                             </div>
                         ) : (
                             <p>Chargement des détails de la livraison...</p>

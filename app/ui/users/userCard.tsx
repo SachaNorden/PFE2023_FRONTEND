@@ -3,12 +3,11 @@ import Link from "next/link";
 import {deleteUser} from "@/lib/api";
 
 // @ts-ignore
-function UserCard({user, onDelete}) {
+function UserCard({user}) {
     const handleDelete = async () => {
         try {
             await deleteUser(user.id);
             message.success("Livreur supprimé avec succès");
-            onDelete();
         } catch (error) {
             console.error("Erreur lors de la suppression du livreur");
         }

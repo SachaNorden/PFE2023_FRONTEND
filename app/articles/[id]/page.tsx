@@ -1,5 +1,4 @@
 'use client'
-import {Image} from "antd";
 import {getArticleById} from "@/lib/api";
 import {useEffect, useState} from "react";
 import ProfilArticle from "@/app/ui/articles/profilArticle";
@@ -28,7 +27,7 @@ function Profil() {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <MenuDer />
+            <MenuDer/>
             {isAdmin ? (
                 <ProfilArticle article={article}/>
             ) : (

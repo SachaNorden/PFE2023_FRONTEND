@@ -5,7 +5,6 @@ import {fetchLivraisonParClient, getClientById, getLivraionById, updateLivraison
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import {wait} from "next/dist/lib/wait";
-import itineraire from "@/app/ui/itineraires/Itineraire";
 
 interface Client {
     id: string,
@@ -26,27 +25,25 @@ export default function ArticleLivraison() {
     const [client, setClient] = useState<Client>();
     const [livraisonId, setLivraisonId] = useState();
     const urlSegments = window.location.href.split('/');
-    const itineraire=urlSegments[urlSegments.length - 4];
+    const itineraire = urlSegments[urlSegments.length - 4];
     useEffect(() => {
         const fetchLivraisonDetails = async () => {
             try {
                 const urlSegments = window.location.href.split('/');
                 let clientId;
                 let livraison;
-                if(isAdmin){
+                if (isAdmin) {
                     clientId = urlSegments[urlSegments.length - 4];
-                }else{
+                } else {
                     livraison = urlSegments[urlSegments.length - 2];
-
                 }
                 let livraisonDetails = null;
                 let clientData = null;
-                if(isAdmin){
+                if (isAdmin) {
                     // @ts-ignore
                     const livraisonIdBis = await fetchLivraisonParClient(clientId);
                     setLivraisonId(livraisonIdBis[0]);
-                }else
-                {
+                } else {
                     // @ts-ignore
                     setLivraisonId(livraison)
                 }
@@ -173,15 +170,15 @@ export default function ArticleLivraison() {
                         </Form.Item>
                     </div>
                     <div className='flex items-center justify-between'>
-                        {isAdmin ?(
-                        <Link href={`/itineraires/`}>
-                            <Button variant={"gray"}>Retour</Button>
-                        </Link>
-                        ):(
-                            <Link href={`/itineraires/route/${itineraire}/livraison/`}>
-                        <Button variant={"gray"}>Retour</Button>
+                        {isAdmin ? (
+                            <Link href={`/itineraires/`}>
+                                <Button variant={"gray"}>Retour</Button>
                             </Link>
-                            )}
+                        ) : (
+                            <Link href={`/itineraires/route/${itineraire}/livraison/`}>
+                                <Button variant={"gray"}>Retour</Button>
+                            </Link>
+                        )}
                         <Button type='submit' onClick={handleUpdate}>Modifier</Button>
                     </div>
                 </Form>

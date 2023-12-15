@@ -5,15 +5,13 @@ import {useEffect, useState} from "react";
 import AddButton from "@/app/ui/addButton";
 import ListeArticles from "@/app/ui/articles/listeArticles";
 import LogOutButton from "@/app/ui/logOutButton";
+import MenuDer from "@/app/ui/menu/menu";
 
 function Articles() {
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
     const [articles, setArticles] = useState([]);
-    const handleDelete = async () => {
-        //const updatedArticles = await fetchArticles();
-        //setArticles(updatedArticles);
-    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -29,10 +27,10 @@ function Articles() {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <Image width={65} src="/Snappies-Logo.png" preview={false} className=""/>
+            <MenuDer/>
             {isAdmin ? (
                 <div>
-                    <ListeArticles articles={articles} onDelete={handleDelete()}/>
+                    <ListeArticles articles={articles}/>
                     <AddButton link="/articles/ajouterArticle"/>
                     <LogOutButton/>
                 </div>

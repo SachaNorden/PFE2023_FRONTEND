@@ -1,10 +1,9 @@
-import { Card, Button, Popconfirm, message } from 'antd';
+import {Button, Card, message, Popconfirm} from 'antd';
 import Link from "next/link";
-import { deleteClient } from '@/lib/api';
-import {redirect} from "next/navigation";
+import {deleteClient} from '@/lib/api';
 
 // @ts-ignore
-function ClientCard({ client }) {
+function ClientCard({client}) {
     const handleDelete = async () => {
         const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
         const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
@@ -17,7 +16,7 @@ function ClientCard({ client }) {
     };
 
     return (
-        <Card title={client.nom} className="m-6" style={{  textAlign: "center" }}>
+        <Card title={client.nom} className="m-6" style={{textAlign: "center"}}>
             <p>Adresse : {client.adresse_complete}</p>
             <Link href={`/clients/${client.id}`}>
                 <Button className=" m-4 bottom-0 left-0">

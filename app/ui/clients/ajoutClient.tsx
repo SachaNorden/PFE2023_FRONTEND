@@ -3,7 +3,6 @@ import {Form, Input, message} from "antd";
 import {Button} from "@/app/ui/button";
 import {addClient} from "@/lib/api";
 import Link from "next/link";
-import MenuDer from "@/app/ui/menu/menu";
 
 function AjoutClient() {
     const [form] = Form.useForm();
@@ -56,7 +55,7 @@ function AjoutClient() {
                 </div>
                 <div className='flex items-center justify-between'>
                     <Link href={`/clients/`}>
-                        <Button variant={"gray"} >
+                        <Button variant={"gray"}>
                             Retour
                         </Button>
                     </Link>

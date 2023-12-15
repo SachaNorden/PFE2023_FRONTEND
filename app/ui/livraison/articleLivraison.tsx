@@ -39,7 +39,7 @@ function ArticleLivraison({articles, livraison}) {
                 <br/> <br/>
                 {articles.map((article: any) => (
                     // eslint-disable-next-line react/jsx-key
-                        <Article article={article} quantite={undefined}/>
+                    <Article article={article} quantite={undefined}/>
 
                 ))}
                 <div className='flex items-center justify-between'>

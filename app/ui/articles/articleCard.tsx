@@ -3,12 +3,11 @@ import Link from "next/link";
 import {deleteArticle} from '@/lib/api';
 
 // @ts-ignore
-function ArticleCard({ client: article, onDelete }) {
+function ArticleCard({ client: article }) {
     const handleDelete = async () => {
         try {
             await deleteArticle(article.id);
             message.success("Article supprimé avec succès");
-            onDelete();
         } catch (error) {
             console.error("Erreur lors de la suppression de l'article");
         }

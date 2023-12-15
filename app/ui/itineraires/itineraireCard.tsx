@@ -1,7 +1,4 @@
 'use client';
-import {useEffect, useState} from "react";
-import {fetchLivraisonArticle, getClientById, getLivraisonById} from "@/lib/api";
-import {gray} from "@ant-design/colors";
 import {Button} from "@/app/ui/button";
 
 interface Commande {
@@ -31,16 +28,15 @@ const getStatusColorClass = (status) => {
 };
 
 // @ts-ignore
-function ItineraireCard({ itineraire   }) {
+function ItineraireCard({itineraire}) {
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
-    const [clientsDetails, setClientsDetails] = useState({});
 
     function handleModifierClick() {
-        if(isAdmin){
-            window.location.href=`/itineraires/${itineraire.id}`
-        }else{
-            window.location.href=`/itineraires/route/${itineraire.id}`
+        if (isAdmin) {
+            window.location.href = `/itineraires/${itineraire.id}`
+        } else {
+            window.location.href = `/itineraires/route/${itineraire.id}`
         }
     }
 
@@ -53,7 +49,7 @@ function ItineraireCard({ itineraire   }) {
             );
         }
         return (
-            <button type='submit' onClick={handleModifierClick} >
+            <button type='submit' onClick={handleModifierClick}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" className="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"

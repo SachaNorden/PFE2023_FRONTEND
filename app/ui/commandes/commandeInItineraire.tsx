@@ -1,5 +1,4 @@
 'use client';
-import {Form} from "antd";
 import {Button} from "@/app/ui/button";
 
 // @ts-ignore
@@ -18,8 +17,6 @@ const getStatusColorClass = (status) => {
 
 // @ts-ignore
 function CommandeInItineraire({commande}) {
-    const [form] = Form.useForm();
-
     return (
         <div className='flex items-center mb-4'>
             <div>
@@ -33,9 +30,7 @@ function CommandeInItineraire({commande}) {
                 <p className="text-sm text-gray-400"> {commande?.client.adresse_complete ?? 'Non spécifiée'}</p>
                 <p>---------------------------------</p>
             </div>
-
             <div className='flex items-center justify-between flex-grow'>
-
                 <Button type='submit'>
                     Modifier
                 </Button>

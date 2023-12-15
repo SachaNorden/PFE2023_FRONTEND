@@ -1,5 +1,4 @@
 'use client'
-import {Image} from "antd";
 import ProfilClient from "@/app/ui/clients/profilClient";
 import {getClientById} from "@/lib/api";
 import {useEffect, useState} from "react";
@@ -28,7 +27,7 @@ function Profil() {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <MenuDer />
+            <MenuDer/>
             {isAdmin ? (
                 <ProfilClient client={client}/>
             ) : (

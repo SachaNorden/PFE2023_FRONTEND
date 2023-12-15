@@ -1,6 +1,6 @@
-import { Button } from 'antd';
-import { logout } from '@/lib/api';
-import { LogoutOutlined } from "@ant-design/icons";
+import {Button} from 'antd';
+import {logout} from '@/lib/api';
+import {LogoutOutlined} from "@ant-design/icons";
 import Link from "next/link";
 
 const LogoutButton = () => {
@@ -20,7 +20,7 @@ const LogoutButton = () => {
                     type="primary"
                     shape="circle"
                     size="large"
-                    icon={<LogoutOutlined />}
+                    icon={<LogoutOutlined/>}
                     onClick={handleLogout}
                     className="bg-red-600 border-none"
                 />

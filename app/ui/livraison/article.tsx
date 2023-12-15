@@ -1,8 +1,6 @@
-import {Button, Card, Form, message, Popconfirm} from 'antd';
-import React, {useEffect, useState} from "react";
+import {Button} from 'antd';
+import React, {useState} from "react";
 import {MinusOutlined, PlusOutlined} from "@ant-design/icons";
-import {updateClient} from "@/lib/api";
-import {wait} from "next/dist/lib/wait";
 
 // @ts-ignore
 function Article({ article, quantite   }) {

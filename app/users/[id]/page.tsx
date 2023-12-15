@@ -1,5 +1,4 @@
 'use client'
-import {Image} from "antd";
 import ProfilUser from "@/app/ui/users/profilUser";
 import {getUserById} from "@/lib/api";
 import {useEffect, useState} from "react";
@@ -27,11 +26,11 @@ function Profil() {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <MenuDer />
-                <ProfilUser user={user}/>
-                <div>
-                    <LogOutButton/>
-                </div>
+            <MenuDer/>
+            <ProfilUser user={user}/>
+            <div>
+                <LogOutButton/>
+            </div>
         </div>
     );
 }
