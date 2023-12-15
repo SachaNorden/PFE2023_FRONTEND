@@ -5,6 +5,7 @@ import {fetchLivraisonParClient, getClientById, getLivraionById, updateLivraison
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import {wait} from "next/dist/lib/wait";
+import itineraire from "@/app/ui/itineraires/Itineraire";
 
 interface Client {
     id: string,
@@ -24,16 +25,32 @@ export default function ArticleLivraison() {
     const [isExisting, setIsExisting] = useState(false);
     const [client, setClient] = useState<Client>();
     const [livraisonId, setLivraisonId] = useState();
-
+    const urlSegments = window.location.href.split('/');
+    const itineraire=urlSegments[urlSegments.length - 4];
     useEffect(() => {
         const fetchLivraisonDetails = async () => {
             try {
                 const urlSegments = window.location.href.split('/');
-                const clientId = urlSegments[urlSegments.length - 4];
+                let clientId;
+                let livraison;
+                if(isAdmin){
+                    clientId = urlSegments[urlSegments.length - 4];
+                }else{
+                    livraison = urlSegments[urlSegments.length - 2];
+
+                }
+
                 let livraisonDetails = null;
                 let clientData = null;
-                const livraisonIdBis = await fetchLivraisonParClient(clientId);
-                setLivraisonId(livraisonIdBis[0]);
+                if(isAdmin){
+                    const livraisonIdBis = await fetchLivraisonParClient(clientId);
+                    setLivraisonId(livraisonIdBis[0]);
+                }else
+                {
+                    // @ts-ignore
+                    setLivraisonId(livraison)
+                }
+
                 if (livraisonId !== undefined) livraisonDetails = await getLivraionById(livraisonId);
                 if (livraisonDetails) {
                     form.setFieldsValue({
@@ -156,9 +173,15 @@ export default function ArticleLivraison() {
                         </Form.Item>
                     </div>
                     <div className='flex items-center justify-between'>
-                        <Link href={`/itineraires/route/${localStorage.getItem('userId')}/livraison/`}>
-                            <Button>Retour</Button>
+                        {isAdmin ?(
+                        <Link href={`/itineraires/`}>
+                            <Button variant={"gray"}>Retour</Button>
                         </Link>
+                        ):(
+                            <Link href={`/itineraires/route/${itineraire}/livraison/`}>
+                        <Button variant={"gray"}>Retour</Button>
+                            </Link>
+                            )}
                         <Button type='submit' onClick={handleUpdate}>Modifier</Button>
                     </div>
                 </Form>

@@ -1,18 +1,25 @@
 'use client';
-import {Form} from "antd";
 import CommandeItineraire from "@/app/ui/commandes/commandeItineraire";
 import {useEffect, useState} from "react";
 import {getUserById} from "@/lib/api";
 
-
+const getStatusColorClass = (status:string) => {
+    switch (status) {
+        case 'En cours':
+            return 'text-xl text-green-500 font-bold';
+        case 'Livré':
+            return 'text-xl text-red-500 font-bold';
+        case 'En attente':
+            return 'text-xl text-gray-400 font-bold font-bold';
+        default:
+            return 'text-xl text-gray-400 font-bold';
+    }
+};
 // @ts-ignore
 function Itineraire({itine}) {
-    const [form] = Form.useForm();
-
     const [livreur, setUser] = useState<Array<{ id: string; client: { nom: string } }>>([]);
 
     useEffect(() => {
-
         const fetchData = async () => {
             try {
 
@@ -42,7 +49,7 @@ function Itineraire({itine}) {
         <div className='fmb-4'>
 
             <p className="text-base"><b className="text-xl">Itinéraire {itine.id}  </b>
-                <span className="text-2xl text-green-300 font-bold">{itine.status}</span></p>
+                <span className={getStatusColorClass(itine.status)}>{itine.status}</span></p>
 
             <p className="text-base">{livreur.username}</p>
 

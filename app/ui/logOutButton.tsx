@@ -15,7 +15,7 @@ const LogoutButton = () => {
 
     return (
         <Link href='/login/'>
-            <span className="fixed bottom-4 right-4">
+            <span className="fixed bottom-4 right-4 z-50">
                 <Button
                     type="primary"
                     shape="circle"

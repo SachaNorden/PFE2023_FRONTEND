@@ -1,7 +1,8 @@
 'use client';
-import {Button, Card, Form, message, Popconfirm} from 'antd';
 import {useEffect, useState} from "react";
 import {fetchLivraisonArticle, getClientById, getLivraisonById} from "@/lib/api";
+import {gray} from "@ant-design/colors";
+import {Button} from "@/app/ui/button";
 
 interface Commande {
     id: string,
@@ -46,7 +47,7 @@ function ItineraireCard({ itineraire   }) {
     const renderAdminActions = () => {
         if (isAdmin && itineraire?.status !== 'Livré') {
             return (
-                <Button type='primary' htmlType='submit' onClick={handleModifierClick}>
+                <Button variant={"blue"} onClick={handleModifierClick}>
                     Modifier
                 </Button>
             );
@@ -63,7 +64,7 @@ function ItineraireCard({ itineraire   }) {
     };
 
     return (
-        <div className='flex items-center mb-4'>
+        <div className='flex items-center'>
             <div>
                 <p>
                     - <b className="text-base">Itinéraire n°{itineraire.id}</b>{' '}

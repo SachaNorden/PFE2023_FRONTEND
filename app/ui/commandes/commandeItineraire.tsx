@@ -61,7 +61,7 @@ function CommandeItineraire({client, itine}) {
 
             {status !== 'Livré' && (
                 <div className='flex items-center justify-between flex-grow'>
-                    <Button type='submit' onClick={handleModifierClick}>
+                    <Button variant={"blue"} type='submit' onClick={handleModifierClick}>
                         Modifier
                     </Button>
                 </div>
