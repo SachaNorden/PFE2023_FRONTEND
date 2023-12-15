@@ -1,5 +1,4 @@
 'use client'
-import {Image, message} from "antd";
 import {fetchClients} from "@/lib/api";
 import {useEffect, useState} from "react";
 import ListeClients from "@/app/ui/clients/listeClients";
@@ -11,29 +10,21 @@ function Clients() {
     const [clients, setClients] = useState([]);
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');
     const isAdmin = isAdminFromLocalStorage ? isAdminFromLocalStorage === 'true' : false;
-    const handleDelete = async () => {
-        //const updatedClients = await fetchClients();
-        //setClients(updatedClients);
-    }
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await fetchClients();
-                setClients(data);
-            } catch (error) {
-                // @ts-ignore
-                console.error(error.message);
-            }
-        };
-        fetchData();
+        try {
+            fetchClients().then(data => setClients(data));
+        } catch (error) {
+            console.error(error);
+        }
     }, []);
 
     return (
         <div className="min-h-screen flex flex-col">
-            <MenuDer />
+            <MenuDer/>
             {isAdmin ? (
                 <div>
-                    <ListeClients clients={clients} onDelete={handleDelete()}/>
+                    <ListeClients clients={clients}/>
                     <AddButton link="/clients/ajouterClient"/>
                 </div>
             ) : (

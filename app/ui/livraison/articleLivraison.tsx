@@ -13,6 +13,7 @@ function ArticleLivraison({articles, livraison}) {
     const [form] = Form.useForm();
     const handleSubmit = async () => {
         try {
+            //TODO
             await updateLivraison(livraison.id, livraison.client, livraison.date_livraison, livraison.status, true);
             message.success('Livraison mis à jour avec succès');
             await wait(1000);
@@ -39,7 +40,7 @@ function ArticleLivraison({articles, livraison}) {
                 <br/> <br/>
                 {articles.map((article: any) => (
                     // eslint-disable-next-line react/jsx-key
-                        <Article article={article}/>
+                        <Article article={article} quantite={undefined}/>
 
                 ))}
                 <div className='flex items-center justify-between'>
