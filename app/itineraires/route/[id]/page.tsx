@@ -6,22 +6,9 @@ import {useNavigate} from 'react-router-dom';
 import {fetchArticles, fetchLivraisonParClient, getArticlesByLivraisonsId, getItineraireById} from "@/lib/api";
 import MenuDer from "@/app/ui/menu/menu";
 import LogOutButton from "@/app/ui/logOutButton";
+import {Itineraire, ArticleTotal} from "@/types/index"
 
-interface Itineraire {
-    id: string,
-    client: object,
-    livreur: {
-        id: string,
-        username: string,
-        isAdmin: boolean,
-    },
-    status: string,
-}
 
-interface ArticleTotal {
-    nom: string,
-    quantite: number,
-}
 
 export default function Route() {
     const [itineraire, setItineraire] = useState<Itineraire>();

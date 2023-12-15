@@ -3,20 +3,7 @@ import React, {useEffect, useState} from "react";
 import MenuDer from "@/app/ui/menu/menu";
 import ArticleLivraison from "@/app/ui/livraison/articleLivraison";
 import {getArticlesByLivraisonsId, getLivraisonById} from "@/lib/api";
-
-interface Livraison {
-    id: string,
-    client: Client,
-    date_livraison: string,
-    status: string,
-    isModified: boolean,
-}
-
-interface Client {
-    id: string,
-    nom: string,
-    adresse_complete: string,
-}
+import {Livraison} from "@/types/index"
 
 export default function Livraison() {
     const [articles, setArticles] = useState([]);

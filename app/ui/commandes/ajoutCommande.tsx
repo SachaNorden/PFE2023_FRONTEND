@@ -10,38 +10,10 @@ import {
     getCommandeIdDuClientId,
     updateCommande
 } from "@/lib/api";
+import { Client, Article, Commande } from "@/types";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import {wait} from "next/dist/lib/wait";
-
-interface Client {
-    id: string,
-    nom: string,
-    adresse_complete: string,
-}
-
-interface Article {
-    article: string,
-    quantite: number,
-}
-
-interface Commande {
-    langesS: number,
-    langesM: number,
-    langesL: number,
-    inserts: number,
-    poubelles: number,
-    gants: number,
-}
-
-const articlesIds = new Map<number, string>([
-    [1, "langesS"],
-    [2, "langesM"],
-    [3, "langesL"],
-    [4, "inserts"],
-    [5, "poubelles"],
-    [6, "gants"],
-]);
 
 function AjoutCommande() {
     const isAdminFromLocalStorage = typeof window !== 'undefined' && localStorage.getItem('isAdmin');

@@ -8,18 +8,7 @@ import {Button} from "antd";
 import MenuDer from "@/app/ui/menu/menu";
 import LogOutButton from "@/app/ui/logOutButton";
 
-interface Livraison {
-    id: string,
-    client: string,
-    date_livraison: string,
-    status: string,
-    isModified: boolean,
-}
-
-interface Item {
-    article: string,
-    quantite: string,
-}
+import {Item} from "@/types/index"
 
 export default function ArticleLivraison() {
     const [detailsLivraison, setDetailsLivraison] = useState([]);
@@ -43,7 +32,10 @@ export default function ArticleLivraison() {
         const fetchArticleNames = async () => {
             try {
                 const articlesData = await fetchArticles();
-                setArticlesDetails(articlesData.reduce((acc: { [x: string]: any; }, article: { id: string | number; nom: any; }) => {
+                setArticlesDetails(articlesData.reduce((acc: { [x: string]: any; }, article: {
+                    id: string | number;
+                    nom: any;
+                }) => {
                     acc[article.id] = article.nom;
                     return acc;
                 }, {}));

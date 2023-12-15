@@ -1,5 +1,4 @@
 'use client'
-import {Image} from "antd";
 import AjoutArticle from "@/app/ui/articles/ajoutArticle";
 import LogOutButton from "@/app/ui/logOutButton";
 import MenuDer from "@/app/ui/menu/menu";

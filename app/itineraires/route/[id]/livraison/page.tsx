@@ -1,4 +1,3 @@
-//[id]/livraison/page.tsx
 'use client'
 import FormComponent from "@/app/ui/Form.component";
 import {useEffect, useState} from "react";
@@ -8,28 +7,7 @@ import {useNavigate} from "react-router-dom";
 import back from "@/public/arrow-left.svg";
 import MenuDer from "@/app/ui/menu/menu";
 import LogOutButton from "@/app/ui/logOutButton";
-
-
-interface Itineraire {
-    id: string,
-    client: object,
-    livreur: string,
-    status: string,
-}
-
-interface Livraison {
-    id: string,
-    client: Client,
-    date_livraison: string,
-    status: string,
-    isModified: boolean,
-}
-
-interface Client {
-    id: string,
-    nom: string,
-    adresse_complete: String,
-}
+import {Itineraire, Livraison} from "@/types/index"
 
 const getStatusColorClass = (status: string) => {
     switch (status) {

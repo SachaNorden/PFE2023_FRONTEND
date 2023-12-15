@@ -1,5 +1,4 @@
 'use client'
-import {Image} from "antd";
 import {fetchArticles} from "@/lib/api";
 import {useEffect, useState} from "react";
 import AddButton from "@/app/ui/addButton";

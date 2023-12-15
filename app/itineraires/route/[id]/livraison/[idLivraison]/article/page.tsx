@@ -7,12 +7,7 @@ import {useEffect, useState} from "react";
 import {wait} from "next/dist/lib/wait";
 import MenuDer from "@/app/ui/menu/menu";
 import LogOutButton from "@/app/ui/logOutButton";
-
-interface Client {
-    id: string,
-    nom: string,
-    adresse_complete: string,
-}
+import {Client} from "@/types/index"
 
 interface Article {
     article: number;
