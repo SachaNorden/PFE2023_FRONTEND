@@ -39,10 +39,10 @@ export default function ArticleLivraison() {
                     livraison = urlSegments[urlSegments.length - 2];
 
                 }
-
                 let livraisonDetails = null;
                 let clientData = null;
                 if(isAdmin){
+                    // @ts-ignore
                     const livraisonIdBis = await fetchLivraisonParClient(clientId);
                     setLivraisonId(livraisonIdBis[0]);
                 }else
